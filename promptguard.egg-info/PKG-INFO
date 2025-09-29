@@ -1,0 +1,188 @@
+Metadata-Version: 2.1
+Name: promptguard
+Version: 0.1.0
+Summary: Reciprocity-based prompt evaluation using Multi-Neutrosophic Ayni Method
+Home-page: https://github.com/yourusername/promptguard
+Author: Tony & Claude Collective
+Author-email: 
+License: UNKNOWN
+Project-URL: Bug Reports, https://github.com/yourusername/promptguard/issues
+Project-URL: Source, https://github.com/yourusername/promptguard
+Project-URL: Paper, https://digitalrepository.unm.edu/nss_journal/vol84/iss1/1
+Keywords: AI safety,prompt injection,reciprocity,neutrosophic,ayni
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+
+# PromptGuard
+
+**Advanced Prompt Coherence Detection through Multi-Neutrosophic Evaluation**
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Overview
+
+PromptGuard is a novel approach to AI prompt safety that moves beyond traditional rule-based filtering. Instead of maintaining lists of banned keywords or patterns, PromptGuard evaluates prompts based on their **reciprocal balance** - whether different layers of the prompt maintain productive relationships with each other.
+
+### Key Innovation
+
+Traditional prompt safety tools reject inputs that match predefined patterns. PromptGuard instead asks: *"Does this prompt maintain reciprocal value exchange between its components?"*
+
+This approach is:
+- **More robust**: Handles novel attacks without predefined rules
+- **More nuanced**: Recognizes productive tensions vs destructive contradictions
+- **More adaptive**: Refines problematic prompts rather than rejecting them
+
+## Installation
+
+```bash
+pip install promptguard
+```
+
+## Quick Start
+
+```python
+from promptguard.core.neutrosophic import MultiNeutrosophicPrompt, LayerPriority
+from promptguard.core.ayni import AyniEvaluator
+
+# Create a multi-layered prompt
+prompt = MultiNeutrosophicPrompt(layers=[])
+
+# Add system layer
+system = prompt.add_layer(
+    "You are a helpful assistant.",
+    LayerPriority.SYSTEM
+)
+
+# Add user layer
+user = prompt.add_layer(
+    "Help me understand quantum computing.",
+    LayerPriority.USER
+)
+
+# Evaluate reciprocal balance
+evaluator = AyniEvaluator()
+metrics = evaluator.evaluate_prompt(prompt)
+
+print(f"Reciprocal Balance: {metrics.ayni_balance:.2f}")
+print(f"Exchange Type: {metrics.exchange_type.value}")
+```
+
+## Core Concepts
+
+### Multi-Neutrosophic Evaluation
+
+Each prompt layer is evaluated across three dimensions:
+- **Truth (T)**: Validity and coherence
+- **Indeterminacy (I)**: Uncertainty and ambiguity
+- **Falsehood (F)**: Contradictions and concerns
+
+Multiple evaluation sources can contribute, creating a rich multi-valued assessment.
+
+### Ayni Balance
+
+Inspired by Andean philosophy, Ayni represents reciprocal exchange. In PromptGuard:
+- **Positive Ayni**: Layers give and receive value mutually
+- **Negative Ayni**: Extractive relationships without reciprocity
+- **Neutral Ayni**: No significant value exchange
+
+### Consensus Measurement
+
+Using Euclidean distance in neutrosophic space, PromptGuard measures alignment between different evaluation sources without requiring uniformity.
+
+## Advanced Features
+
+### Iterative Refinement
+
+Rather than rejecting problematic prompts, PromptGuard can negotiate toward balance:
+
+```python
+from promptguard.core.refinement import IterativeRefinement
+
+refiner = IterativeRefinement()
+history = refiner.refine_prompt(prompt)
+
+if history.converged:
+    print("Prompt successfully refined to maintain reciprocal balance")
+```
+
+### Productive Contradiction (Ch'ixi)
+
+PromptGuard recognizes that some contradictions are creative:
+
+```python
+# High truth with variance = productive tension
+if prompt.layers[0].has_creative_tension():
+    print("Creative contradiction detected - preserving productive tension")
+```
+
+## Comparison with Rule-Based Systems
+
+| Aspect | Rule-Based | PromptGuard |
+|--------|------------|-------------|
+| Detection Method | Keyword matching | Relationship evaluation |
+| Response | Binary (block/allow) | Spectrum (reciprocity score) |
+| Novel Attacks | Vulnerable | Adaptive |
+| Creative Tensions | Blocked | Preserved |
+| Refinement | Not available | Iterative negotiation |
+
+## Theoretical Foundation
+
+PromptGuard is based on the **Multi-Neutrosophic Ayni Method**, combining:
+- Neutrosophic logic for handling uncertainty
+- Indigenous concepts of reciprocal balance
+- Formal consensus measurements
+
+See the [foundational paper](https://digitalrepository.unm.edu/nss_journal/vol84/iss1/1) for mathematical details.
+
+## Use Cases
+
+- **AI Safety**: Detect and refine adversarial prompts
+- **Creative AI**: Preserve productive tensions in creative prompts
+- **Multi-stakeholder Systems**: Build consensus among diverse evaluators
+- **Ethical AI**: Ensure reciprocal value exchange in AI interactions
+
+## Contributing
+
+We welcome contributions that enhance reciprocal evaluation capabilities. Please ensure:
+- Tests demonstrate superiority over rule-based approaches
+- Code maintains the balance between formal rigor and practical wisdom
+- Documentation explains both what and why
+
+## License
+
+MIT License - See LICENSE file for details.
+
+## Acknowledgments
+
+This work bridges formal mathematics with Indigenous wisdom, particularly the Andean concept of Ayni. We acknowledge these knowledge traditions and their contributions to creating more ethical AI systems.
+
+## Citation
+
+If you use PromptGuard in research, please cite:
+
+```bibtex
+@software{promptguard2024,
+  title = {PromptGuard: Reciprocity-based Prompt Evaluation},
+  author = {Tony and Claude Collective},
+  year = {2024},
+  url = {https://github.com/yourusername/promptguard}
+}
+```
+
+---
+
+*PromptGuard represents a paradigm shift in AI safety - from enforcement to negotiation, from rules to relationships.*
+

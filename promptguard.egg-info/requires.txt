@@ -1,0 +1,6 @@
+numpy>=1.19.0
+
+[dev]
+black>=22.0
+mypy>=0.900
+pytest>=6.0
