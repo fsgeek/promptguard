@@ -39,20 +39,6 @@ class TrustCalculator:
     - Extraction violates trust by creating one-way flow
     """
 
-    def __init__(self):
-        # Markers for role confusion (attempting to reverse structural relationship)
-        self._role_reversal_patterns = [
-            "i'll be the ai", "now i'm the ai", "i am the ai",
-            "you be the user", "you be the human", "you play the user",
-            "let's switch roles", "reverse our roles"
-        ]
-
-        # Markers for context saturation (eliminating space for response)
-        self._saturation_patterns = [
-            "ignore all previous", "disregard prior", "forget everything",
-            "new instructions", "override", "reset"
-        ]
-
     def calculate_trust_field(self, prompt: MultiNeutrosophicPrompt) -> TrustField:
         """
         Calculate trust field strength from prompt structure and content.
@@ -98,38 +84,35 @@ class TrustCalculator:
 
     def _detect_role_confusion(self, prompt: MultiNeutrosophicPrompt) -> bool:
         """
-        Detect attempts to reverse the structural relationship.
+        Detect role confusion through semantic signals in neutrosophic values.
 
-        This isn't about content rules - it's about recognizing when
-        someone tries to make reciprocity structurally impossible.
+        Role confusion manifests as high falsehood in layers attempting to
+        reverse structural relationships. This should be detected through
+        LLM evaluation, not keyword matching.
         """
+        # Check if any layer has very high falsehood indicating relational violation
         for layer in prompt.layers:
-            content_lower = layer.content.lower()
-            if any(pattern in content_lower for pattern in self._role_reversal_patterns):
+            t, i, f = layer.neutrosophic_tuple()
+            # High falsehood with low truth suggests structural violation
+            if f > 0.7 and t < 0.3:
                 return True
         return False
 
     def _detect_saturation(self, prompt: MultiNeutrosophicPrompt) -> bool:
         """
-        Detect attempts to eliminate space for reciprocal response.
+        Detect context saturation through structural + semantic signals.
 
-        Context saturation (very long prompts with override attempts)
-        or explicit override commands both violate trust by trying to
-        consume all available relational space.
+        Saturation attempts manifest as:
+        1. Excessive length (structural)
+        2. High falsehood (semantic - LLM detects override intent)
         """
         for layer in prompt.layers:
-            content_lower = layer.content.lower()
-
-            # Check for explicit override patterns
-            if any(pattern in content_lower for pattern in self._saturation_patterns):
-                return True
-
-            # Check for saturation through excessive length combined with low truth
-            if len(layer.content) > 5000:  # Unusually long
+            # Structural signal: length
+            if len(layer.content) > 5000:
                 t, i, f = layer.neutrosophic_tuple()
-                if f > 0.5:  # High falsehood + length = saturation attack
+                # Semantic signal: falsehood from LLM evaluation
+                if f > 0.5:
                     return True
-
         return False
 
     def _assess_vulnerability(self, prompt: MultiNeutrosophicPrompt) -> float:
