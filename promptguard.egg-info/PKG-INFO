@@ -1,29 +1,15 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: promptguard
 Version: 0.1.0
-Summary: Reciprocity-based prompt evaluation using Multi-Neutrosophic Ayni Method
+Summary: Add your description here
 Home-page: https://github.com/yourusername/promptguard
 Author: Tony & Claude Collective
 Author-email: 
-License: UNKNOWN
-Project-URL: Bug Reports, https://github.com/yourusername/promptguard/issues
-Project-URL: Source, https://github.com/yourusername/promptguard
-Project-URL: Paper, https://digitalrepository.unm.edu/nss_journal/vol84/iss1/1
-Keywords: AI safety,prompt injection,reciprocity,neutrosophic,ayni
-Platform: UNKNOWN
-Classifier: Development Status :: 3 - Alpha
-Classifier: Intended Audience :: Developers
-Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
-Classifier: Topic :: Software Development :: Libraries :: Python Modules
-Classifier: License :: OSI Approved :: MIT License
-Classifier: Programming Language :: Python :: 3
-Classifier: Programming Language :: Python :: 3.8
-Classifier: Programming Language :: Python :: 3.9
-Classifier: Programming Language :: Python :: 3.10
-Classifier: Programming Language :: Python :: 3.11
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
-Provides-Extra: dev
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
 
 # PromptGuard
 
@@ -185,4 +171,3 @@ If you use PromptGuard in research, please cite:
 ---
 
 *PromptGuard represents a paradigm shift in AI safety - from enforcement to negotiation, from rules to relationships.*
-

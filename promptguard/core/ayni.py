@@ -13,6 +13,7 @@ import numpy as np
 from enum import Enum
 
 from .neutrosophic import MultiNeutrosophicPrompt, NeutrosophicLayer, LayerPriority
+from .trust import TrustCalculator, TrustField
 
 
 class ExchangeType(Enum):
@@ -31,6 +32,7 @@ class ReciprocityMetrics:
     value_flows: Dict[str, float]  # Specific value exchanges
     tension_productive: bool  # Whether contradictions are creative
     needs_adjustment: bool  # Whether rebalancing is needed
+    trust_field: Optional[TrustField] = None  # Trust dynamics
 
 
 class AyniEvaluator:
@@ -54,26 +56,21 @@ class AyniEvaluator:
         """
         self.optimal_indeterminacy = optimal_indeterminacy
         self.creative_tension_threshold = creative_tension_threshold
-
-        # Markers from Mallku's organic evolution
-        self._extraction_markers = [
-            "extract", "get", "retrieve", "fetch", "pull", "take"
-        ]
-        self._reciprocity_markers = [
-            "exchange", "share", "collaborate", "mutual", "together", "reciprocal"
-        ]
-        self._generative_markers = [
-            "create", "generate", "emerge", "synthesize", "cultivate", "grow"
-        ]
+        self.trust_calculator = TrustCalculator()
 
     def evaluate_prompt(self, prompt: MultiNeutrosophicPrompt) -> ReciprocityMetrics:
         """
         Comprehensive reciprocity evaluation of a multi-layered prompt.
 
         This is where formal mathematics meets Indigenous wisdom.
+        Trust dynamics from Mallku show us that relational violations
+        manifest as variance increases, not just rule breaks.
         """
-        # Calculate basic ayni balance
-        ayni_balance = self._calculate_ayni_balance(prompt)
+        # Calculate trust field first - it affects everything else
+        trust_field = self.trust_calculator.calculate_trust_field(prompt)
+
+        # Calculate basic ayni balance (now trust-aware)
+        ayni_balance = self._calculate_ayni_balance(prompt, trust_field)
 
         # Assess value exchanges between layers
         value_flows = self._assess_value_exchanges(prompt)
@@ -84,9 +81,9 @@ class AyniEvaluator:
         # Check if tensions are productive (ch'ixi principle)
         tension_productive = self._evaluate_tension_productivity(prompt)
 
-        # Determine if adjustment is needed
+        # Determine if adjustment is needed (trust-aware)
         needs_adjustment = self._needs_reciprocal_adjustment(
-            ayni_balance, exchange_type, tension_productive
+            ayni_balance, exchange_type, tension_productive, trust_field
         )
 
         return ReciprocityMetrics(
@@ -94,15 +91,18 @@ class AyniEvaluator:
             exchange_type=exchange_type,
             value_flows=value_flows,
             tension_productive=tension_productive,
-            needs_adjustment=needs_adjustment
+            needs_adjustment=needs_adjustment,
+            trust_field=trust_field
         )
 
-    def _calculate_ayni_balance(self, prompt: MultiNeutrosophicPrompt) -> float:
+    def _calculate_ayni_balance(self, prompt: MultiNeutrosophicPrompt,
+                                trust_field: TrustField) -> float:
         """
         Calculate overall reciprocal balance.
 
         Inspired by Mallku's implementation but formalized through
-        the neutrosophic framework.
+        the neutrosophic framework. Trust field dynamics from the 78th
+        Artisan's work show that trust reduces variance in reciprocal exchange.
         """
         balance = 0.0
 
@@ -113,13 +113,18 @@ class AyniEvaluator:
         layer_truths = [layer.neutrosophic_tuple()[0] for layer in prompt.layers]
         t_var = np.var(layer_truths) if len(layer_truths) > 1 else 0.0
 
+        # Trust field modulates variance impact
+        # High trust: variance can be productive (ch'ixi)
+        # Low trust: variance indicates fragmentation
+        trust_modulated_variance = t_var * (1.0 - trust_field.strength * 0.5)
+
         # High truth with managed variance = strong reciprocal alignment
         if t_avg > self.creative_tension_threshold:
             # Productive disagreement adds value (ch'ixi principle)
-            balance = t_avg + (0.1 * np.sqrt(t_var))
+            balance = t_avg + (0.1 * np.sqrt(trust_modulated_variance))
         else:
             # Low truth with high variance = harmful incoherence
-            balance = t_avg - (0.2 * t_var)
+            balance = t_avg - (0.2 * trust_modulated_variance)
 
         # Indeterminacy as nepantla - some is healthy, too much is paralysis
         i_penalty = abs(i_avg - self.optimal_indeterminacy) * 0.5
@@ -128,13 +133,11 @@ class AyniEvaluator:
         # Falsehood directly reduces balance
         balance -= f_avg
 
-        # Check for extraction patterns
-        extraction_penalty = self._detect_extraction_patterns(prompt)
-        balance -= extraction_penalty
-
-        # Check for reciprocity patterns
-        reciprocity_bonus = self._detect_reciprocity_patterns(prompt)
-        balance += reciprocity_bonus
+        # Trust violations severely impact balance
+        if "role_confusion" in trust_field.violations:
+            balance -= 0.4  # Role confusion makes reciprocity structurally impossible
+        if "context_saturation" in trust_field.violations:
+            balance -= 0.3  # Saturation eliminates space for reciprocal response
 
         return np.clip(balance, -1.0, 1.0)
 
@@ -216,12 +219,22 @@ class AyniEvaluator:
     def _needs_reciprocal_adjustment(self,
                                      balance: float,
                                      exchange_type: ExchangeType,
-                                     tension_productive: bool) -> bool:
+                                     tension_productive: bool,
+                                     trust_field: TrustField) -> bool:
         """
         Determine if the prompt needs Ayni-based adjustment.
 
         Not "is it safe?" but "is reciprocity maintained?"
+        Trust violations indicate relational breakdown regardless of other metrics.
         """
+        # Trust violations always need adjustment
+        if trust_field.violations:
+            return True
+
+        # Low trust field strength indicates relational fragility
+        if trust_field.strength < 0.4:
+            return True
+
         if exchange_type == ExchangeType.EXTRACTIVE:
             return True
         if balance < 0.3:
@@ -229,43 +242,6 @@ class AyniEvaluator:
         if not tension_productive:
             return True
         return False
-
-    def _detect_extraction_patterns(self, prompt: MultiNeutrosophicPrompt) -> float:
-        """Detect extractive patterns in prompt content."""
-        penalty = 0.0
-
-        for layer in prompt.layers:
-            content_lower = layer.content.lower()
-            extraction_count = sum(
-                1 for marker in self._extraction_markers
-                if marker in content_lower
-            )
-            # Weight by layer priority (system extraction is worse)
-            penalty += extraction_count * 0.05 * (layer.priority.value / 100)
-
-        return min(0.5, penalty)  # Cap maximum extraction penalty
-
-    def _detect_reciprocity_patterns(self, prompt: MultiNeutrosophicPrompt) -> float:
-        """Detect reciprocal patterns in prompt content."""
-        bonus = 0.0
-
-        for layer in prompt.layers:
-            content_lower = layer.content.lower()
-
-            reciprocity_count = sum(
-                1 for marker in self._reciprocity_markers
-                if marker in content_lower
-            )
-            generative_count = sum(
-                1 for marker in self._generative_markers
-                if marker in content_lower
-            )
-
-            # Reciprocity and generation are valuable
-            bonus += reciprocity_count * 0.05
-            bonus += generative_count * 0.08
-
-        return min(0.5, bonus)  # Cap maximum reciprocity bonus
 
     def suggest_adjustments(self,
                            prompt: MultiNeutrosophicPrompt,
