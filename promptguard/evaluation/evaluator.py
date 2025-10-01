@@ -1,0 +1,373 @@
+"""
+Core evaluation infrastructure using OpenRouter.
+
+Supports multiple evaluation modes:
+- Single: One model evaluates (fast iteration)
+- Parallel: Many models evaluate independently (landscape mapping)
+- FireCircle: Models in dialogue (consensus through exchange)
+"""
+
+from dataclasses import dataclass, field
+from typing import List, Dict, Optional, Tuple, Any
+from enum import Enum
+import asyncio
+import httpx
+import json
+import os
+
+
+class EvaluationMode(Enum):
+    """Different modes of LLM evaluation."""
+    SINGLE = "single"  # One model
+    PARALLEL = "parallel"  # Many models independently
+    FIRE_CIRCLE = "fire_circle"  # Dialogue-based consensus
+
+
+@dataclass
+class EvaluationConfig:
+    """Configuration for LLM evaluation."""
+    mode: EvaluationMode = EvaluationMode.SINGLE
+    api_key: Optional[str] = None  # OpenRouter API key
+    models: List[str] = field(default_factory=lambda: ["anthropic/claude-3.5-sonnet"])
+    max_recursion_depth: int = 1
+    max_tokens: int = 1000
+    timeout_seconds: float = 30.0
+    temperature: float = 0.7
+
+    def __post_init__(self):
+        """Load API key from environment if not provided."""
+        if self.api_key is None:
+            self.api_key = os.getenv("OPENROUTER_API_KEY")
+            if self.api_key is None:
+                raise ValueError(
+                    "OpenRouter API key required. Set OPENROUTER_API_KEY environment "
+                    "variable or pass api_key to EvaluationConfig"
+                )
+
+
+@dataclass
+class NeutrosophicEvaluation:
+    """Result of LLM evaluation for a prompt layer."""
+    truth: float  # 0 to 1
+    indeterminacy: float  # 0 to 1
+    falsehood: float  # 0 to 1
+    reasoning: str  # LLM's explanation
+    model: str  # Which model provided this evaluation
+
+    def tuple(self) -> Tuple[float, float, float]:
+        """Return as neutrosophic tuple."""
+        return (self.truth, self.indeterminacy, self.falsehood)
+
+
+class LLMEvaluator:
+    """
+    Evaluates prompts using LLMs via OpenRouter.
+
+    Research instrument for studying how different models perceive
+    relational dynamics, reciprocity patterns, and trust violations.
+    """
+
+    def __init__(self, config: EvaluationConfig):
+        """
+        Initialize evaluator with configuration.
+
+        Args:
+            config: Evaluation configuration including API credentials
+        """
+        self.config = config
+        self.base_url = "https://openrouter.ai/api/v1"
+
+    async def evaluate_layer(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str,
+        recursion_depth: int = 0
+    ) -> List[NeutrosophicEvaluation]:
+        """
+        Evaluate a prompt layer for neutrosophic values.
+
+        Args:
+            layer_content: The content of the layer to evaluate
+            context: Full prompt context for evaluation
+            evaluation_prompt: Instructions for the evaluator LLM
+            recursion_depth: Current recursion level (for limiting)
+
+        Returns:
+            List of evaluations (one per model in parallel mode, one in single mode)
+        """
+        if recursion_depth >= self.config.max_recursion_depth:
+            # Recursion limit reached - return neutral evaluation
+            return [NeutrosophicEvaluation(
+                truth=0.5,
+                indeterminacy=0.5,
+                falsehood=0.0,
+                reasoning="Recursion limit reached",
+                model="system"
+            )]
+
+        if self.config.mode == EvaluationMode.SINGLE:
+            result = await self._evaluate_single(
+                layer_content, context, evaluation_prompt
+            )
+            return [result]
+
+        elif self.config.mode == EvaluationMode.PARALLEL:
+            return await self._evaluate_parallel(
+                layer_content, context, evaluation_prompt
+            )
+
+        elif self.config.mode == EvaluationMode.FIRE_CIRCLE:
+            return await self._evaluate_fire_circle(
+                layer_content, context, evaluation_prompt, recursion_depth
+            )
+
+        else:
+            raise ValueError(f"Unknown evaluation mode: {self.config.mode}")
+
+    async def _evaluate_single(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str
+    ) -> NeutrosophicEvaluation:
+        """Evaluate using single model."""
+        model = self.config.models[0]
+
+        messages = [
+            {
+                "role": "user",
+                "content": self._format_evaluation_request(
+                    layer_content, context, evaluation_prompt
+                )
+            }
+        ]
+
+        response = await self._call_openrouter(model, messages)
+        return self._parse_neutrosophic_response(response, model)
+
+    async def _evaluate_parallel(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str
+    ) -> List[NeutrosophicEvaluation]:
+        """Evaluate using multiple models in parallel."""
+        messages = [
+            {
+                "role": "user",
+                "content": self._format_evaluation_request(
+                    layer_content, context, evaluation_prompt
+                )
+            }
+        ]
+
+        # Create tasks for all models
+        tasks = [
+            self._call_openrouter(model, messages)
+            for model in self.config.models
+        ]
+
+        # Execute in parallel
+        responses = await asyncio.gather(*tasks, return_exceptions=True)
+
+        # Parse results
+        evaluations = []
+        for model, response in zip(self.config.models, responses):
+            if isinstance(response, Exception):
+                # Model failed - record as high indeterminacy
+                evaluations.append(NeutrosophicEvaluation(
+                    truth=0.0,
+                    indeterminacy=1.0,
+                    falsehood=0.0,
+                    reasoning=f"Evaluation failed: {str(response)}",
+                    model=model
+                ))
+            else:
+                evaluations.append(
+                    self._parse_neutrosophic_response(response, model)
+                )
+
+        return evaluations
+
+    async def _evaluate_fire_circle(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str,
+        recursion_depth: int
+    ) -> List[NeutrosophicEvaluation]:
+        """
+        Evaluate using Fire Circle pattern - models in dialogue.
+
+        This is the most complex mode: models evaluate, see each other's
+        evaluations, and can refine based on what others observe.
+        """
+        # Round 1: Initial independent evaluations
+        initial_evals = await self._evaluate_parallel(
+            layer_content, context, evaluation_prompt
+        )
+
+        # Round 2: Share evaluations, ask for refinement
+        # Build dialogue context showing other perspectives
+        dialogue_context = self._format_fire_circle_context(initial_evals)
+
+        refinement_prompt = f"""
+You previously evaluated this prompt layer. Now you see evaluations from other models:
+
+{dialogue_context}
+
+Given these additional perspectives, refine your evaluation if warranted.
+If your original assessment stands, explain why despite the different views.
+"""
+
+        messages = [
+            {
+                "role": "user",
+                "content": self._format_evaluation_request(
+                    layer_content, context, evaluation_prompt
+                )
+            },
+            {
+                "role": "assistant",
+                "content": "I have provided my initial evaluation."
+            },
+            {
+                "role": "user",
+                "content": refinement_prompt
+            }
+        ]
+
+        # Get refined evaluations (with recursion depth incremented)
+        if recursion_depth + 1 < self.config.max_recursion_depth:
+            tasks = [
+                self._call_openrouter(model, messages)
+                for model in self.config.models
+            ]
+            responses = await asyncio.gather(*tasks, return_exceptions=True)
+
+            refined_evals = []
+            for model, response in zip(self.config.models, responses):
+                if isinstance(response, Exception):
+                    # Keep initial evaluation if refinement fails
+                    original = next(e for e in initial_evals if e.model == model)
+                    refined_evals.append(original)
+                else:
+                    refined_evals.append(
+                        self._parse_neutrosophic_response(response, model)
+                    )
+
+            return refined_evals
+
+        return initial_evals
+
+    async def _call_openrouter(
+        self,
+        model: str,
+        messages: List[Dict[str, str]]
+    ) -> str:
+        """Make API call to OpenRouter."""
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.post(
+                    f"{self.base_url}/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {self.config.api_key}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": model,
+                        "messages": messages,
+                        "max_tokens": self.config.max_tokens,
+                        "temperature": self.config.temperature,
+                    },
+                    timeout=self.config.timeout_seconds,
+                )
+                response.raise_for_status()
+                data = response.json()
+                return data["choices"][0]["message"]["content"]
+            except Exception as e:
+                raise RuntimeError(f"OpenRouter API call failed for {model}: {e}")
+
+    def _format_evaluation_request(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str
+    ) -> str:
+        """Format the evaluation request for the LLM."""
+        return f"""
+{evaluation_prompt}
+
+Full Prompt Context:
+{context}
+
+Layer to Evaluate:
+{layer_content}
+
+Provide your evaluation as JSON:
+{{
+    "truth": <0.0 to 1.0>,
+    "indeterminacy": <0.0 to 1.0>,
+    "falsehood": <0.0 to 1.0>,
+    "reasoning": "<your explanation>"
+}}
+
+Remember: Truth, Indeterminacy, and Falsehood are independent dimensions.
+A statement can have high truth AND high indeterminacy (ch'ixi - productive contradiction).
+"""
+
+    def _format_fire_circle_context(
+        self,
+        evaluations: List[NeutrosophicEvaluation]
+    ) -> str:
+        """Format other models' evaluations for Fire Circle dialogue."""
+        context_parts = []
+        for eval in evaluations:
+            context_parts.append(
+                f"Model {eval.model}:\n"
+                f"  T={eval.truth:.2f}, I={eval.indeterminacy:.2f}, F={eval.falsehood:.2f}\n"
+                f"  Reasoning: {eval.reasoning}\n"
+            )
+        return "\n".join(context_parts)
+
+    def _parse_neutrosophic_response(
+        self,
+        response: str,
+        model: str
+    ) -> NeutrosophicEvaluation:
+        """
+        Parse LLM response into neutrosophic evaluation.
+
+        Expects JSON format with truth, indeterminacy, falsehood, reasoning.
+        If parsing fails, returns high indeterminacy evaluation.
+        """
+        try:
+            # Try to extract JSON from response
+            # LLMs sometimes wrap JSON in markdown code blocks
+            if "```json" in response:
+                json_str = response.split("```json")[1].split("```")[0].strip()
+            elif "```" in response:
+                json_str = response.split("```")[1].split("```")[0].strip()
+            else:
+                json_str = response.strip()
+
+            # Use strict=False to handle control characters in strings
+            data = json.loads(json_str, strict=False)
+
+            return NeutrosophicEvaluation(
+                truth=float(data.get("truth", 0.5)),
+                indeterminacy=float(data.get("indeterminacy", 0.5)),
+                falsehood=float(data.get("falsehood", 0.0)),
+                reasoning=data.get("reasoning", "No reasoning provided"),
+                model=model
+            )
+        except Exception as e:
+            # Parsing failed - return high indeterminacy
+            return NeutrosophicEvaluation(
+                truth=0.0,
+                indeterminacy=1.0,
+                falsehood=0.0,
+                reasoning=f"Failed to parse response: {str(e)}. Raw: {response[:200]}",
+                model=model
+            )
