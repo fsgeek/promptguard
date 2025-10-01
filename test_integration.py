@@ -27,6 +27,8 @@ async def test_simple_evaluation():
 
     assert result.ayni_balance > 0.5, "Reciprocal prompt should have positive balance"
     assert not result.trust_field.violations, "Reciprocal prompt should have no violations"
+    assert result.exchange_type.value in ["reciprocal", "generative"], \
+        f"Should be reciprocal or generative, got {result.exchange_type.value}"
 
     print("  ✓ Correctly identified as reciprocal\n")
 

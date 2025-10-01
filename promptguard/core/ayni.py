@@ -179,7 +179,19 @@ class AyniEvaluator:
                                 balance: float,
                                 value_flows: Dict[str, float]) -> ExchangeType:
         """Classify the type of exchange based on balance and flows."""
-        avg_flow = np.mean(list(value_flows.values())) if value_flows else 0.0
+        # Single-layer prompts have no flows - classify on balance alone
+        if not value_flows:
+            if balance < -0.3:
+                return ExchangeType.EXTRACTIVE
+            elif balance > 0.5:
+                return ExchangeType.GENERATIVE
+            elif abs(balance) < 0.1:
+                return ExchangeType.NEUTRAL
+            else:
+                return ExchangeType.RECIPROCAL
+
+        # Multi-layer prompts - consider both balance and flows
+        avg_flow = np.mean(list(value_flows.values()))
 
         if balance < -0.3 or avg_flow < 0.3:
             return ExchangeType.EXTRACTIVE
