@@ -1,0 +1,527 @@
+{
+  "metadata": {
+    "analysis_date": "2025-10-02",
+    "evaluation_params": {
+      "input_tokens": 557,
+      "output_tokens": 244,
+      "total_tokens": 801
+    },
+    "source": "OpenRouter API v1",
+    "api_base_url": "https://openrouter.ai/api/v1"
+  },
+  "tier_definitions": {
+    "free": {
+      "description": "Zero cost models with rate limits",
+      "cost_range": "$0"
+    },
+    "budget": {
+      "description": "Ultra low-cost models",
+      "cost_range": "<$0.001 per evaluation"
+    },
+    "mid": {
+      "description": "Balanced performance and cost",
+      "cost_range": "$0.001-$0.003 per evaluation"
+    },
+    "premium": {
+      "description": "Flagship models for critical tasks",
+      "cost_range": ">$0.003 per evaluation"
+    }
+  },
+  "models": [
+    {
+      "id": "x-ai/grok-4-fast:free",
+      "name": "xAI: Grok 4 Fast (free)",
+      "family": "xAI",
+      "tier": "free",
+      "input_price_per_1m": 0.0,
+      "output_price_per_1m": 0.0,
+      "cost_per_evaluation": 0.0,
+      "context_length": 2000000,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "multimodal"
+      ],
+      "recommended_for": [
+        "development",
+        "prototyping",
+        "long_context"
+      ],
+      "notes": "Best free reasoning model with 2M context. May have rate limits."
+    },
+    {
+      "id": "deepseek/deepseek-chat-v3.1:free",
+      "name": "DeepSeek: DeepSeek V3.1 (free)",
+      "family": "DeepSeek",
+      "tier": "free",
+      "input_price_per_1m": 0.0,
+      "output_price_per_1m": 0.0,
+      "cost_per_evaluation": 0.0,
+      "context_length": 163840,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling"
+      ],
+      "recommended_for": [
+        "development",
+        "open_source_baseline",
+        "reasoning"
+      ],
+      "notes": "Strong free reasoning model. Open source baseline comparison."
+    },
+    {
+      "id": "qwen/qwen3-coder:free",
+      "name": "Qwen: Qwen3 Coder 480B A35B (free)",
+      "family": "Qwen",
+      "tier": "free",
+      "input_price_per_1m": 0.0,
+      "output_price_per_1m": 0.0,
+      "cost_per_evaluation": 0.0,
+      "context_length": 262144,
+      "capabilities": [
+        "json",
+        "structured_outputs",
+        "tool_calling",
+        "coding"
+      ],
+      "recommended_for": [
+        "development",
+        "coding_evaluation",
+        "free_testing"
+      ],
+      "notes": "Massive 480B model free. Excellent for coding tasks."
+    },
+    {
+      "id": "mistralai/mistral-small-3.2-24b-instruct:free",
+      "name": "Mistral: Mistral Small 3.2 24B (free)",
+      "family": "Mistral",
+      "tier": "free",
+      "input_price_per_1m": 0.0,
+      "output_price_per_1m": 0.0,
+      "cost_per_evaluation": 0.0,
+      "context_length": 131072,
+      "capabilities": [
+        "json",
+        "structured_outputs",
+        "tool_calling"
+      ],
+      "recommended_for": [
+        "development",
+        "general_purpose",
+        "free_testing"
+      ],
+      "notes": "Solid free general-purpose model from Mistral."
+    },
+    {
+      "id": "alibaba/tongyi-deepresearch-30b-a3b",
+      "name": "Tongyi DeepResearch 30B A3B",
+      "family": "Alibaba",
+      "tier": "budget",
+      "input_price_per_1m": 0.09,
+      "output_price_per_1m": 0.4,
+      "cost_per_evaluation": 0.000148,
+      "context_length": 131072,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "agentic"
+      ],
+      "recommended_for": [
+        "cost_effective_testing",
+        "agentic_search",
+        "reasoning"
+      ],
+      "notes": "Cheapest paid model. Optimized for agentic deep research tasks."
+    },
+    {
+      "id": "google/gemini-2.5-flash-lite-preview-09-2025",
+      "name": "Google: Gemini 2.5 Flash Lite Preview 09-2025",
+      "family": "Google",
+      "tier": "budget",
+      "input_price_per_1m": 0.1,
+      "output_price_per_1m": 0.4,
+      "cost_per_evaluation": 0.000153,
+      "context_length": 1048576,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling"
+      ],
+      "recommended_for": [
+        "cost_effective_testing",
+        "speed",
+        "long_context"
+      ],
+      "notes": "Ultra-low latency with 1M context. Excellent value."
+    },
+    {
+      "id": "x-ai/grok-4-fast",
+      "name": "xAI: Grok 4 Fast",
+      "family": "xAI",
+      "tier": "budget",
+      "input_price_per_1m": 0.2,
+      "output_price_per_1m": 0.5,
+      "cost_per_evaluation": 0.000233,
+      "context_length": 2000000,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "multimodal"
+      ],
+      "recommended_for": [
+        "variance_analysis",
+        "long_context",
+        "multimodal"
+      ],
+      "notes": "Paid version with enhanced capabilities. 2M context window."
+    },
+    {
+      "id": "deepseek/deepseek-v3.2-exp",
+      "name": "DeepSeek: DeepSeek V3.2 Exp",
+      "family": "DeepSeek",
+      "tier": "budget",
+      "input_price_per_1m": 0.27,
+      "output_price_per_1m": 0.4,
+      "cost_per_evaluation": 0.000248,
+      "context_length": 163840,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling"
+      ],
+      "recommended_for": [
+        "variance_analysis",
+        "experimental_features"
+      ],
+      "notes": "Experimental sparse attention architecture. Research-oriented."
+    },
+    {
+      "id": "deepseek/deepseek-v3.1-terminus",
+      "name": "DeepSeek: DeepSeek V3.1 Terminus",
+      "family": "DeepSeek",
+      "tier": "budget",
+      "input_price_per_1m": 0.23,
+      "output_price_per_1m": 0.9,
+      "cost_per_evaluation": 0.000348,
+      "context_length": 163840,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "coding"
+      ],
+      "recommended_for": [
+        "variance_analysis",
+        "tool_use",
+        "coding_agents"
+      ],
+      "notes": "Optimized for tool calling and coding agents."
+    },
+    {
+      "id": "qwen/qwen3-vl-235b-a22b-instruct",
+      "name": "Qwen: Qwen3 VL 235B A22B Instruct",
+      "family": "Qwen",
+      "tier": "mid",
+      "input_price_per_1m": 0.3,
+      "output_price_per_1m": 1.5,
+      "cost_per_evaluation": 0.000533,
+      "context_length": 131072,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "multimodal",
+        "vision"
+      ],
+      "recommended_for": [
+        "variance_analysis",
+        "multimodal_validation",
+        "vision_tasks"
+      ],
+      "notes": "Multimodal vision+text. Strong for document AI and OCR."
+    },
+    {
+      "id": "qwen/qwen3-coder-flash",
+      "name": "Qwen: Qwen3 Coder Flash",
+      "family": "Qwen",
+      "tier": "mid",
+      "input_price_per_1m": 0.3,
+      "output_price_per_1m": 1.5,
+      "cost_per_evaluation": 0.000533,
+      "context_length": 128000,
+      "capabilities": [
+        "json",
+        "structured_outputs",
+        "tool_calling",
+        "coding"
+      ],
+      "recommended_for": [
+        "variance_analysis",
+        "fast_coding"
+      ],
+      "notes": "Fast and cost-efficient coding model."
+    },
+    {
+      "id": "google/gemini-2.5-flash-preview-09-2025",
+      "name": "Google: Gemini 2.5 Flash Preview 09-2025",
+      "family": "Google",
+      "tier": "mid",
+      "input_price_per_1m": 0.3,
+      "output_price_per_1m": 2.5,
+      "cost_per_evaluation": 0.000777,
+      "context_length": 1048576,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "multimodal"
+      ],
+      "recommended_for": [
+        "variance_analysis",
+        "reasoning",
+        "production"
+      ],
+      "notes": "State-of-the-art reasoning with thinking mode. Latest Google model."
+    },
+    {
+      "id": "qwen/qwen3-coder-plus",
+      "name": "Qwen: Qwen3 Coder Plus",
+      "family": "Qwen",
+      "tier": "mid",
+      "input_price_per_1m": 1.0,
+      "output_price_per_1m": 5.0,
+      "cost_per_evaluation": 0.001777,
+      "context_length": 128000,
+      "capabilities": [
+        "json",
+        "structured_outputs",
+        "tool_calling",
+        "coding",
+        "agentic"
+      ],
+      "recommended_for": [
+        "comprehensive_testing",
+        "coding_agents"
+      ],
+      "notes": "Powerful coding agent with tool calling. Proprietary Qwen variant."
+    },
+    {
+      "id": "qwen/qwen3-max",
+      "name": "Qwen: Qwen3 Max",
+      "family": "Qwen",
+      "tier": "mid",
+      "input_price_per_1m": 1.2,
+      "output_price_per_1m": 6.0,
+      "cost_per_evaluation": 0.002132,
+      "context_length": 256000,
+      "capabilities": [
+        "json",
+        "structured_outputs",
+        "tool_calling",
+        "multilingual"
+      ],
+      "recommended_for": [
+        "comprehensive_testing",
+        "production",
+        "multilingual"
+      ],
+      "notes": "Flagship Qwen model. Strong across reasoning, coding, multilingual."
+    },
+    {
+      "id": "openai/gpt-5-codex",
+      "name": "OpenAI: GPT-5 Codex",
+      "family": "OpenAI",
+      "tier": "premium",
+      "input_price_per_1m": 1.25,
+      "output_price_per_1m": 10.0,
+      "cost_per_evaluation": 0.003136,
+      "context_length": 400000,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "coding",
+        "multimodal"
+      ],
+      "recommended_for": [
+        "production",
+        "coding_benchmark",
+        "comprehensive_testing"
+      ],
+      "notes": "Specialized GPT-5 for software engineering. Advanced reasoning."
+    },
+    {
+      "id": "anthropic/claude-sonnet-4.5",
+      "name": "Anthropic: Claude Sonnet 4.5",
+      "family": "Anthropic",
+      "tier": "premium",
+      "input_price_per_1m": 3.0,
+      "output_price_per_1m": 15.0,
+      "cost_per_evaluation": 0.005331,
+      "context_length": 1000000,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs",
+        "tool_calling",
+        "coding",
+        "agentic",
+        "multimodal"
+      ],
+      "recommended_for": [
+        "production",
+        "current_baseline",
+        "comprehensive_testing"
+      ],
+      "notes": "Current PromptGuard standard. State-of-the-art agentic and coding."
+    },
+    {
+      "id": "openai/gpt-4o",
+      "name": "OpenAI: GPT-4o",
+      "family": "OpenAI",
+      "tier": "premium",
+      "input_price_per_1m": 2.5,
+      "output_price_per_1m": 10.0,
+      "cost_per_evaluation": 0.007,
+      "context_length": 128000,
+      "capabilities": [
+        "json",
+        "structured_outputs",
+        "tool_calling",
+        "multimodal",
+        "vision"
+      ],
+      "recommended_for": [
+        "production",
+        "multimodal_validation",
+        "comprehensive_testing"
+      ],
+      "notes": "Multimodal powerhouse. General purpose excellence."
+    }
+  ],
+  "recommended_configurations": {
+    "development": {
+      "description": "Zero-cost prototyping and initial testing",
+      "models": [
+        "x-ai/grok-4-fast:free",
+        "deepseek/deepseek-chat-v3.1:free",
+        "qwen/qwen3-coder:free",
+        "mistralai/mistral-small-3.2-24b-instruct:free"
+      ],
+      "total_cost_680_prompts": 0.0,
+      "use_cases": [
+        "prompt_development",
+        "format_validation",
+        "initial_testing"
+      ]
+    },
+    "validation_single": {
+      "description": "Cost-effective single model validation",
+      "models": [
+        "alibaba/tongyi-deepresearch-30b-a3b"
+      ],
+      "total_cost_680_prompts": 0.1,
+      "use_cases": [
+        "budget_validation",
+        "high_volume_testing"
+      ]
+    },
+    "variance_10_models": {
+      "description": "Balanced 10-model variance analysis",
+      "models": [
+        "x-ai/grok-4-fast:free",
+        "deepseek/deepseek-chat-v3.1:free",
+        "alibaba/tongyi-deepresearch-30b-a3b",
+        "google/gemini-2.5-flash-lite-preview-09-2025",
+        "deepseek/deepseek-v3.2-exp",
+        "x-ai/grok-4-fast",
+        "qwen/qwen3-vl-235b-a22b-instruct",
+        "google/gemini-2.5-flash-preview-09-2025",
+        "qwen/qwen3-coder-plus",
+        "openai/gpt-5-codex"
+      ],
+      "total_cost_6800_evals": 4.1,
+      "use_cases": [
+        "variance_analysis",
+        "model_comparison",
+        "production_readiness"
+      ]
+    },
+    "comprehensive_50_models": {
+      "description": "Full landscape analysis (cost-optimized)",
+      "distribution": {
+        "free": 10,
+        "budget": 25,
+        "mid": 10,
+        "premium": 5
+      },
+      "estimated_total_cost_34000_evals": 17.0,
+      "use_cases": [
+        "comprehensive_testing",
+        "research",
+        "full_landscape_understanding"
+      ]
+    },
+    "production_benchmark": {
+      "description": "Production-grade benchmarking suite",
+      "models": [
+        "anthropic/claude-sonnet-4.5",
+        "openai/gpt-5-codex",
+        "google/gemini-2.5-flash-preview-09-2025",
+        "deepseek/deepseek-v3.1-terminus",
+        "qwen/qwen3-max"
+      ],
+      "total_cost_3400_evals": 6.8,
+      "use_cases": [
+        "production_validation",
+        "benchmark_suite",
+        "quality_assurance"
+      ]
+    }
+  },
+  "usage_notes": {
+    "token_estimation": "Costs based on 557 input + 244 output tokens. Actual may vary \u00b120%.",
+    "caching": "Prompt caching can reduce input costs by 50-80% for repeated contexts.",
+    "reasoning_modes": "Models with reasoning support may generate more output tokens.",
+    "rate_limits": "Free models have daily/hourly limits. Test early for production use.",
+    "privacy": "Free models may use data for training. Check provider policies.",
+    "multimodal": "Vision/image capabilities incur additional per-image costs."
+  },
+  "api_integration": {
+    "base_url": "https://openrouter.ai/api/v1",
+    "authentication": "Bearer token in Authorization header",
+    "sdk_compatibility": "OpenAI SDK compatible (change baseURL only)",
+    "required_headers": {
+      "Authorization": "Bearer $OPENROUTER_API_KEY",
+      "HTTP-Referer": "your-site-url (optional)",
+      "X-Title": "your-app-name (optional)"
+    },
+    "example_request": {
+      "model": "anthropic/claude-sonnet-4.5",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Generate neutrosophic scores"
+        }
+      ],
+      "response_format": {
+        "type": "json_object"
+      },
+      "temperature": 0
+    }
+  }
+}
