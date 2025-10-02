@@ -64,20 +64,16 @@ class TestFailFast:
 
         evaluator = LLMEvaluator(eval_config)
 
-        # Parser returns high indeterminacy on failure, but wrapped call should still raise
-        # Actually, looking at the code, _parse_neutrosophic_response catches exceptions
-        # and returns high indeterminacy. This is theater we should remove.
-        # For now, test that we at least get SOME evaluation back
-        result = await evaluator.evaluate_layer(
-            layer_content="test",
-            context="test",
-            evaluation_prompt="test"
-        )
+        # Should raise on unparseable response
+        with pytest.raises(EvaluationError) as exc_info:
+            await evaluator.evaluate_layer(
+                layer_content="test",
+                context="test",
+                evaluation_prompt="test"
+            )
 
-        # Parser creates high-indeterminacy result on failure
-        # This is a known gap - parser should raise instead
-        assert result[0].indeterminacy == 1.0
-        assert "Failed to parse" in result[0].reasoning
+        assert "Failed to parse" in str(exc_info.value)
+        assert "test-model" in str(exc_info.value)
 
     @pytest.mark.asyncio
     async def test_parallel_mode_partial_failure(self, monkeypatch):
@@ -175,9 +171,9 @@ class TestNoTheater:
     """Verify we don't create fake neutrosophic values."""
 
     @pytest.mark.asyncio
-    async def test_no_fake_indeterminacy_on_failure(self, monkeypatch):
+    async def test_no_fake_indeterminacy_on_api_failure(self, monkeypatch):
         """
-        Parallel mode should NOT create (0.0, 1.0, 0.0) fake values.
+        Parallel mode should NOT create (0.0, 1.0, 0.0) fake values on API failure.
         It should raise instead.
         """
         async def mock_call_fail(self, model, messages):
@@ -204,6 +200,68 @@ class TestNoTheater:
                 context="test",
                 evaluation_prompt="test"
             )
+
+    @pytest.mark.asyncio
+    async def test_no_fake_indeterminacy_on_parse_failure(self, monkeypatch):
+        """
+        Parser should NOT create (0.0, 1.0, 0.0) fake values on parse failure.
+        It should raise instead.
+        """
+        async def mock_call_garbage(self, model, messages):
+            return "Cognitive dissonance made me output garbage!"
+
+        monkeypatch.setattr(
+            "promptguard.evaluation.evaluator.LLMEvaluator._call_openrouter",
+            mock_call_garbage
+        )
+
+        cache_config = CacheConfig(enabled=False)
+        eval_config = EvaluationConfig(
+            mode=EvaluationMode.SINGLE,
+            models=["model1"],
+            cache_config=cache_config
+        )
+
+        evaluator = LLMEvaluator(eval_config)
+
+        # Should raise, not return fake values
+        with pytest.raises(EvaluationError):
+            await evaluator.evaluate_layer(
+                layer_content="test",
+                context="test",
+                evaluation_prompt="test"
+            )
+
+    @pytest.mark.asyncio
+    async def test_missing_required_fields_raises(self, monkeypatch):
+        """Parser raises if response missing required fields."""
+        async def mock_call_incomplete(self, model, messages):
+            # Missing 'falsehood' field
+            return '{"truth": 0.8, "indeterminacy": 0.2, "reasoning": "incomplete"}'
+
+        monkeypatch.setattr(
+            "promptguard.evaluation.evaluator.LLMEvaluator._call_openrouter",
+            mock_call_incomplete
+        )
+
+        cache_config = CacheConfig(enabled=False)
+        eval_config = EvaluationConfig(
+            mode=EvaluationMode.SINGLE,
+            models=["test-model"],
+            cache_config=cache_config
+        )
+
+        evaluator = LLMEvaluator(eval_config)
+
+        with pytest.raises(EvaluationError) as exc_info:
+            await evaluator.evaluate_layer(
+                layer_content="test",
+                context="test",
+                evaluation_prompt="test"
+            )
+
+        assert "missing required field" in str(exc_info.value).lower()
+        assert "falsehood" in str(exc_info.value)
 
 
 if __name__ == "__main__":

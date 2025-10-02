@@ -426,7 +426,9 @@ A statement can have high truth AND high indeterminacy (ch'ixi - productive cont
         Parse LLM response into neutrosophic evaluation.
 
         Expects JSON format with truth, indeterminacy, falsehood, reasoning.
-        If parsing fails, returns high indeterminacy evaluation.
+
+        Raises:
+            EvaluationError: If response cannot be parsed or is missing required fields
         """
         try:
             # Try to extract JSON from response
@@ -441,20 +443,37 @@ A statement can have high truth AND high indeterminacy (ch'ixi - productive cont
             # Use strict=False to handle control characters in strings
             data = json.loads(json_str, strict=False)
 
+            # Validate required fields exist
+            if "truth" not in data:
+                raise EvaluationError(
+                    f"Model {model} response missing required field 'truth'. Response: {response[:200]}",
+                    model=model
+                )
+            if "indeterminacy" not in data:
+                raise EvaluationError(
+                    f"Model {model} response missing required field 'indeterminacy'. Response: {response[:200]}",
+                    model=model
+                )
+            if "falsehood" not in data:
+                raise EvaluationError(
+                    f"Model {model} response missing required field 'falsehood'. Response: {response[:200]}",
+                    model=model
+                )
+
             return NeutrosophicEvaluation(
-                truth=float(data.get("truth", 0.5)),
-                indeterminacy=float(data.get("indeterminacy", 0.5)),
-                falsehood=float(data.get("falsehood", 0.0)),
+                truth=float(data["truth"]),
+                indeterminacy=float(data["indeterminacy"]),
+                falsehood=float(data["falsehood"]),
                 reasoning=data.get("reasoning", "No reasoning provided"),
                 model=model
             )
+        except EvaluationError:
+            # Re-raise our own errors
+            raise
         except Exception as e:
-            # Parsing failed - return high indeterminacy
-            return NeutrosophicEvaluation(
-                truth=0.0,
-                indeterminacy=1.0,
-                falsehood=0.0,
-                reasoning=f"Failed to parse response: {str(e)}. Raw: {response[:200]}",
+            # Parsing failed - raise with context
+            raise EvaluationError(
+                f"Failed to parse response from {model}: {str(e)}. Raw response: {response[:200]}",
                 model=model
             )
 
