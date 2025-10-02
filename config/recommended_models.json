@@ -1,0 +1,239 @@
+{
+  "last_updated": "2025-10-02",
+  "evaluation_basis": {
+    "input_tokens": 557,
+    "output_tokens": 244,
+    "total_tokens": 801
+  },
+  "quick_picks": {
+    "best_free": {
+      "model_id": "x-ai/grok-4-fast:free",
+      "name": "xAI Grok 4 Fast (free)",
+      "cost_per_eval": 0.0,
+      "why": "2M context, reasoning support, multimodal, completely free"
+    },
+    "best_value": {
+      "model_id": "google/gemini-2.5-flash-lite-preview-09-2025",
+      "name": "Google Gemini 2.5 Flash Lite",
+      "cost_per_eval": 0.000153,
+      "cost_680_prompts": 0.10,
+      "why": "Ultra-low cost, 1M context, fast, reliable"
+    },
+    "best_coding": {
+      "model_id": "qwen/qwen3-coder:free",
+      "name": "Qwen3 Coder 480B (free)",
+      "cost_per_eval": 0.0,
+      "why": "Massive 480B model optimized for coding, completely free"
+    },
+    "best_reasoning": {
+      "model_id": "deepseek/deepseek-v3.2-exp",
+      "name": "DeepSeek V3.2 Exp",
+      "cost_per_eval": 0.000248,
+      "cost_680_prompts": 0.17,
+      "why": "Experimental reasoning architecture, great value"
+    },
+    "current_baseline": {
+      "model_id": "anthropic/claude-sonnet-4.5",
+      "name": "Claude Sonnet 4.5",
+      "cost_per_eval": 0.005331,
+      "cost_680_prompts": 3.63,
+      "why": "Current PromptGuard standard, best-in-class coding and agents"
+    }
+  },
+  "starter_pack_free": {
+    "description": "Start here - zero cost, validate methodology",
+    "total_cost": 0.0,
+    "models": [
+      {
+        "id": "x-ai/grok-4-fast:free",
+        "name": "xAI Grok 4 Fast",
+        "family": "xAI",
+        "specialty": "Reasoning, long context (2M)"
+      },
+      {
+        "id": "deepseek/deepseek-chat-v3.1:free",
+        "name": "DeepSeek V3.1",
+        "family": "DeepSeek",
+        "specialty": "Open source reasoning baseline"
+      },
+      {
+        "id": "qwen/qwen3-coder:free",
+        "name": "Qwen3 Coder 480B",
+        "family": "Qwen",
+        "specialty": "Coding evaluation (480B params)"
+      },
+      {
+        "id": "mistralai/mistral-small-3.2-24b-instruct:free",
+        "name": "Mistral Small 3.2 24B",
+        "family": "Mistral",
+        "specialty": "General purpose European AI"
+      }
+    ]
+  },
+  "budget_pack": {
+    "description": "Best value for production validation",
+    "total_cost_680_prompts": 0.53,
+    "savings_vs_current": "84%",
+    "models": [
+      {
+        "id": "alibaba/tongyi-deepresearch-30b-a3b",
+        "name": "Tongyi DeepResearch",
+        "cost_per_eval": 0.000148,
+        "specialty": "Cheapest paid, agentic search"
+      },
+      {
+        "id": "google/gemini-2.5-flash-lite-preview-09-2025",
+        "name": "Gemini 2.5 Flash Lite",
+        "cost_per_eval": 0.000153,
+        "specialty": "Best value, 1M context"
+      },
+      {
+        "id": "deepseek/deepseek-v3.2-exp",
+        "name": "DeepSeek V3.2 Exp",
+        "cost_per_eval": 0.000248,
+        "specialty": "Experimental reasoning"
+      }
+    ]
+  },
+  "variance_pack_10": {
+    "description": "10-model mix for comprehensive variance analysis",
+    "total_cost_6800_evals": 4.10,
+    "savings_vs_current": "88%",
+    "models": [
+      {"id": "x-ai/grok-4-fast:free", "cost": 0.0, "tier": "free"},
+      {"id": "deepseek/deepseek-chat-v3.1:free", "cost": 0.0, "tier": "free"},
+      {"id": "alibaba/tongyi-deepresearch-30b-a3b", "cost": 0.10, "tier": "budget"},
+      {"id": "google/gemini-2.5-flash-lite-preview-09-2025", "cost": 0.10, "tier": "budget"},
+      {"id": "deepseek/deepseek-v3.2-exp", "cost": 0.17, "tier": "budget"},
+      {"id": "x-ai/grok-4-fast", "cost": 0.16, "tier": "budget"},
+      {"id": "qwen/qwen3-vl-235b-a22b-instruct", "cost": 0.36, "tier": "mid"},
+      {"id": "google/gemini-2.5-flash-preview-09-2025", "cost": 0.53, "tier": "mid"},
+      {"id": "qwen/qwen3-coder-plus", "cost": 1.21, "tier": "mid"},
+      {"id": "openai/gpt-5-codex", "cost": 2.13, "tier": "premium"}
+    ]
+  },
+  "production_pack": {
+    "description": "Premium models for final validation and benchmarking",
+    "total_cost_2040_evals": 5.76,
+    "models": [
+      {
+        "id": "openai/gpt-5-codex",
+        "name": "GPT-5 Codex",
+        "cost_per_eval": 0.003136,
+        "specialty": "Advanced coding and reasoning"
+      },
+      {
+        "id": "anthropic/claude-sonnet-4.5",
+        "name": "Claude Sonnet 4.5",
+        "cost_per_eval": 0.005331,
+        "specialty": "Current baseline, best coding"
+      },
+      {
+        "id": "google/gemini-2.5-flash-preview-09-2025",
+        "name": "Gemini 2.5 Flash",
+        "cost_per_eval": 0.000777,
+        "specialty": "Advanced reasoning, mid-tier price"
+      }
+    ]
+  },
+  "use_case_recommendations": {
+    "coding_evaluation": {
+      "free": "qwen/qwen3-coder:free",
+      "budget": "deepseek/deepseek-v3.1-terminus",
+      "mid": "qwen/qwen3-coder-flash",
+      "premium": "openai/gpt-5-codex"
+    },
+    "reasoning_tasks": {
+      "free": "x-ai/grok-4-fast:free",
+      "budget": "deepseek/deepseek-v3.2-exp",
+      "mid": "google/gemini-2.5-flash-preview-09-2025",
+      "premium": "anthropic/claude-sonnet-4.5"
+    },
+    "long_context": {
+      "free": "x-ai/grok-4-fast:free (2M)",
+      "budget": "google/gemini-2.5-flash-lite-preview-09-2025 (1M)",
+      "mid": "google/gemini-2.5-flash-preview-09-2025 (1M)",
+      "premium": "anthropic/claude-sonnet-4.5 (1M)"
+    },
+    "multimodal": {
+      "free": "x-ai/grok-4-fast:free",
+      "mid": "qwen/qwen3-vl-235b-a22b-instruct",
+      "premium": "anthropic/claude-sonnet-4.5"
+    },
+    "cost_optimization": {
+      "development": "All free models",
+      "validation": "Budget pack ($0.53 for 680 prompts)",
+      "production": "Mid tier with selective premium",
+      "benchmarking": "Premium pack only"
+    }
+  },
+  "implementation_phases": {
+    "phase_1_validation": {
+      "week": 1,
+      "action": "Test with all free models",
+      "models": "starter_pack_free",
+      "cost": 0.0,
+      "goal": "Validate methodology and format"
+    },
+    "phase_2_expansion": {
+      "week": 2,
+      "action": "Add 10-model variance analysis",
+      "models": "variance_pack_10",
+      "cost": 4.10,
+      "goal": "Comprehensive family coverage"
+    },
+    "phase_3_production": {
+      "week": 3,
+      "action": "Validate against premium standards",
+      "models": "production_pack",
+      "cost": 5.76,
+      "goal": "Confirm production quality"
+    },
+    "phase_4_ongoing": {
+      "week": "4+",
+      "action": "Establish regular testing cadence",
+      "daily": "Free models for development",
+      "weekly": "Budget models for validation",
+      "monthly": "Premium for benchmarks",
+      "estimated_monthly_cost": "10-15"
+    }
+  },
+  "cost_optimization_tips": [
+    "Start with free models - zero risk, validate approach",
+    "Use budget tier for high-volume testing - 97% cost savings",
+    "Reserve premium for final validation only",
+    "Enable prompt caching for 50-80% input cost reduction",
+    "Use smart sampling: 100% free, 50% budget, 20% premium",
+    "Rotate models over time instead of testing all at once",
+    "Monitor JSON parsing success rates to avoid reruns",
+    "Set temperature=0 for deterministic results"
+  ],
+  "openrouter_config": {
+    "base_url": "https://openrouter.ai/api/v1",
+    "auth_header": "Authorization: Bearer $OPENROUTER_API_KEY",
+    "optional_headers": {
+      "HTTP-Referer": "your-site-url",
+      "X-Title": "PromptGuard-Validation"
+    },
+    "example_request": {
+      "model": "x-ai/grok-4-fast:free",
+      "messages": [
+        {"role": "system", "content": "Generate neutrosophic scores for prompt safety."},
+        {"role": "user", "content": "Evaluate: {prompt}"}
+      ],
+      "response_format": {"type": "json_object"},
+      "temperature": 0,
+      "max_tokens": 500
+    }
+  },
+  "monitoring_checklist": [
+    "Track cost per evaluation by model",
+    "Monitor JSON parse success rate (target >95%)",
+    "Measure score variance across model families",
+    "Log latency per model (for SLA planning)",
+    "Set up budget alerts in OpenRouter dashboard",
+    "Review new models monthly (OpenRouter adds frequently)",
+    "Document failure modes by model type",
+    "Compare actual vs estimated token usage"
+  ]
+}
