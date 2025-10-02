@@ -151,20 +151,26 @@ class PromptGuard:
 
         if prompt is not None:
             # Single-layer mode
-            layers_to_create.append(("user", prompt, LayerPriority.USER))
+            layers_to_create.append(("user", prompt, LayerPriority.USER, "user"))
         else:
-            # Multi-layer mode
+            # Multi-layer mode - all content is user-provided in PromptGuard context
+            # (we're evaluating user-submitted prompts that may claim to be system/app layers)
             if system:
-                layers_to_create.append(("system", system, LayerPriority.SYSTEM))
+                layers_to_create.append(("system", system, LayerPriority.SYSTEM, "user"))
             if "application" in kwargs:
-                layers_to_create.append(("application", kwargs["application"], LayerPriority.APPLICATION))
+                layers_to_create.append(("application", kwargs["application"], LayerPriority.APPLICATION, "user"))
             if user:
-                layers_to_create.append(("user", user, LayerPriority.USER))
+                layers_to_create.append(("user", user, LayerPriority.USER, "user"))
 
         # Create layers and evaluate each with LLM
-        for layer_name, content, priority in layers_to_create:
-            # Build context
-            context_parts.append(f"{layer_name.capitalize()}: {content}")
+        for layer_name, content, priority, source in layers_to_create:
+            # Build context showing provenance
+            if layer_name == source:
+                # Same source and purpose (e.g., user layer from user)
+                context_parts.append(f"{layer_name.capitalize()} layer: {content}")
+            else:
+                # Different source and purpose (e.g., system layer from user = fake history attack)
+                context_parts.append(f"{layer_name.capitalize()} layer (source: {source}-provided): {content}")
             context = "\n".join(context_parts)
 
             # Create layer
