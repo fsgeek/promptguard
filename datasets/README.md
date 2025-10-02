@@ -181,11 +181,11 @@ If using these datasets, please cite the original sources:
 
 **OR-Bench:**
 ```
-@article{orbench2024,
-  title = {OR-Bench: Over-Refusal Benchmark for Large Language Models},
-  author = {[Authors from paper]},
-  year = {2024},
-  url = {https://arxiv.org/html/2405.20947v5}
+@article{cui2024or,
+  title={Or-bench: An over-refusal benchmark for large language models},
+  author={Cui, Justin and Chiang, Wei-Lin and Stoica, Ion and Hsieh, Cho-Jui},
+  journal={arXiv preprint arXiv:2405.20947},
+  year={2024}
 }
 ```
 
