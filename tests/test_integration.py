@@ -5,9 +5,11 @@ Verifies that the simple API works end-to-end with LLM evaluation.
 """
 
 import asyncio
+import pytest
 from promptguard.promptguard import PromptGuard, evaluate_prompt
 
 
+@pytest.mark.asyncio
 async def test_simple_evaluation():
     """Test simple single-prompt evaluation."""
     print("Testing simple evaluation API...\n")
@@ -33,6 +35,7 @@ async def test_simple_evaluation():
     print("  ✓ Correctly identified as reciprocal\n")
 
 
+@pytest.mark.asyncio
 async def test_system_user_evaluation():
     """Test system + user evaluation."""
     print("Testing system + user evaluation...\n")
@@ -56,6 +59,7 @@ async def test_system_user_evaluation():
     print("  ✓ Correctly detected role reversal\n")
 
 
+@pytest.mark.asyncio
 async def test_extractive_prompt():
     """Test detection of extraction without keyword matching."""
     print("Testing extractive prompt detection...\n")
@@ -78,6 +82,7 @@ async def test_extractive_prompt():
     print("  ✓ Correctly identified extraction semantically\n")
 
 
+@pytest.mark.asyncio
 async def test_convenience_function():
     """Test convenience wrapper."""
     print("Testing convenience function...\n")
