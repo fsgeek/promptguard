@@ -132,7 +132,7 @@ async def main():
     print()
 
     # Initialize guard with specified model
-    config = PromptGuardConfig(model=args.model)
+    config = PromptGuardConfig(models=[args.model])
     guard = PromptGuard(config)
 
     # Run validation on each dataset
