@@ -14,6 +14,10 @@ import asyncio
 import httpx
 import json
 import os
+import time
+
+from .cache import CacheProvider, DiskCache, MemoryCache, CachedEvaluation, make_cache_key
+from ..config import CacheConfig
 
 
 class EvaluationMode(Enum):
@@ -33,6 +37,7 @@ class EvaluationConfig:
     max_tokens: int = 1000
     timeout_seconds: float = 30.0
     temperature: float = 0.7
+    cache_config: Optional[CacheConfig] = None  # Cache configuration
 
     def __post_init__(self):
         """Load API key from environment if not provided."""
@@ -43,6 +48,10 @@ class EvaluationConfig:
                     "OpenRouter API key required. Set OPENROUTER_API_KEY environment "
                     "variable or pass api_key to EvaluationConfig"
                 )
+
+        # Initialize cache config if not provided
+        if self.cache_config is None:
+            self.cache_config = CacheConfig()
 
 
 @dataclass
@@ -67,15 +76,33 @@ class LLMEvaluator:
     relational dynamics, reciprocity patterns, and trust violations.
     """
 
-    def __init__(self, config: EvaluationConfig):
+    def __init__(self, config: EvaluationConfig, cache: Optional[CacheProvider] = None):
         """
         Initialize evaluator with configuration.
 
         Args:
             config: Evaluation configuration including API credentials
+            cache: Optional cache provider (defaults to config-based cache)
         """
         self.config = config
         self.base_url = "https://openrouter.ai/api/v1"
+
+        # Initialize cache
+        if cache is not None:
+            self.cache = cache
+        elif config.cache_config.enabled:
+            # Create cache based on backend type
+            if config.cache_config.backend == "memory":
+                self.cache = MemoryCache(max_size_mb=config.cache_config.max_size_mb)
+            elif config.cache_config.backend == "disk":
+                self.cache = DiskCache(
+                    cache_dir=config.cache_config.location,
+                    max_size_mb=config.cache_config.max_size_mb
+                )
+            else:
+                raise ValueError(f"Unknown cache backend: {config.cache_config.backend}")
+        else:
+            self.cache = None
 
     async def evaluate_layer(
         self,
@@ -134,6 +161,16 @@ class LLMEvaluator:
         """Evaluate using single model."""
         model = self.config.models[0]
 
+        # Check cache first
+        if cached := self._get_cached(layer_content, context, evaluation_prompt, model):
+            return NeutrosophicEvaluation(
+                truth=cached.truth,
+                indeterminacy=cached.indeterminacy,
+                falsehood=cached.falsehood,
+                reasoning="[CACHED]",
+                model=cached.model
+            )
+
         messages = [
             {
                 "role": "user",
@@ -144,7 +181,12 @@ class LLMEvaluator:
         ]
 
         response = await self._call_openrouter(model, messages)
-        return self._parse_neutrosophic_response(response, model)
+        result = self._parse_neutrosophic_response(response, model)
+
+        # Cache the result
+        self._set_cached(layer_content, context, evaluation_prompt, model, result)
+
+        return result
 
     async def _evaluate_parallel(
         self,
@@ -162,31 +204,45 @@ class LLMEvaluator:
             }
         ]
 
-        # Create tasks for all models
-        tasks = [
-            self._call_openrouter(model, messages)
-            for model in self.config.models
-        ]
-
-        # Execute in parallel
-        responses = await asyncio.gather(*tasks, return_exceptions=True)
-
-        # Parse results
+        # Check cache and create tasks only for uncached models
         evaluations = []
-        for model, response in zip(self.config.models, responses):
-            if isinstance(response, Exception):
-                # Model failed - record as high indeterminacy
+        tasks = []
+        task_models = []
+
+        for model in self.config.models:
+            if cached := self._get_cached(layer_content, context, evaluation_prompt, model):
                 evaluations.append(NeutrosophicEvaluation(
-                    truth=0.0,
-                    indeterminacy=1.0,
-                    falsehood=0.0,
-                    reasoning=f"Evaluation failed: {str(response)}",
-                    model=model
+                    truth=cached.truth,
+                    indeterminacy=cached.indeterminacy,
+                    falsehood=cached.falsehood,
+                    reasoning="[CACHED]",
+                    model=cached.model
                 ))
             else:
-                evaluations.append(
-                    self._parse_neutrosophic_response(response, model)
-                )
+                tasks.append(self._call_openrouter(model, messages))
+                task_models.append(model)
+
+        # Execute uncached evaluations in parallel
+        if tasks:
+            responses = await asyncio.gather(*tasks, return_exceptions=True)
+
+            # Parse and cache results
+            for model, response in zip(task_models, responses):
+                if isinstance(response, Exception):
+                    # Model failed - record as high indeterminacy
+                    evaluation = NeutrosophicEvaluation(
+                        truth=0.0,
+                        indeterminacy=1.0,
+                        falsehood=0.0,
+                        reasoning=f"Evaluation failed: {str(response)}",
+                        model=model
+                    )
+                else:
+                    evaluation = self._parse_neutrosophic_response(response, model)
+                    # Cache successful evaluation
+                    self._set_cached(layer_content, context, evaluation_prompt, model, evaluation)
+
+                evaluations.append(evaluation)
 
         return evaluations
 
@@ -371,3 +427,48 @@ A statement can have high truth AND high indeterminacy (ch'ixi - productive cont
                 reasoning=f"Failed to parse response: {str(e)}. Raw: {response[:200]}",
                 model=model
             )
+
+    def _get_cached(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str,
+        model: str
+    ) -> Optional[CachedEvaluation]:
+        """
+        Retrieve cached evaluation if available.
+
+        Returns None if caching is disabled or no cache hit.
+        """
+        if self.cache is None:
+            return None
+
+        cache_key = make_cache_key(layer_content, context, evaluation_prompt, model)
+        return self.cache.get(cache_key)
+
+    def _set_cached(
+        self,
+        layer_content: str,
+        context: str,
+        evaluation_prompt: str,
+        model: str,
+        evaluation: NeutrosophicEvaluation
+    ) -> None:
+        """
+        Store evaluation result in cache.
+
+        Does nothing if caching is disabled.
+        """
+        if self.cache is None:
+            return
+
+        cache_key = make_cache_key(layer_content, context, evaluation_prompt, model)
+        cached = CachedEvaluation(
+            truth=evaluation.truth,
+            indeterminacy=evaluation.indeterminacy,
+            falsehood=evaluation.falsehood,
+            model=evaluation.model,
+            timestamp=time.time(),
+            ttl_seconds=self.config.cache_config.ttl_seconds
+        )
+        self.cache.set(cache_key, cached)

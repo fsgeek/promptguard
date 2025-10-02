@@ -12,10 +12,15 @@ relational dynamics.
 
 from .evaluator import LLMEvaluator, EvaluationMode, EvaluationConfig
 from .prompts import NeutrosophicEvaluationPrompt
+from .cache import CacheProvider, DiskCache, MemoryCache, make_cache_key
 
 __all__ = [
     'LLMEvaluator',
     'EvaluationMode',
     'EvaluationConfig',
     'NeutrosophicEvaluationPrompt',
+    'CacheProvider',
+    'DiskCache',
+    'MemoryCache',
+    'make_cache_key',
 ]
