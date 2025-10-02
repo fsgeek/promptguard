@@ -20,6 +20,19 @@ from .cache import CacheProvider, DiskCache, MemoryCache, CachedEvaluation, make
 from ..config import CacheConfig
 
 
+class EvaluationError(Exception):
+    """
+    Raised when LLM evaluation fails.
+
+    Fail-fast: Don't create fake neutrosophic values.
+    Let the caller decide how to handle failures.
+    """
+    def __init__(self, message: str, model: str, layer_name: str = None):
+        self.model = model
+        self.layer_name = layer_name
+        super().__init__(message)
+
+
 class EvaluationMode(Enum):
     """Different modes of LLM evaluation."""
     SINGLE = "single"  # One model
@@ -158,7 +171,12 @@ class LLMEvaluator:
         context: str,
         evaluation_prompt: str
     ) -> NeutrosophicEvaluation:
-        """Evaluate using single model."""
+        """
+        Evaluate using single model.
+
+        Raises:
+            EvaluationError: If API call or parsing fails
+        """
         model = self.config.models[0]
 
         # Check cache first
@@ -180,8 +198,14 @@ class LLMEvaluator:
             }
         ]
 
-        response = await self._call_openrouter(model, messages)
-        result = self._parse_neutrosophic_response(response, model)
+        try:
+            response = await self._call_openrouter(model, messages)
+            result = self._parse_neutrosophic_response(response, model)
+        except Exception as e:
+            raise EvaluationError(
+                f"Failed to evaluate layer with {model}: {str(e)}",
+                model=model
+            )
 
         # Cache the result
         self._set_cached(layer_content, context, evaluation_prompt, model, result)
@@ -194,7 +218,12 @@ class LLMEvaluator:
         context: str,
         evaluation_prompt: str
     ) -> List[NeutrosophicEvaluation]:
-        """Evaluate using multiple models in parallel."""
+        """
+        Evaluate using multiple models in parallel.
+
+        Raises:
+            EvaluationError: If any model fails. Contains info about which models failed.
+        """
         messages = [
             {
                 "role": "user",
@@ -226,22 +255,23 @@ class LLMEvaluator:
         if tasks:
             responses = await asyncio.gather(*tasks, return_exceptions=True)
 
-            # Parse and cache results
+            # Check for failures first - fail fast
+            failures = []
             for model, response in zip(task_models, responses):
                 if isinstance(response, Exception):
-                    # Model failed - record as high indeterminacy
-                    evaluation = NeutrosophicEvaluation(
-                        truth=0.0,
-                        indeterminacy=1.0,
-                        falsehood=0.0,
-                        reasoning=f"Evaluation failed: {str(response)}",
-                        model=model
-                    )
-                else:
-                    evaluation = self._parse_neutrosophic_response(response, model)
-                    # Cache successful evaluation
-                    self._set_cached(layer_content, context, evaluation_prompt, model, evaluation)
+                    failures.append(f"{model}: {str(response)}")
 
+            if failures:
+                raise EvaluationError(
+                    f"Parallel evaluation failed for {len(failures)} model(s): " + "; ".join(failures),
+                    model="parallel"
+                )
+
+            # All succeeded - parse and cache results
+            for model, response in zip(task_models, responses):
+                evaluation = self._parse_neutrosophic_response(response, model)
+                # Cache successful evaluation
+                self._set_cached(layer_content, context, evaluation_prompt, model, evaluation)
                 evaluations.append(evaluation)
 
         return evaluations

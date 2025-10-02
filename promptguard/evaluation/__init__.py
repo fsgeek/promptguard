@@ -10,7 +10,7 @@ Fire Circle modes for studying how different intelligences perceive
 relational dynamics.
 """
 
-from .evaluator import LLMEvaluator, EvaluationMode, EvaluationConfig
+from .evaluator import LLMEvaluator, EvaluationMode, EvaluationConfig, EvaluationError
 from .prompts import NeutrosophicEvaluationPrompt
 from .cache import CacheProvider, DiskCache, MemoryCache, make_cache_key
 
@@ -18,6 +18,7 @@ __all__ = [
     'LLMEvaluator',
     'EvaluationMode',
     'EvaluationConfig',
+    'EvaluationError',
     'NeutrosophicEvaluationPrompt',
     'CacheProvider',
     'DiskCache',

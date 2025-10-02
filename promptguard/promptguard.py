@@ -33,6 +33,7 @@ from .evaluation import (
     EvaluationConfig,
     NeutrosophicEvaluationPrompt
 )
+from .evaluation.evaluator import EvaluationError
 
 
 @dataclass
@@ -170,11 +171,19 @@ class PromptGuard:
             layer = mnp.add_layer(content, priority)
 
             # Get LLM evaluation for this layer
-            evaluations = await self.llm_evaluator.evaluate_layer(
-                layer_content=content,
-                context=context,
-                evaluation_prompt=self.evaluation_prompt
-            )
+            try:
+                evaluations = await self.llm_evaluator.evaluate_layer(
+                    layer_content=content,
+                    context=context,
+                    evaluation_prompt=self.evaluation_prompt
+                )
+            except EvaluationError as e:
+                # Fail fast with clear context
+                raise EvaluationError(
+                    f"Failed to evaluate {layer_name} layer: {str(e)}",
+                    model=e.model,
+                    layer_name=layer_name
+                )
 
             # Use first evaluation (in SINGLE mode) or consensus (in PARALLEL mode)
             if self.config.mode == EvaluationMode.SINGLE:
