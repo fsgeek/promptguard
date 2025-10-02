@@ -13,6 +13,7 @@ __author__ = "Tony & Claude (in reciprocal collaboration)"
 from .core.neutrosophic import MultiNeutrosophicPrompt, NeutrosophicLayer
 from .core.ayni import AyniEvaluator, ReciprocityMetrics
 from .core.consensus import EuclideanConsensus, ConsensusMeasure
+from .promptguard import PromptGuard, PromptGuardConfig, evaluate_prompt
 
 __all__ = [
     "MultiNeutrosophicPrompt",
@@ -21,4 +22,7 @@ __all__ = [
     "ReciprocityMetrics",
     "EuclideanConsensus",
     "ConsensusMeasure",
+    "PromptGuard",
+    "PromptGuardConfig",
+    "evaluate_prompt",
 ]
