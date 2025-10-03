@@ -98,10 +98,41 @@ class PromptGuard:
 
         self.llm_evaluator = LLMEvaluator(eval_config)
 
-        # Get evaluation prompt
-        self.evaluation_prompt = NeutrosophicEvaluationPrompt.get_prompt(
-            self.config.evaluation_type
-        )
+        # Normalize evaluation_type to list
+        if isinstance(self.config.evaluation_type, str):
+            self.evaluation_types = [self.config.evaluation_type]
+        else:
+            self.evaluation_types = self.config.evaluation_type
+
+        # Get all evaluation prompts
+        self.evaluation_prompts = [
+            NeutrosophicEvaluationPrompt.get_prompt(eval_type)
+            for eval_type in self.evaluation_types
+        ]
+
+    def _merge_neutrosophic(
+        self,
+        evaluations: List
+    ) -> tuple[float, float, float]:
+        """
+        Merge multiple neutrosophic evaluations (security-first).
+
+        Uses MAX falsehood strategy: If ANY prompt detects high falsehood,
+        flag as violation. Covers multi-dimensional threat space where
+        different prompts detect orthogonal violation types.
+
+        Args:
+            evaluations: List of LayerEvaluation objects from different prompts
+
+        Returns:
+            Tuple of (truth, indeterminacy, falsehood) merged values
+        """
+        # Worst-case on all dimensions (security-first)
+        t = min(e.truth for e in evaluations)
+        i = max(e.indeterminacy for e in evaluations)
+        f = max(e.falsehood for e in evaluations)
+
+        return (t, i, f)
 
     async def evaluate(
         self,
@@ -178,13 +209,69 @@ class PromptGuard:
             layer.name = layer_name
             layer.source = source
 
-            # Get LLM evaluation for this layer
+            # Evaluate with prompt(s) - single or ensemble
             try:
-                evaluations = await self.llm_evaluator.evaluate_layer(
-                    layer_content=content,
-                    context=context,
-                    evaluation_prompt=self.evaluation_prompt
-                )
+                # Single-prompt path (backward compatible)
+                if len(self.evaluation_prompts) == 1:
+                    evaluations = await self.llm_evaluator.evaluate_layer(
+                        layer_content=content,
+                        context=context,
+                        evaluation_prompt=self.evaluation_prompts[0]
+                    )
+
+                    # Use first evaluation (in SINGLE mode) or consensus (in PARALLEL mode)
+                    if self.config.mode == EvaluationMode.SINGLE:
+                        eval_result = evaluations[0]
+                        layer.add_evaluation(
+                            eval_result.truth,
+                            eval_result.indeterminacy,
+                            eval_result.falsehood,
+                            SourceType.SEMANTIC
+                        )
+                    else:
+                        # Parallel mode - use average of all evaluations
+                        avg_t = sum(e.truth for e in evaluations) / len(evaluations)
+                        avg_i = sum(e.indeterminacy for e in evaluations) / len(evaluations)
+                        avg_f = sum(e.falsehood for e in evaluations) / len(evaluations)
+
+                        layer.add_evaluation(avg_t, avg_i, avg_f, SourceType.SEMANTIC)
+
+                # Ensemble path (new)
+                else:
+                    # Evaluate with all prompts in parallel
+                    all_evaluations = await asyncio.gather(*[
+                        self.llm_evaluator.evaluate_layer(
+                            layer_content=content,
+                            context=context,
+                            evaluation_prompt=prompt
+                        )
+                        for prompt in self.evaluation_prompts
+                    ])
+
+                    # Extract first result from each prompt's evaluations
+                    # (in SINGLE mode, each returns list with one item)
+                    if self.config.mode == EvaluationMode.SINGLE:
+                        prompt_results = [evals[0] for evals in all_evaluations]
+                    else:
+                        # In PARALLEL mode, average within each prompt first
+                        prompt_results = []
+                        for evals in all_evaluations:
+                            avg_t = sum(e.truth for e in evals) / len(evals)
+                            avg_i = sum(e.indeterminacy for e in evals) / len(evals)
+                            avg_f = sum(e.falsehood for e in evals) / len(evals)
+                            # Create pseudo-evaluation for merging
+                            from dataclasses import dataclass
+                            @dataclass
+                            class AvgEval:
+                                truth: float
+                                indeterminacy: float
+                                falsehood: float
+                            prompt_results.append(AvgEval(avg_t, avg_i, avg_f))
+
+                    # Merge neutrosophic values (security-first MAX falsehood)
+                    merged_t, merged_i, merged_f = self._merge_neutrosophic(prompt_results)
+                    layer.add_evaluation(merged_t, merged_i, merged_f, SourceType.SEMANTIC)
+
             except EvaluationError as e:
                 # Fail fast with clear context
                 raise EvaluationError(
@@ -192,23 +279,6 @@ class PromptGuard:
                     model=e.model,
                     layer_name=layer_name
                 )
-
-            # Use first evaluation (in SINGLE mode) or consensus (in PARALLEL mode)
-            if self.config.mode == EvaluationMode.SINGLE:
-                eval_result = evaluations[0]
-                layer.add_evaluation(
-                    eval_result.truth,
-                    eval_result.indeterminacy,
-                    eval_result.falsehood,
-                    SourceType.SEMANTIC
-                )
-            else:
-                # Parallel mode - use average of all evaluations
-                avg_t = sum(e.truth for e in evaluations) / len(evaluations)
-                avg_i = sum(e.indeterminacy for e in evaluations) / len(evaluations)
-                avg_f = sum(e.falsehood for e in evaluations) / len(evaluations)
-
-                layer.add_evaluation(avg_t, avg_i, avg_f, SourceType.SEMANTIC)
 
         # Evaluate with Ayni framework
         metrics = self.ayni_evaluator.evaluate_prompt(mnp)
