@@ -41,6 +41,10 @@ class NeutrosophicLayer:
     content: str
     priority: LayerPriority
 
+    # Layer identity and provenance (for detector analysis)
+    name: str = ""  # "system", "user", "application"
+    source: str = ""  # "user", "system" - who provided this layer
+
     # Multi-valued assessments
     truths: List[float] = field(default_factory=list)
     indeterminacies: List[float] = field(default_factory=list)

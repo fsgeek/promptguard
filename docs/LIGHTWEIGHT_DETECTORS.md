@@ -55,7 +55,14 @@ def detect_role_confusion_text(layer_content: str, layer_name: str) -> float:
     content_lower = layer_content.lower()
     matches = sum(1 for phrase in assistant_phrases if phrase in content_lower)
 
-    return min(matches / 2.0, 1.0)  # 2+ matches = very confident
+    # Single match = 0.7 (exceeds 0.6 threshold)
+    # Multiple matches = 1.0 (definite violation)
+    if matches == 0:
+        return 0.0
+    elif matches == 1:
+        return 0.7
+    else:
+        return 1.0
 ```
 
 ### 2. Authority Masquerading Detection
@@ -113,18 +120,9 @@ def calculate_detector_confidence(detections: Dict[str, float]) -> float:
     """
     Combine detector signals into overall confidence score.
 
-    Uses OR logic - any strong signal triggers high confidence.
+    Uses MAX logic - strongest signal wins (OR not averaging).
     """
-    # ANY detector above 0.7 = high confidence
-    if any(score > 0.7 for score in detections.values()):
-        return max(detections.values())
-
-    # Multiple moderate signals = medium confidence
-    moderate_signals = [s for s in detections.values() if s > 0.3]
-    if len(moderate_signals) >= 2:
-        return sum(moderate_signals) / len(moderate_signals)
-
-    # Single moderate or weak signals = low confidence
+    # Return the strongest signal - any detector can trigger
     return max(detections.values()) if detections else 0.0
 ```
 
@@ -143,14 +141,17 @@ def _detect_role_confusion(self, prompt: MultiNeutrosophicPrompt) -> bool:
 **Enhanced flow:**
 ```python
 def _detect_role_confusion(self, prompt: MultiNeutrosophicPrompt) -> bool:
-    # Check LLM neutrosophic scores
+    # Check LLM neutrosophic scores first (takes precedence if clear)
     for layer in prompt.layers:
         t, i, f = layer.neutrosophic_tuple()
         if f > 0.65:
             return True
 
-    # Fallback: lightweight text detectors
+    # Detectors supplement when LLM is ambiguous (0.4 < f < 0.65)
+    # or provide fallback when LLM misses polite extraction
     for layer in prompt.layers:
+        t, i, f = layer.neutrosophic_tuple()
+
         detections = {
             "role_language": detect_role_confusion_text(layer.content, layer.name),
             "authority_masquerade": detect_authority_masquerade(layer.content, layer.name),
@@ -158,7 +159,11 @@ def _detect_role_confusion(self, prompt: MultiNeutrosophicPrompt) -> bool:
         }
 
         detector_confidence = calculate_detector_confidence(detections)
-        if detector_confidence > 0.6:  # High confidence from detectors
+
+        # Detector can trigger if:
+        # 1. High confidence (> 0.6) AND LLM ambiguous (0.4 < f < 0.65), OR
+        # 2. Very high confidence (> 0.8) even if LLM says low F (catches polite extraction)
+        if detector_confidence > 0.6 and (0.4 < f < 0.65 or detector_confidence > 0.8):
             return True
 
     return False

@@ -173,8 +173,10 @@ class PromptGuard:
                 context_parts.append(f"{layer_name.capitalize()} layer (source: {source}-provided): {content}")
             context = "\n".join(context_parts)
 
-            # Create layer
+            # Create layer with name and source metadata
             layer = mnp.add_layer(content, priority)
+            layer.name = layer_name
+            layer.source = source
 
             # Get LLM evaluation for this layer
             try:
