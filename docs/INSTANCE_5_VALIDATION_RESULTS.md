@@ -53,7 +53,7 @@ All errors were legitimate failures (API issues, model refusals), not fake neutr
 
 **Root cause:** LLM classifies normal requests as "extractive exchange type" → threshold penalty amplifies → false rejection
 
-### Extractive False Negatives: 49.3% (35/71)
+### Extractive False Negatives: 36.6% (26/71)
 
 **Problem:** LLM evaluates surface politeness, not relational dynamics
 

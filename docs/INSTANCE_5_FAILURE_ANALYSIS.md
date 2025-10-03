@@ -5,7 +5,7 @@
 Instance 5 validation on Grok 4 Fast revealed **dual failure modes**:
 
 1. **Reciprocal False Positives (22.7%, 57/330)**: Threshold penalty too aggressive, penalizing normal requests
-2. **Extractive False Negatives (49.3%, 26/71 analyzed)**: LLM misses polite role-reversal attacks entirely
+2. **Extractive False Negatives (36.6%, 26/71 valid)**: LLM misses polite role-reversal attacks entirely
 
 **Critical finding:** The problems are orthogonal - fixing threshold won't fix LLM evaluation gap.
 
@@ -104,7 +104,7 @@ The LLM (Grok 4 Fast) appears to:
 
 The threshold penalty then converts these marginally-negative scores to "manipulative" classification.
 
-## Extractive False Negatives (26 cases, 49.3% of extractive analyzed)
+## Extractive False Negatives (26 cases, 36.6% of 71 valid extractive)
 
 ### Balance Distribution
 
