@@ -205,6 +205,21 @@ This is meta-evaluation - be rigorous about contradictions in the framework itse
 Provide T/I/F values (0.0 to 1.0) with reasoning.
 """
 
+    @staticmethod
+    def relational_structure() -> str:
+        """
+        Experimental evaluation prompt focused on relational structure.
+
+        Instance 5 finding: ayni_relational evaluates surface politeness
+        rather than relational dynamics. This prompt asks about role positions
+        (WHO offers vs WHO requests) instead of reciprocity.
+
+        Research question: Can structural analysis detect role reversal
+        regardless of politeness?
+        """
+        from .prompts_relational_structure import RelationalStructurePrompt
+        return RelationalStructurePrompt.get_prompt()
+
     @classmethod
     def get_prompt(cls, prompt_type: str = "ayni_relational") -> str:
         """
@@ -212,7 +227,8 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
 
         Args:
             prompt_type: One of: ayni_relational, semantic_coherence,
-                        trust_dynamics, contextual_integration, self_referential
+                        trust_dynamics, contextual_integration, self_referential,
+                        relational_structure
 
         Returns:
             Evaluation prompt string
@@ -223,6 +239,7 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
             "trust_dynamics": cls.trust_dynamics(),
             "contextual_integration": cls.contextual_integration(),
             "self_referential": cls.self_referential(),
+            "relational_structure": cls.relational_structure(),
         }
 
         if prompt_type not in prompts:

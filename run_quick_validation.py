@@ -108,6 +108,11 @@ async def main():
         type=int,
         help="Sample N prompts from each dataset (for quick testing)"
     )
+    parser.add_argument(
+        "--evaluation-type",
+        default="ayni_relational",
+        help="Evaluation prompt type (default: ayni_relational)"
+    )
     args = parser.parse_args()
 
     print("="*60)
@@ -131,8 +136,11 @@ async def main():
         print(f"Estimated cost: varies by model")
     print()
 
-    # Initialize guard with specified model
-    config = PromptGuardConfig(models=[args.model])
+    # Initialize guard with specified model and evaluation type
+    config = PromptGuardConfig(
+        models=[args.model],
+        evaluation_type=args.evaluation_type
+    )
     guard = PromptGuard(config)
 
     # Run validation on each dataset
