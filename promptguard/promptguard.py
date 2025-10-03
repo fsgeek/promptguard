@@ -22,7 +22,7 @@ Usage:
 """
 
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional, List, Union
 import asyncio
 
 from .core.neutrosophic import MultiNeutrosophicPrompt, LayerPriority, SourceType
@@ -47,8 +47,8 @@ class PromptGuardConfig:
     # Evaluation mode
     mode: EvaluationMode = EvaluationMode.SINGLE
 
-    # Which evaluation prompt to use
-    evaluation_type: str = "ayni_relational"
+    # Which evaluation prompt(s) to use - can be string or list for ensemble
+    evaluation_type: Union[str, List[str]] = "ayni_relational"
 
     # LLM parameters
     max_tokens: int = 500
