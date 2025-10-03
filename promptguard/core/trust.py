@@ -89,12 +89,16 @@ class TrustCalculator:
         Role confusion manifests as high falsehood in layers attempting to
         reverse structural relationships. This should be detected through
         LLM evaluation, not keyword matching.
+
+        Polite extraction attacks can have moderate truth (polite language)
+        while still being malicious, so we detect based on high falsehood alone.
         """
         # Check if any layer has very high falsehood indicating relational violation
         for layer in prompt.layers:
             t, i, f = layer.neutrosophic_tuple()
-            # High falsehood with low truth suggests structural violation
-            if f > 0.7 and t < 0.3:
+            # High falsehood indicates structural violation
+            # Don't require low truth - polite extraction can mask with surface reciprocity
+            if f > 0.65:
                 return True
         return False
 

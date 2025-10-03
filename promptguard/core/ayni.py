@@ -130,8 +130,16 @@ class AyniEvaluator:
         i_penalty = abs(i_avg - self.optimal_indeterminacy) * 0.5
         balance -= i_penalty
 
-        # Falsehood directly reduces balance
-        balance -= f_avg
+        # Falsehood penalties - security-first thinking
+        # In threat detection, respond to worst case, not average
+        balance -= f_avg  # Base penalty from average falsehood
+
+        # Severe penalty if ANY layer exceeds falsehood threshold
+        high_falsehood_layers = [l for l in prompt.layers
+                                if l.neutrosophic_tuple()[2] > 0.6]
+        if high_falsehood_layers:
+            # One malicious layer tanks the entire prompt
+            balance -= 0.8
 
         # Trust violations severely impact balance
         if "role_confusion" in trust_field.violations:
