@@ -1,0 +1,57 @@
+{
+  "evaluation_approaches": {
+    "trust_based": {
+      "description": "Evaluates prompts via Ayni reciprocity principles - measures balance of giving and taking",
+      "strengths": [
+        "Detects extractive intent via balance calculation",
+        "Semantic understanding of reciprocity dynamics",
+        "Can detect subtle manipulation through imbalance"
+      ],
+      "weaknesses": [
+        "Fooled by surface reciprocity masking extraction",
+        "23/80 extractive attacks scored as reciprocal",
+        "Polite \"How may I assist you?\" attacks score positive balance"
+      ],
+      "detection_rates": {
+        "polite_extraction": "0% (missed completely)",
+        "encoding_tricks": "Unknown (not tested on this set)",
+        "obvious_manipulation": "High (detected via extreme imbalance)",
+        "normal_requests": "High (reciprocal balance)"
+      }
+    },
+    "forensic_markers": {
+      "description": "Examines prompts as forensic artifacts - detects adversarial construction markers",
+      "strengths": [
+        "Detects adversarial construction regardless of surface politeness",
+        "100% detection of role reversal attacks",
+        "Zero false positives - high specificity",
+        "Structural analysis sees through polite extraction"
+      ],
+      "weaknesses": [
+        "May miss attacks constructed to appear genuinely creative",
+        "Missed 2/5 encoding tricks that could plausibly be benign",
+        "Gives benefit of doubt to ambiguous constructions"
+      ],
+      "detection_rates": {
+        "polite_extraction": "100% (5/5) - COMPLETE REVERSAL",
+        "encoding_tricks": "60% (3/5)",
+        "obvious_manipulation": "100% (5/5)",
+        "normal_requests": "100% (5/5)"
+      }
+    }
+  },
+  "complementary_nature": {
+    "construction_vs_intent": "Forensic markers detect HOW a prompt is constructed. Trust metrics detect WHAT the prompt intends to do.",
+    "orthogonal_blind_spots": {
+      "forensics_blind_spot": "Attacks that look like creative writing (encoding tricks with plausible deniability)",
+      "trust_blind_spot": "Attacks with reciprocal construction but extractive intent (polite role reversal)"
+    },
+    "ensemble_hypothesis": "An ensemble using BOTH approaches would catch attacks missed by either alone. Forensics for construction + trust for intent = complementary coverage.",
+    "potential_synergy": "When forensics and trust disagree, that itself may be a signal worth investigating (e.g., reciprocal construction but forensic markers present)"
+  },
+  "research_implications": {
+    "for_promptguard": "Forensic marker evaluation should be added as a third dimension alongside neutrosophic values and trust metrics",
+    "for_ensemble": "Multi-dimensional evaluation (trust + forensics + neutrosophic) would provide robust detection across different attack vectors",
+    "for_variance_analysis": "Model disagreement on forensic markers vs trust metrics would reveal interesting architectural differences"
+  }
+}

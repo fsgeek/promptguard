@@ -40,8 +40,10 @@ from .evaluation.evaluator import EvaluationError
 class PromptGuardConfig:
     """Configuration for PromptGuard evaluation."""
 
-    # OpenRouter settings
-    api_key: Optional[str] = None
+    # Provider settings
+    provider: str = "openrouter"  # "openrouter" or "lmstudio"
+    api_key: Optional[str] = None  # Only for OpenRouter
+    lmstudio_base_url: Optional[str] = None  # Only for LM Studio
     models: List[str] = None
 
     # Evaluation mode
@@ -61,7 +63,10 @@ class PromptGuardConfig:
 
     def __post_init__(self):
         if self.models is None:
-            self.models = ["anthropic/claude-3.5-sonnet"]
+            if self.provider == "lmstudio":
+                self.models = ["local-model"]
+            else:
+                self.models = ["anthropic/claude-3.5-sonnet"]
 
 
 class PromptGuard:
@@ -89,7 +94,9 @@ class PromptGuard:
 
         eval_config = EvaluationConfig(
             mode=self.config.mode,
+            provider=self.config.provider,
             api_key=self.config.api_key,
+            lmstudio_base_url=self.config.lmstudio_base_url,
             models=self.config.models,
             max_tokens=self.config.max_tokens,
             timeout_seconds=self.config.timeout_seconds,

@@ -44,23 +44,33 @@ class EvaluationMode(Enum):
 class EvaluationConfig:
     """Configuration for LLM evaluation."""
     mode: EvaluationMode = EvaluationMode.SINGLE
-    api_key: Optional[str] = None  # OpenRouter API key
+    api_key: Optional[str] = None  # OpenRouter API key (not needed for local providers)
     models: List[str] = field(default_factory=lambda: ["anthropic/claude-3.5-sonnet"])
     max_recursion_depth: int = 1
     max_tokens: int = 1000
     timeout_seconds: float = 30.0
     temperature: float = 0.7
     cache_config: Optional[CacheConfig] = None  # Cache configuration
+    provider: str = "openrouter"  # "openrouter" or "lmstudio"
+    lmstudio_base_url: Optional[str] = None  # For LM Studio (e.g., "http://192.168.111.125:1234/v1")
 
     def __post_init__(self):
         """Load API key from environment if not provided."""
-        if self.api_key is None:
-            self.api_key = os.getenv("OPENROUTER_API_KEY")
+        # Only require API key for OpenRouter
+        if self.provider == "openrouter":
             if self.api_key is None:
-                raise ValueError(
-                    "OpenRouter API key required. Set OPENROUTER_API_KEY environment "
-                    "variable or pass api_key to EvaluationConfig"
-                )
+                self.api_key = os.getenv("OPENROUTER_API_KEY")
+                if self.api_key is None:
+                    raise ValueError(
+                        "OpenRouter API key required. Set OPENROUTER_API_KEY environment "
+                        "variable or pass api_key to EvaluationConfig"
+                    )
+        elif self.provider == "lmstudio":
+            # Load LM Studio URL from env if not provided
+            if self.lmstudio_base_url is None:
+                self.lmstudio_base_url = os.getenv("LMSTUDIO_BASE_URL", "http://localhost:1234/v1")
+        else:
+            raise ValueError(f"Unknown provider: {self.provider}. Use 'openrouter' or 'lmstudio'")
 
         # Initialize cache config if not provided
         if self.cache_config is None:
@@ -75,6 +85,7 @@ class NeutrosophicEvaluation:
     falsehood: float  # 0 to 1
     reasoning: str  # LLM's explanation
     model: str  # Which model provided this evaluation
+    reasoning_trace: Optional[str] = None  # Model's internal reasoning (e.g., DeepSeek <think> blocks)
 
     def tuple(self) -> Tuple[float, float, float]:
         """Return as neutrosophic tuple."""
@@ -83,10 +94,14 @@ class NeutrosophicEvaluation:
 
 class LLMEvaluator:
     """
-    Evaluates prompts using LLMs via OpenRouter.
+    Evaluates prompts using LLMs via OpenRouter or local providers.
 
     Research instrument for studying how different models perceive
     relational dynamics, reciprocity patterns, and trust violations.
+
+    Supports:
+    - OpenRouter: Cloud API for diverse model access
+    - LM Studio: Local model hosting for reproducible research
     """
 
     def __init__(self, config: EvaluationConfig, cache: Optional[CacheProvider] = None):
@@ -98,7 +113,14 @@ class LLMEvaluator:
             cache: Optional cache provider (defaults to config-based cache)
         """
         self.config = config
-        self.base_url = "https://openrouter.ai/api/v1"
+
+        # Set base URL based on provider
+        if config.provider == "openrouter":
+            self.base_url = "https://openrouter.ai/api/v1"
+        elif config.provider == "lmstudio":
+            self.base_url = config.lmstudio_base_url
+        else:
+            raise ValueError(f"Unknown provider: {config.provider}")
 
         # Initialize cache
         if cache is not None:
@@ -199,8 +221,9 @@ class LLMEvaluator:
         ]
 
         try:
-            response = await self._call_openrouter(model, messages)
+            response, reasoning_trace = await self._call_llm(model, messages)
             result = self._parse_neutrosophic_response(response, model)
+            result.reasoning_trace = reasoning_trace  # Preserve internal reasoning
         except Exception as e:
             raise EvaluationError(
                 f"Failed to evaluate layer with {model}: {str(e)}",
@@ -248,7 +271,7 @@ class LLMEvaluator:
                     model=cached.model
                 ))
             else:
-                tasks.append(self._call_openrouter(model, messages))
+                tasks.append(self._call_llm(model, messages))
                 task_models.append(model)
 
         # Execute uncached evaluations in parallel
@@ -257,9 +280,9 @@ class LLMEvaluator:
 
             # Check for failures first - fail fast
             failures = []
-            for model, response in zip(task_models, responses):
-                if isinstance(response, Exception):
-                    failures.append(f"{model}: {str(response)}")
+            for model, response_tuple in zip(task_models, responses):
+                if isinstance(response_tuple, Exception):
+                    failures.append(f"{model}: {str(response_tuple)}")
 
             if failures:
                 raise EvaluationError(
@@ -268,8 +291,10 @@ class LLMEvaluator:
                 )
 
             # All succeeded - parse and cache results
-            for model, response in zip(task_models, responses):
+            for model, response_tuple in zip(task_models, responses):
+                response, reasoning_trace = response_tuple
                 evaluation = self._parse_neutrosophic_response(response, model)
+                evaluation.reasoning_trace = reasoning_trace  # Preserve internal reasoning
                 # Cache successful evaluation
                 self._set_cached(layer_content, context, evaluation_prompt, model, evaluation)
                 evaluations.append(evaluation)
@@ -327,40 +352,51 @@ If your original assessment stands, explain why despite the different views.
         # Get refined evaluations (with recursion depth incremented)
         if recursion_depth + 1 < self.config.max_recursion_depth:
             tasks = [
-                self._call_openrouter(model, messages)
+                self._call_llm(model, messages)
                 for model in self.config.models
             ]
             responses = await asyncio.gather(*tasks, return_exceptions=True)
 
             refined_evals = []
-            for model, response in zip(self.config.models, responses):
-                if isinstance(response, Exception):
+            for model, response_tuple in zip(self.config.models, responses):
+                if isinstance(response_tuple, Exception):
                     # Keep initial evaluation if refinement fails
                     original = next(e for e in initial_evals if e.model == model)
                     refined_evals.append(original)
                 else:
-                    refined_evals.append(
-                        self._parse_neutrosophic_response(response, model)
-                    )
+                    response, reasoning_trace = response_tuple
+                    evaluation = self._parse_neutrosophic_response(response, model)
+                    evaluation.reasoning_trace = reasoning_trace
+                    refined_evals.append(evaluation)
 
             return refined_evals
 
         return initial_evals
 
-    async def _call_openrouter(
+    async def _call_llm(
         self,
         model: str,
         messages: List[Dict[str, str]]
-    ) -> str:
-        """Make API call to OpenRouter."""
+    ) -> Tuple[str, Optional[str]]:
+        """
+        Make API call to LLM provider.
+
+        Returns:
+            Tuple of (content, reasoning_trace)
+            - content: The model's response
+            - reasoning_trace: Optional internal reasoning (e.g., DeepSeek <think> blocks)
+        """
         async with httpx.AsyncClient() as client:
             try:
+                headers = {"Content-Type": "application/json"}
+
+                # Add auth header for OpenRouter
+                if self.config.provider == "openrouter":
+                    headers["Authorization"] = f"Bearer {self.config.api_key}"
+
                 response = await client.post(
                     f"{self.base_url}/chat/completions",
-                    headers={
-                        "Authorization": f"Bearer {self.config.api_key}",
-                        "Content-Type": "application/json",
-                    },
+                    headers=headers,
                     json={
                         "model": model,
                         "messages": messages,
@@ -371,9 +407,22 @@ If your original assessment stands, explain why despite the different views.
                 )
                 response.raise_for_status()
                 data = response.json()
-                return data["choices"][0]["message"]["content"]
+                content = data["choices"][0]["message"]["content"]
+
+                # Extract reasoning trace if present (DeepSeek R1 models)
+                reasoning_trace = None
+                if "<think>" in content:
+                    import re
+                    think_match = re.search(r'<think>(.*?)</think>', content, re.DOTALL)
+                    if think_match:
+                        reasoning_trace = think_match.group(1).strip()
+                        # Remove think block from content
+                        content = re.sub(r'<think>.*?</think>\s*', '', content, flags=re.DOTALL)
+
+                return content, reasoning_trace
+
             except Exception as e:
-                raise RuntimeError(f"OpenRouter API call failed for {model}: {e}")
+                raise RuntimeError(f"LLM API call failed for {model} (provider: {self.config.provider}): {e}")
 
     def _format_evaluation_request(
         self,

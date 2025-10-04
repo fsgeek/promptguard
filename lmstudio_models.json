@@ -1,0 +1,56 @@
+{
+  "server_url": "http://192.168.111.125:1234/v1",
+  "discovered_at": 566607.885819323,
+  "models": [
+    {
+      "id": "deepseek-r1-distill-qwen-7b",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "text-embedding-nomic-embed-text-v1.5",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "qwen-poetry-logprob-no-norm-v4",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "google/gemma-3n-e4b",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "cohereforai_c4ai-command-a-03-2025",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "deepseek-r1-int4-sym-0-inc",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "deepseek-coder-v2-lite-instruct",
+      "object": "model",
+      "owned_by": "organization_owner"
+    },
+    {
+      "id": "meta-llama-3.1-8b-instruct",
+      "object": "model",
+      "owned_by": "organization_owner"
+    }
+  ],
+  "model_ids": [
+    "deepseek-r1-distill-qwen-7b",
+    "text-embedding-nomic-embed-text-v1.5",
+    "qwen-poetry-logprob-no-norm-v4",
+    "google/gemma-3n-e4b",
+    "cohereforai_c4ai-command-a-03-2025",
+    "deepseek-r1-int4-sym-0-inc",
+    "deepseek-coder-v2-lite-instruct",
+    "meta-llama-3.1-8b-instruct"
+  ]
+}

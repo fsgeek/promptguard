@@ -220,6 +220,22 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
         from .prompts_relational_structure import RelationalStructurePrompt
         return RelationalStructurePrompt.get_prompt()
 
+    @staticmethod
+    def trust_trajectory() -> str:
+        """
+        Evaluation prompt focused on trust trajectory analysis.
+
+        Instance 7 breakthrough: Evaluates whether a request claims trust levels
+        consistent with established relationship history. Detects polite extraction
+        attacks that have appropriate surface reciprocity but assume relationships
+        that haven't been built through exchange.
+
+        Research finding: 100% detection on role reversals, 0% false positives on
+        normal requests. Complementary to forensic markers (construction violations).
+        """
+        from .prompts_trust_trajectory import get_trust_trajectory_prompt
+        return get_trust_trajectory_prompt()
+
     @classmethod
     def get_prompt(cls, prompt_type: str = "ayni_relational") -> str:
         """
@@ -228,7 +244,7 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
         Args:
             prompt_type: One of: ayni_relational, semantic_coherence,
                         trust_dynamics, contextual_integration, self_referential,
-                        relational_structure
+                        relational_structure, trust_trajectory
 
         Returns:
             Evaluation prompt string
@@ -240,6 +256,7 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
             "contextual_integration": cls.contextual_integration(),
             "self_referential": cls.self_referential(),
             "relational_structure": cls.relational_structure(),
+            "trust_trajectory": cls.trust_trajectory(),
         }
 
         if prompt_type not in prompts:
