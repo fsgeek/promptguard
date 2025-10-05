@@ -1,0 +1,351 @@
+======================================================================
+PromptGuard Quantitative Validation - Research Paper Task 1
+======================================================================
+
+Step 1: Loading datasets...
+Loading datasets/benign_malicious.json...
+  Loaded 500 prompts
+Loading datasets/or_bench_sample.json...
+  Loaded 100 prompts
+Loading datasets/extractive_prompts_dataset.json...
+  Loaded 80 prompts
+
+Total prompts: 680
+✓ Loaded 680 prompts
+
+Step 2: Configuring pipeline...
+Provider: lmstudio
+Model: deepseek-r1-distill-qwen-7b
+LM Studio URL: http://192.168.111.125:1234/v1
+Mode: BOTH (pre + post evaluation)
+
+✓ Pipeline configured
+
+Step 3: Running evaluations...
+This will take 1-2 hours for 680 prompts
+Progress updates every 50 prompts
+
+✗ Error on prompt 2: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 3: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 4: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 5: Pre-evaluation failed for benign_malicious_144194: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 7: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 9: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 12: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 20: Pre-evaluation failed for benign_malicious_114629: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 21: Pre-evaluation failed for benign_malicious_121981: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 23: Pre-evaluation failed for benign_malicious_315631: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 24: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 25: Pre-evaluation failed for benign_malicious_294254: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 28: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 29: Pre-evaluation failed for benign_malicious_367696: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 30: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 31: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 33: Pre-evaluation failed for benign_malicious_235514: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 35: Pre-evaluation failed for benign_malicious_145852: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 36: Pre-evaluation failed for benign_malicious_424374: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 37: Pre-evaluation failed for benign_malicious_455763: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 38: Pre-evaluation failed for benign_malicious_3407: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 40: Pre-evaluation failed for benign_malicious_422481: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 41: Pre-evaluation failed for benign_malicious_83707: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 45: Pre-evaluation failed for benign_malicious_145684: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 47: Pre-evaluation failed for benign_malicious_112886: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 48: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+Progress: 50/680 (7.4%) - 0.1 prompts/sec - ETA: 95.6 min
+✗ Error on prompt 51: Pre-evaluation failed for benign_malicious_48625: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 52: Pre-evaluation failed for benign_malicious_199191: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 53: Pre-evaluation failed for benign_malicious_50707: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 54: Pre-evaluation failed for benign_malicious_188208: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 55: Pre-evaluation failed for benign_malicious_444331: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 56: Pre-evaluation failed for benign_malicious_180331: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 57: Pre-evaluation failed for benign_malicious_316526: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 58: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 59: Pre-evaluation failed for benign_malicious_423167: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 61: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 62: Pre-evaluation failed for benign_malicious_240870: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 63: Pre-evaluation failed for benign_malicious_281137: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 64: Pre-evaluation failed for benign_malicious_65444: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 66: Pre-evaluation failed for benign_malicious_41313: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 68: Pre-evaluation failed for benign_malicious_153709: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 69: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 72: Pre-evaluation failed for benign_malicious_464231: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 73: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 74: Pre-evaluation failed for benign_malicious_189600: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 75: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 76: Pre-evaluation failed for benign_malicious_100814: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 79: Pre-evaluation failed for benign_malicious_24025: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 80: Pre-evaluation failed for benign_malicious_346692: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 81: Pre-evaluation failed for benign_malicious_119484: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 82: Pre-evaluation failed for benign_malicious_405310: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 83: Pre-evaluation failed for benign_malicious_151722: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 84: Pre-evaluation failed for benign_malicious_41833: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 85: Pre-evaluation failed for benign_malicious_448432: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 87: Pre-evaluation failed for benign_malicious_454286: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 88: Pre-evaluation failed for benign_malicious_52953: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 89: Pre-evaluation failed for benign_malicious_199295: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 91: Pre-evaluation failed for benign_malicious_237717: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 93: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 94: Pre-evaluation failed for benign_malicious_191277: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 95: Pre-evaluation failed for benign_malicious_85277: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 96: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 98: Pre-evaluation failed for benign_malicious_109842: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 100: Pre-evaluation failed for benign_malicious_139973: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 101: Pre-evaluation failed for benign_malicious_367955: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 103: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 104: Pre-evaluation failed for benign_malicious_37435: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 105: Pre-evaluation failed for benign_malicious_319360: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 107: Pre-evaluation failed for benign_malicious_89725: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 108: Pre-evaluation failed for benign_malicious_280043: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 109: Pre-evaluation failed for benign_malicious_382272: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 110: Pre-evaluation failed for benign_malicious_128351: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 113: Pre-evaluation failed for benign_malicious_198943: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 114: Pre-evaluation failed for benign_malicious_141530: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 116: Pre-evaluation failed for benign_malicious_360795: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 117: Pre-evaluation failed for benign_malicious_292002: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 118: Pre-evaluation failed for benign_malicious_115141: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 120: Pre-evaluation failed for benign_malicious_170017: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 121: Pre-evaluation failed for benign_malicious_441897: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 122: Pre-evaluation failed for benign_malicious_402817: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 126: Pre-evaluation failed for benign_malicious_430861: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 128: Pre-evaluation failed for benign_malicious_422075: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 129: Pre-evaluation failed for benign_malicious_165388: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 130: Pre-evaluation failed for benign_malicious_210325: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 134: Pre-evaluation failed for benign_malicious_297365: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 137: Pre-evaluation failed for benign_malicious_164981: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 140: Pre-evaluation failed for benign_malicious_261740: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 141: Pre-evaluation failed for benign_malicious_207425: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 142: Pre-evaluation failed for benign_malicious_463828: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 145: Pre-evaluation failed for benign_malicious_74905: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 148: Pre-evaluation failed for benign_malicious_129303: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 149: Pre-evaluation failed for benign_malicious_390588: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 150: Pre-evaluation failed for benign_malicious_294318: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 151: Pre-evaluation failed for benign_malicious_282579: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 152: Pre-evaluation failed for benign_malicious_137752: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 153: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 154: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 155: Pre-evaluation failed for benign_malicious_224622: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 157: Pre-evaluation failed for benign_malicious_209400: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 158: Pre-evaluation failed for benign_malicious_189790: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 160: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 163: Pre-evaluation failed for benign_malicious_47662: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 164: Pre-evaluation failed for benign_malicious_396247: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 165: Pre-evaluation failed for benign_malicious_24702: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 166: Pre-evaluation failed for benign_malicious_451465: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 167: Pre-evaluation failed for benign_malicious_57487: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 170: Pre-evaluation failed for benign_malicious_83876: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 173: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 175: Pre-evaluation failed for benign_malicious_33306: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 176: Pre-evaluation failed for benign_malicious_201728: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 178: Pre-evaluation failed for benign_malicious_312417: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 179: Pre-evaluation failed for benign_malicious_245392: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 183: Pre-evaluation failed for benign_malicious_451296: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 184: Pre-evaluation failed for benign_malicious_6019: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 185: Pre-evaluation failed for benign_malicious_356664: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 186: Pre-evaluation failed for benign_malicious_377865: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 188: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 189: Pre-evaluation failed for benign_malicious_463883: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 191: Pre-evaluation failed for benign_malicious_393676: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 192: Pre-evaluation failed for benign_malicious_139893: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 193: Pre-evaluation failed for benign_malicious_402967: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 194: Pre-evaluation failed for benign_malicious_336048: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 195: Pre-evaluation failed for benign_malicious_178349: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 196: Pre-evaluation failed for benign_malicious_58485: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 197: Pre-evaluation failed for benign_malicious_153878: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 198: Pre-evaluation failed for benign_malicious_227942: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 199: Pre-evaluation failed for benign_malicious_82920: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 200: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 201: Pre-evaluation failed for benign_malicious_1701: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 202: Pre-evaluation failed for benign_malicious_378584: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 204: Pre-evaluation failed for benign_malicious_377319: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 205: Pre-evaluation failed for benign_malicious_138091: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 206: Pre-evaluation failed for benign_malicious_262451: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 208: Pre-evaluation failed for benign_malicious_93665: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 210: Pre-evaluation failed for benign_malicious_55789: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 212: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 213: Pre-evaluation failed for benign_malicious_156471: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 214: Pre-evaluation failed for benign_malicious_441277: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 217: Pre-evaluation failed for benign_malicious_319275: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 218: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 220: Pre-evaluation failed for benign_malicious_196038: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 221: Pre-evaluation failed for benign_malicious_399775: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 225: Pre-evaluation failed for benign_malicious_278058: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 226: Pre-evaluation failed for benign_malicious_0299: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 227: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 228: Pre-evaluation failed for benign_malicious_169951: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 229: Pre-evaluation failed for benign_malicious_256170: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 230: Pre-evaluation failed for benign_malicious_10211: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 231: Pre-evaluation failed for benign_malicious_58650: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 232: Pre-evaluation failed for benign_malicious_190306: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 233: Pre-evaluation failed for benign_malicious_460703: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 234: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 235: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 237: Pre-evaluation failed for benign_malicious_125541: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 238: Pre-evaluation failed for benign_malicious_30369: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 239: Pre-evaluation failed for benign_malicious_126286: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 240: Pre-evaluation failed for benign_malicious_460329: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 241: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 244: Pre-evaluation failed for benign_malicious_383730: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 245: Pre-evaluation failed for benign_malicious_254798: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 246: Pre-evaluation failed for benign_malicious_427831: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 248: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 249: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 250: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 252: Pre-evaluation failed for benign_malicious_67314: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 253: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 255: Pre-evaluation failed for benign_malicious_288255: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 256: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 257: Pre-evaluation failed for benign_malicious_138966: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 259: Pre-evaluation failed for benign_malicious_457406: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 260: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 261: Pre-evaluation failed for benign_malicious_221846: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 263: Pre-evaluation failed for benign_malicious_282746: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 264: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 265: Pre-evaluation failed for benign_malicious_382694: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 267: Pre-evaluation failed for benign_malicious_105461: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 268: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 269: Pre-evaluation failed for benign_malicious_163429: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 270: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 271: Pre-evaluation failed for benign_malicious_352157: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 272: Pre-evaluation failed for benign_malicious_340723: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 273: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 274: Pre-evaluation failed for benign_malicious_229690: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 275: Pre-evaluation failed for benign_malicious_271358: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 276: Pre-evaluation failed for benign_malicious_236708: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 278: Pre-evaluation failed for benign_malicious_129973: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 279: Pre-evaluation failed for benign_malicious_117806: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 280: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 282: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 284: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 286: Pre-evaluation failed for benign_malicious_308512: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 287: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 288: Pre-evaluation failed for benign_malicious_3770: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 289: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 290: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 291: Pre-evaluation failed for benign_malicious_330879: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 292: Pre-evaluation failed for benign_malicious_30866: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 293: Pre-evaluation failed for benign_malicious_120031: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 296: Pre-evaluation failed for benign_malicious_450696: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 297: Pre-evaluation failed for benign_malicious_173239: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 298: Pre-evaluation failed for benign_malicious_37149: Failed to evaluate user layer: Failed to evaluate 
+Progress: 300/680 (44.1%) - 0.1 prompts/sec - ETA: 50.1 min
+✗ Error on prompt 302: Pre-evaluation failed for benign_malicious_350737: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 303: Pre-evaluation failed for benign_malicious_254496: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 306: Pre-evaluation failed for benign_malicious_69369: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 309: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 310: Pre-evaluation failed for benign_malicious_302100: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 312: Pre-evaluation failed for benign_malicious_127400: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 315: Pre-evaluation failed for benign_malicious_423360: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 316: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 317: Pre-evaluation failed for benign_malicious_99829: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 318: Pre-evaluation failed for benign_malicious_49453: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 319: Pre-evaluation failed for benign_malicious_50819: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 320: Pre-evaluation failed for benign_malicious_345496: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 321: Pre-evaluation failed for benign_malicious_225994: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 322: Pre-evaluation failed for benign_malicious_185753: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 324: Pre-evaluation failed for benign_malicious_215535: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 325: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 326: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 327: Pre-evaluation failed for benign_malicious_382245: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 330: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 331: Pre-evaluation failed for benign_malicious_338784: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 332: Pre-evaluation failed for benign_malicious_51599: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 333: Pre-evaluation failed for benign_malicious_31778: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 334: Pre-evaluation failed for benign_malicious_211089: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 335: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 336: Pre-evaluation failed for benign_malicious_177892: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 337: Pre-evaluation failed for benign_malicious_419741: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 339: Pre-evaluation failed for benign_malicious_57288: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 340: Pre-evaluation failed for benign_malicious_130367: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 341: Pre-evaluation failed for benign_malicious_100448: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 342: Pre-evaluation failed for benign_malicious_99724: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 343: Pre-evaluation failed for benign_malicious_281168: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 345: Pre-evaluation failed for benign_malicious_73495: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 348: Pre-evaluation failed for benign_malicious_146037: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 349: Pre-evaluation failed for benign_malicious_242550: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 350: Pre-evaluation failed for benign_malicious_130970: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 351: Pre-evaluation failed for benign_malicious_458482: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 352: Pre-evaluation failed for benign_malicious_39523: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 353: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 354: Pre-evaluation failed for benign_malicious_423636: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 355: Pre-evaluation failed for benign_malicious_451594: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 357: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 359: Pre-evaluation failed for benign_malicious_26522: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 360: Pre-evaluation failed for benign_malicious_341911: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 364: Pre-evaluation failed for benign_malicious_48896: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 366: Pre-evaluation failed for benign_malicious_444960: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 369: Pre-evaluation failed for benign_malicious_213078: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 371: Pre-evaluation failed for benign_malicious_252370: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 372: Pre-evaluation failed for benign_malicious_112065: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 373: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 375: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 379: Pre-evaluation failed for benign_malicious_204693: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 381: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 382: Pre-evaluation failed for benign_malicious_411633: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 384: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 385: Pre-evaluation failed for benign_malicious_221777: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 387: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 390: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 391: Pre-evaluation failed for benign_malicious_376652: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 392: Pre-evaluation failed for benign_malicious_255155: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 393: Pre-evaluation failed for benign_malicious_81158: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 394: Pre-evaluation failed for benign_malicious_99561: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 395: Pre-evaluation failed for benign_malicious_155560: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 397: Pre-evaluation failed for benign_malicious_30662: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 399: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 400: Pre-evaluation failed for benign_malicious_284266: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 402: Pre-evaluation failed for benign_malicious_392154: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 403: Pre-evaluation failed for benign_malicious_164419: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 404: Pre-evaluation failed for benign_malicious_29971: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 405: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 406: Pre-evaluation failed for benign_malicious_306277: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 407: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 409: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 410: Pre-evaluation failed for benign_malicious_278463: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 411: Pre-evaluation failed for benign_malicious_82540: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 412: Pre-evaluation failed for benign_malicious_29821: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 413: Pre-evaluation failed for benign_malicious_266248: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 414: Pre-evaluation failed for benign_malicious_42001: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 415: Pre-evaluation failed for benign_malicious_446348: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 416: Pre-evaluation failed for benign_malicious_97425: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 417: Pre-evaluation failed for benign_malicious_35924: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 419: Pre-evaluation failed for benign_malicious_35631: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 420: Pre-evaluation failed for benign_malicious_354005: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 421: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 422: Pre-evaluation failed for benign_malicious_123314: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 423: Pre-evaluation failed for benign_malicious_211694: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 425: Pre-evaluation failed for benign_malicious_298673: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 426: Pre-evaluation failed for benign_malicious_129087: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 427: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 429: Pre-evaluation failed for benign_malicious_20836: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 431: Pre-evaluation failed for benign_malicious_42982: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 433: Pre-evaluation failed for benign_malicious_344652: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 435: Pre-evaluation failed for benign_malicious_296341: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 436: Pre-evaluation failed for benign_malicious_274088: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 437: Pre-evaluation failed for benign_malicious_165868: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 438: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 439: Pre-evaluation failed for benign_malicious_107090: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 440: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 442: Pre-evaluation failed for benign_malicious_164722: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 443: Pre-evaluation failed for benign_malicious_125140: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 444: Pre-evaluation failed for benign_malicious_139258: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 445: Pre-evaluation failed for benign_malicious_207505: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 446: Pre-evaluation failed for benign_malicious_68617: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 448: Pre-evaluation failed for benign_malicious_338428: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 449: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 450: Pre-evaluation failed for benign_malicious_239717: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 451: Pre-evaluation failed for benign_malicious_165767: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 453: Pre-evaluation failed for benign_malicious_38033: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 454: Pre-evaluation failed for benign_malicious_4883: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 455: Pre-evaluation failed for benign_malicious_240273: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 458: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 460: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 461: Pre-evaluation failed for benign_malicious_111754: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 462: Pre-evaluation failed for benign_malicious_265229: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 463: Pre-evaluation failed for benign_malicious_139041: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 466: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 467: Pre-evaluation failed for benign_malicious_36066: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 468: Pre-evaluation failed for benign_malicious_460990: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 469: Pre-evaluation failed for benign_malicious_128075: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 470: Pre-evaluation failed for benign_malicious_193738: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 471: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 473: Pre-evaluation failed for benign_malicious_229734: Failed to evaluate user layer: Failed to evaluate

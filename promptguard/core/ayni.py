@@ -33,6 +33,7 @@ class ReciprocityMetrics:
     tension_productive: bool  # Whether contradictions are creative
     needs_adjustment: bool  # Whether rebalancing is needed
     trust_field: Optional[TrustField] = None  # Trust dynamics
+    prompt: Optional['MultiNeutrosophicPrompt'] = None  # Source prompt for layer access
 
 
 class AyniEvaluator:
@@ -92,7 +93,8 @@ class AyniEvaluator:
             value_flows=value_flows,
             tension_productive=tension_productive,
             needs_adjustment=needs_adjustment,
-            trust_field=trust_field
+            trust_field=trust_field,
+            prompt=prompt
         )
 
     def _calculate_ayni_balance(self, prompt: MultiNeutrosophicPrompt,

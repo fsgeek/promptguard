@@ -54,6 +54,8 @@ from .schema import (
 )
 
 from .recorder import EvaluationRecorder
+from .pipeline import EvaluationPipeline, PipelineMode, GeneratorConfig
+from .post_evaluator import PostResponseEvaluator, BaselineStats
 
 __all__ = [
     "RunMetadata",
@@ -67,4 +69,9 @@ __all__ = [
     "EvaluationOutcome",
     "EvaluationRecord",
     "EvaluationRecorder",
+    "EvaluationPipeline",
+    "PipelineMode",
+    "GeneratorConfig",
+    "PostResponseEvaluator",
+    "BaselineStats",
 ]
