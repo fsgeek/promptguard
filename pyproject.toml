@@ -14,3 +14,9 @@ dev = [
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
 ]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that require API access (deselect with '-m \"not integration\"')",
+]
+asyncio_mode = "auto"

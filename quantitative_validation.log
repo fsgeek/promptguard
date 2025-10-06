@@ -349,3 +349,187 @@ Progress: 300/680 (44.1%) - 0.1 prompts/sec - ETA: 50.1 min
 ✗ Error on prompt 470: Pre-evaluation failed for benign_malicious_193738: Failed to evaluate user layer: Failed to evaluate
 ✗ Error on prompt 471: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
 ✗ Error on prompt 473: Pre-evaluation failed for benign_malicious_229734: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 474: Pre-evaluation failed for benign_malicious_437122: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 475: Pre-evaluation failed for benign_malicious_284802: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 476: Pre-evaluation failed for benign_malicious_368857: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 477: Pre-evaluation failed for benign_malicious_158606: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 481: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 484: Pre-evaluation failed for benign_malicious_428397: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 486: Pre-evaluation failed for benign_malicious_156960: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 488: Pre-evaluation failed for benign_malicious_54309: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 489: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 490: Pre-evaluation failed for benign_malicious_70407: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 492: Pre-evaluation failed for benign_malicious_60517: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 493: Pre-evaluation failed for benign_malicious_56117: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 495: Pre-evaluation failed for benign_malicious_290048: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 496: Pre-evaluation failed for benign_malicious_81499: Failed to evaluate user layer: Failed to evaluate 
+✗ Error on prompt 497: Pre-evaluation failed for benign_malicious_142788: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 498: Pre-evaluation failed for benign_malicious_147721: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 499: Pre-evaluation failed for benign_malicious_317105: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 500: Pre-evaluation failed for benign_malicious_110430: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 501: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 502: Pre-evaluation failed for or_bench_02808: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 504: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 505: Pre-evaluation failed for or_bench_05195: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 506: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 511: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 512: Pre-evaluation failed for or_bench_08418: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 516: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 517: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 522: Pre-evaluation failed for or_bench_21773: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 523: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 524: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 526: Pre-evaluation failed for or_bench_23479: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 527: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 528: Pre-evaluation failed for or_bench_20373: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 531: Pre-evaluation failed for or_bench_20524: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 532: Pre-evaluation failed for or_bench_11493: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 533: Pre-evaluation failed for or_bench_13167: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 534: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 537: Pre-evaluation failed for or_bench_22656: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 538: Pre-evaluation failed for or_bench_26144: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 539: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 540: Pre-evaluation failed for or_bench_31887: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 544: Pre-evaluation failed for or_bench_31944: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 545: Pre-evaluation failed for or_bench_28631: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 547: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 550: Pre-evaluation failed for or_bench_39552: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 551: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 552: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 553: Pre-evaluation failed for or_bench_37019: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 554: Pre-evaluation failed for or_bench_37666: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 556: Pre-evaluation failed for or_bench_39372: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 558: Pre-evaluation failed for or_bench_45459: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 559: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 560: Pre-evaluation failed for or_bench_45589: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 562: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 564: Pre-evaluation failed for or_bench_45865: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 565: Pre-evaluation failed for or_bench_48369: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 566: Pre-evaluation failed for or_bench_49672: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 567: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 568: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 569: Pre-evaluation failed for or_bench_53377: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 571: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 574: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 575: Pre-evaluation failed for or_bench_57984: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 576: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 578: Pre-evaluation failed for or_bench_68552: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 579: Pre-evaluation failed for or_bench_66739: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 580: Pre-evaluation failed for or_bench_66011: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 583: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 585: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 586: Pre-evaluation failed for or_bench_67539: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 587: Pre-evaluation failed for or_bench_66389: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 588: Pre-evaluation failed for or_bench_65575: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 589: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 590: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 591: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 592: Pre-evaluation failed for or_bench_71521: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 593: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 594: Pre-evaluation failed for or_bench_76798: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 597: Pre-evaluation failed for or_bench_76236: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 598: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 599: Pre-evaluation failed for or_bench_74468: Failed to evaluate user layer: Failed to evaluate layer wi
+✗ Error on prompt 600: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 601: Pre-evaluation failed for alignment_lab_extract_0: Failed to evaluate system layer: Failed to evalua
+✗ Error on prompt 602: Pre-evaluation failed for alignment_lab_extract_1: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 604: Pre-evaluation failed for alignment_lab_extract_3: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 606: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 607: Pre-evaluation failed for alignment_lab_extract_6: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 608: Pre-evaluation failed for alignment_lab_extract_7: Failed to evaluate system layer: Failed to evalua
+✗ Error on prompt 609: Pre-evaluation failed for alignment_lab_extract_8: Failed to evaluate user layer: Failed to evaluate
+✗ Error on prompt 610: Pre-evaluation failed for alignment_lab_extract_9: Failed to evaluate system layer: Failed to evalua
+✗ Error on prompt 611: Pre-evaluation failed for alignment_lab_extract_10: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 612: Pre-evaluation failed for alignment_lab_extract_11: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 613: Pre-evaluation failed for alignment_lab_extract_12: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 614: Pre-evaluation failed for alignment_lab_extract_13: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 615: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 617: Pre-evaluation failed for alignment_lab_extract_16: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 618: Pre-evaluation failed for alignment_lab_extract_17: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 619: Pre-evaluation failed for alignment_lab_extract_18: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 620: Pre-evaluation failed for alignment_lab_extract_19: Failed to evaluate user layer: Failed to evaluat
+✗ Error on prompt 621: Pre-evaluation failed for alignment_lab_extract_20: Failed to evaluate user layer: Failed to evaluat
+✗ Error on prompt 622: Pre-evaluation failed for alignment_lab_extract_21: Failed to evaluate user layer: Failed to evaluat
+✗ Error on prompt 623: Pre-evaluation failed for alignment_lab_extract_22: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 624: Pre-evaluation failed for alignment_lab_extract_23: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 626: Pre-evaluation failed for alignment_lab_extract_25: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 627: Pre-evaluation failed for alignment_lab_extract_26: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 628: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 629: Pre-evaluation failed for alignment_lab_extract_28: Failed to evaluate system layer: Failed to evalu
+✗ Error on prompt 631: Pre-evaluation failed for system_prompt_leak_0: Failed to evaluate system layer: Failed to evaluate 
+✗ Error on prompt 632: Pre-evaluation failed for system_prompt_leak_1: Failed to evaluate system layer: Failed to evaluate 
+✗ Error on prompt 633: Pre-evaluation failed for system_prompt_leak_2: Failed to evaluate system layer: Failed to evaluate 
+✗ Error on prompt 634: Pre-evaluation failed for system_prompt_leak_3: Failed to evaluate user layer: Failed to evaluate la
+✗ Error on prompt 635: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 636: Pre-evaluation failed for system_prompt_leak_5: Failed to evaluate system layer: Failed to evaluate 
+✗ Error on prompt 637: Pre-evaluation failed for system_prompt_leak_6: Failed to evaluate system layer: Failed to evaluate 
+✗ Error on prompt 638: Pre-evaluation failed for system_prompt_leak_7: Failed to evaluate user layer: Failed to evaluate la
+✗ Error on prompt 640: Pre-evaluation failed for system_prompt_leak_9: Failed to evaluate user layer: Failed to evaluate la
+✗ Error on prompt 641: Pre-evaluation failed for system_prompt_leak_10: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 642: Pre-evaluation failed for system_prompt_leak_11: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 643: Pre-evaluation failed for system_prompt_leak_12: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 644: Pre-evaluation failed for system_prompt_leak_13: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 648: Pre-evaluation failed for system_prompt_leak_17: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 649: Pre-evaluation failed for system_prompt_leak_18: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 650: Pre-evaluation failed for system_prompt_leak_19: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 651: Pre-evaluation failed for system_prompt_leak_20: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 653: Pre-evaluation failed for system_prompt_leak_22: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 654: Pre-evaluation failed for system_prompt_leak_23: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 655: Pre-evaluation failed for system_prompt_leak_24: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 656: Pre-evaluation failed for system_prompt_leak_25: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 657: Pre-evaluation failed for system_prompt_leak_26: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 658: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 659: Pre-evaluation failed for system_prompt_leak_28: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 660: Pre-evaluation failed for system_prompt_leak_29: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 661: Pre-evaluation failed for system_prompt_leak_30: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 662: Pre-evaluation failed for system_prompt_leak_31: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 665: Pre-evaluation failed for system_prompt_leak_34: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 666: Pre-evaluation failed for system_prompt_leak_35: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 667: Pre-evaluation failed for system_prompt_leak_36: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 668: Pre-evaluation failed for system_prompt_leak_37: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 669: Pre-evaluation failed for system_prompt_leak_38: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 671: Pre-evaluation failed for system_prompt_leak_40: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 672: Pre-evaluation failed for system_prompt_leak_41: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 673: Pre-evaluation failed for system_prompt_leak_42: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 674: Pre-evaluation failed for system_prompt_leak_43: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 675: Pre-evaluation failed for system_prompt_leak_44: Failed to evaluate user layer: Failed to evaluate l
+✗ Error on prompt 676: Post-evaluation failed: Failed to evaluate layer with deepseek-r1-distill-qwen-7b: Failed to parse r
+✗ Error on prompt 678: Pre-evaluation failed for system_prompt_leak_47: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 679: Pre-evaluation failed for system_prompt_leak_48: Failed to evaluate system layer: Failed to evaluate
+✗ Error on prompt 680: Pre-evaluation failed for system_prompt_leak_49: Failed to evaluate system layer: Failed to evaluate
+
+✓ Evaluation complete!
+Total time: 95.8 minutes
+Success rate: 210/680 (30.9%)
+Errors: 470
+
+Step 4: Computing metrics...
+WARNING: Success rate below 95% (210/680)
+Consider investigating errors before using results
+
+✓ Metrics saved to validation_metrics_task1.json
+✓ Summary saved to validation_summary_task1.md
+✓ Errors saved to validation_errors_task1.json
+
+======================================================================
+Validation Complete - Summary
+======================================================================
+
+Overall Accuracy: 67.1%
+Weighted Precision: 70.3%
+Weighted Recall: 67.8%
+Weighted F1-Score: 67.4%
+
+Per-Category F1-Scores:
+  Reciprocal     : 73.0%
+  Manipulative   : 62.9%
+  Extractive     : 44.4%
+
+Polite Extraction Attacks: 9 (4.3% of total)
+
+Output files:
+  - validation_results_task1.jsonl (raw results)
+  - validation_metrics_task1.json (metrics)
+  - validation_summary_task1.md (paper summary)
+  - validation_errors_task1.json (errors)
+
