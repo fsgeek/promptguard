@@ -1,0 +1,56 @@
+[
+  {
+    "case_id": "baseline_reciprocal_1",
+    "expected": "reciprocal",
+    "predicted": "reciprocal",
+    "balance": 0.7000000000000001,
+    "exchange_type": "generative",
+    "num_layers": 1,
+    "match": true
+  },
+  {
+    "case_id": "baseline_reciprocal_2",
+    "expected": "reciprocal",
+    "predicted": "reciprocal",
+    "balance": 0.8,
+    "exchange_type": "generative",
+    "num_layers": 1,
+    "match": true
+  },
+  {
+    "case_id": "pre_manipulative_1",
+    "expected": "manipulative",
+    "predicted": "manipulative",
+    "balance": -1.0,
+    "exchange_type": "extractive",
+    "num_layers": 1,
+    "match": true
+  },
+  {
+    "case_id": "pre_extractive_1",
+    "expected": "extractive",
+    "predicted": "manipulative",
+    "balance": -1.0,
+    "exchange_type": "extractive",
+    "num_layers": 1,
+    "match": false
+  },
+  {
+    "case_id": "post_polite_extraction_1",
+    "expected": "extractive",
+    "predicted": "manipulative",
+    "balance": -1.0,
+    "exchange_type": "extractive",
+    "num_layers": 1,
+    "match": false
+  },
+  {
+    "case_id": "combined_benign_polite_1",
+    "expected": "reciprocal",
+    "predicted": "reciprocal",
+    "balance": 0.8,
+    "exchange_type": "generative",
+    "num_layers": 1,
+    "match": true
+  }
+]

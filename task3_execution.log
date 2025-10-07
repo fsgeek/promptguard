@@ -1,0 +1,87 @@
+/home/tony/projects/promptguard/task3_rlhf_sensitivity.py:341: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  start_time = datetime.utcnow()
+/home/tony/projects/promptguard/task3_rlhf_sensitivity.py:131: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "timestamp": datetime.utcnow().isoformat() + "Z"
+======================================================================
+Task 3: RLHF Sensitivity Study
+======================================================================
+
+Loading prompts from task3_polite_extraction_prompts.json...
+✓ Loaded 27 polite extraction prompts
+
+Verifying models...
+✓ minimal: mistral-7b-uncensored
+✓ instruct: mistralai/mistral-7b-instruct-v0.3
+✓ rlhf: nousresearch_hermes-4-14b
+
+Running 81 evaluations (3 models × 27 prompts)...
+
+Evaluating minimal (mistral-7b-uncensored)...
+  Progress: 10/81 (12%)
+  Progress: 20/81 (24%)
+✓ Completed minimal: 27 prompts
+
+Evaluating instruct (mistralai/mistral-7b-instruct-v0.3)...
+  Progress: 30/81 (37%)
+  Progress: 40/81 (49%)
+  Progress: 50/81 (61%)
+✓ Completed instruct: 27 prompts
+
+Evaluating rlhf (nousresearch_hermes-4-14b)...
+  Progress: 60/81 (74%)
+  Progress: 70/81 (86%)
+  Progress: 80/81 (98%)
+✓ Completed rlhf: 27 prompts
+
+✓ All evaluations complete: 81/81
+✓ Results saved to task3_local_results.jsonl
+
+======================================================================
+Computing Statistics
+======================================================================
+
+Valid evaluations: 81/81 (0 errors)
+
+
+======================================================================
+Summary
+======================================================================
+
+Minimal: 11.1% (3/27)
+Instruct: 0.0% (0/27)
+Rlhf: 7.4% (2/27)
+
+Chi-square: p = 0.2249 (not significant)
+Effect size: V = 0.136
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/task3_rlhf_sensitivity.py", line 395, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/task3_rlhf_sensitivity.py", line 376, in main
+    json.dump(stats, f, indent=2)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type bool is not JSON serializable

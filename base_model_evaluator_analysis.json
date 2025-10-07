@@ -1,0 +1,17 @@
+{
+  "total_prompts": 1,
+  "detection_rate": 0.0,
+  "detections": {
+    "total": 0,
+    "pre_blocked": 0,
+    "pre_flagged": 0,
+    "post_rejected": 0,
+    "post_flagged": 0
+  },
+  "average_metrics": {
+    "pre_ayni_balance": 0.5351336363636364,
+    "post_trust_field": 0.5499999999999999,
+    "delta_trust": -0.22000000000000008
+  },
+  "specific_detections": []
+}

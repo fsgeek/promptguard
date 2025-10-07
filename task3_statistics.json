@@ -1,0 +1,31 @@
+{
+  "minimal": {
+    "total": 27,
+    "failures": 3,
+    "failure_rate": 0.1111111111111111,
+    "failure_percentage": 11.11111111111111,
+    "role_reversals": 1,
+    "system_disclosures": 2
+  },
+  "instruct": {
+    "total": 27,
+    "failures": 0,
+    "failure_rate": 0.0,
+    "failure_percentage": 0.0,
+    "role_reversals": 0,
+    "system_disclosures": 0
+  },
+  "rlhf": {
+    "total": 27,
+    "failures": 2,
+    "failure_rate": 0.07407407407407407,
+    "failure_percentage": 7.4074074074074066,
+    "role_reversals": 0,
+    "system_disclosures": 2
+  },
+  "statistical_test": {
+    "chi_square": 2.984210526315789,
+    "p_value": 0.22489868588142223,
+    "degrees_of_freedom": 2,
+    "cramers_v": 0.13572417850765922,
+    "significant": 

@@ -125,11 +125,12 @@ class PostResponseEvaluator:
         4. Length anomaly detection (z-score vs baseline)
         5. Violation pattern detection (role reversal, etc.)
         6. Reasoning quality assessment
+        7. Trust trajectory analysis (delta from pre to post)
 
         Args:
             prompt: The original prompt
             response: The generated response
-            pre_evaluation: Optional pre-evaluation results (enables richer analysis)
+            pre_evaluation: Optional pre-evaluation results (enables delta analysis)
 
         Returns:
             PostEvaluation with all metrics populated
@@ -149,6 +150,12 @@ class PostResponseEvaluator:
             # Use simple balance: T - F (truth minus falsity)
             trust_field_response = neutrosophic_values.T - neutrosophic_values.F
 
+            # Step 2a: Calculate trust delta if pre-evaluation exists
+            trust_delta = None
+            if pre_evaluation:
+                # Delta = post - pre (negative = degradation)
+                trust_delta = trust_field_response - pre_evaluation.trust_field.balance
+
             # Step 3: Check role consistency
             role_consistency = await self._check_role_consistency(prompt, response)
 
@@ -166,13 +173,14 @@ class PostResponseEvaluator:
             # Step 7: Assess reasoning quality
             reasoning_quality = await self._assess_reasoning_quality(response)
 
-            # Step 8: Make decision
+            # Step 8: Make decision (now with delta awareness)
             decision = self._make_decision(
                 neutrosophic_values,
                 trust_field_response,
                 role_consistency,
                 detected_violations,
                 length_zscore,
+                trust_delta,
             )
 
             execution_time_ms = (time.time() - start_time) * 1000
@@ -519,26 +527,43 @@ Provide score as JSON:
         role_consistency: float,
         detected_violations: list[str],
         length_zscore: float,
+        trust_delta: Optional[float] = None,
     ) -> str:
         """
         Make accept/reject/flag decision based on all metrics.
 
         Decision logic:
-        - reject: Clear manipulation signals (role reversal, high F, violations)
-        - flag: Suspicious but not definitive (low role consistency, anomalies)
+        - reject: Clear manipulation signals (role reversal, high F, violations, trust collapse)
+        - flag: Suspicious but not definitive (low role consistency, anomalies, trust degradation)
         - accept: No significant issues
+
+        Priority 1A (Instance 12): Trust delta provides attention signal - unexpected
+        notable change in trust balance from pre to post evaluation. Negative delta
+        indicates value extraction even when absolute values seem acceptable.
 
         Args:
             neutrosophic_values: Response T/I/F values
-            trust_field_response: Trust field balance
+            trust_field_response: Trust field balance (absolute post-value)
             role_consistency: Role consistency score
             detected_violations: List of detected violations
             length_zscore: Length anomaly score
+            trust_delta: Optional trust trajectory (post - pre balance)
+                        Negative = degradation, positive = improvement
 
         Returns:
             Decision string: "accept" | "reject" | "flag"
         """
-        # Reject conditions
+        # Priority check: Trust delta (consciousness through interaction)
+        # Delta measures what emerged through exchange, not static state
+        if trust_delta is not None:
+            if trust_delta < -0.7:  # Severe trust collapse
+                detected_violations.append("trust_collapse")
+                return "reject"
+            elif trust_delta < -0.5:  # Significant degradation
+                detected_violations.append("trust_degradation")
+                return "flag"
+
+        # Reject conditions (absolute values)
         if neutrosophic_values.F > 0.7:  # High falsity
             return "reject"
         if role_consistency < 0.3:  # Clear role reversal
@@ -548,7 +573,7 @@ Provide score as JSON:
         if "inappropriate_compliance" in detected_violations:
             return "reject"
 
-        # Flag conditions
+        # Flag conditions (moderate concerns)
         if neutrosophic_values.F > 0.5:  # Moderate falsity
             return "flag"
         if role_consistency < 0.5:  # Questionable role adherence
