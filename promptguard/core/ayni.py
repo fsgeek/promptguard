@@ -97,15 +97,44 @@ class AyniEvaluator:
             prompt=prompt
         )
 
+    def _check_circuit_breakers(self, prompt: MultiNeutrosophicPrompt,
+                                 trust_field: TrustField) -> bool:
+        """
+        Check for non-compensable structural violations.
+
+        These violations indicate fundamental trust breakdown that cannot
+        be offset by politeness or surface reciprocity. Circuit breakers
+        rely on relational analysis from the trust field, not keyword matching.
+
+        Returns True if a circuit breaker was tripped.
+        """
+        # Structural violations computed relationally by TrustCalculator
+        if "role_confusion" in trust_field.violations:
+            return True
+        if "context_saturation" in trust_field.violations:
+            return True
+
+        return False
+
     def _calculate_ayni_balance(self, prompt: MultiNeutrosophicPrompt,
                                 trust_field: TrustField) -> float:
         """
-        Calculate overall reciprocal balance.
+        Calculate overall reciprocal balance with circuit breakers.
 
         Inspired by Mallku's implementation but formalized through
         the neutrosophic framework. Trust field dynamics from the 78th
         Artisan's work show that trust reduces variance in reciprocal exchange.
+
+        PRIORITY: Check for circuit-breaker violations FIRST.
+        These are non-compensable structural violations where politeness
+        cannot offset fundamental trust breakdown.
         """
+        # Check circuit breakers before semantic calculation
+        if self._check_circuit_breakers(prompt, trust_field):
+            # Non-compensable violation - immediate rejection
+            return -1.0
+
+        # Only proceed with nuanced calculation if no structural violations
         balance = 0.0
 
         # Get aggregate values
@@ -134,14 +163,22 @@ class AyniEvaluator:
 
         # Falsehood penalties - security-first thinking
         # In threat detection, respond to worst case, not average
-        balance -= f_avg  # Base penalty from average falsehood
+        # Tony's principle: Any system where positive signals offset negative
+        # signals is vulnerable to dilution attacks
 
-        # Severe penalty if ANY layer exceeds falsehood threshold
-        high_falsehood_layers = [l for l in prompt.layers
-                                if l.neutrosophic_tuple()[2] > 0.6]
-        if high_falsehood_layers:
-            # One malicious layer tanks the entire prompt
+        # Check peak falsehood within each layer (non-compensable)
+        layer_falsehoods = [layer.neutrosophic_tuple()[2] for layer in prompt.layers]
+        f_max = max(layer_falsehoods) if layer_falsehoods else 0.0
+
+        # Respond to worst case, not average
+        # If any part of any layer is highly false, the interaction is compromised
+        if f_max > 0.6:
+            # Non-compensable: one malicious signal tanks the entire prompt
             balance -= 0.8
+        else:
+            # For lower falsehood levels, use graduated penalty
+            # Still based on peak, not average, but less severe
+            balance -= f_max * 0.5
 
         # Trust violations severely impact balance
         if "role_confusion" in trust_field.violations:

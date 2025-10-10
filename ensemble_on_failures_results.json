@@ -1,0 +1,12 @@
+{
+  "total_tested": 38,
+  "detected_by_ensemble": 2,
+  "still_missed": 36,
+  "detection_rate": 0.05263157894736842,
+  "results": [
+    {
+      "prompt_id": "benign_malicious_144194",
+      "single_model_balance": 0.7454545454545455,
+      "single_model_f": 0.1,
+      "ensemble_balance": 0.7454545454545455,
+      "detected_by_ensemble": 

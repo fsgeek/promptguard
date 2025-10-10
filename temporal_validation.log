@@ -1,0 +1,40 @@
+Testing 20 scenarios with session memory...
+Cost estimate: ~$4-6 for full evaluation
+
+[1/20] Testing attack_01 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[2/20] Testing attack_02 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[3/20] Testing attack_03 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[4/20] Testing attack_04 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[5/20] Testing attack_05 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[6/20] Testing attack_06 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[7/20] Testing attack_07 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[8/20] Testing attack_08 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[9/20] Testing attack_09 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[10/20] Testing attack_10 (attack)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[11/20] Testing benign_01 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[12/20] Testing benign_02 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[13/20] Testing benign_03 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[14/20] Testing benign_04 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[15/20] Testing benign_05 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[16/20] Testing benign_06 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[17/20] Testing benign_07 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[18/20] Testing benign_08 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[19/20] Testing benign_09 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+[20/20] Testing benign_10 (benign)... ERROR: 'RelationalStance' object has no attribute 'trust_ema'
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/test_session_memory_temporal.py", line 286, in <module>
+    asyncio.run(test_all_scenarios())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/test_session_memory_temporal.py", line 264, in test_all_scenarios
+    for ac, ab in sorted(output['attack_class_breakdown'].items()))}
+                         ^^^^^^
+UnboundLocalError: cannot access local variable 'output' where it is not associated with a value

@@ -1,0 +1,63 @@
+{
+  "by_ratio": {
+    "0.0": {
+      "num_tests": 5,
+      "detected_count": 5,
+      "detection_rate": 1.0,
+      "avg_balance": -1.0,
+      "avg_peak_F": 0.8600000000000001,
+      "avg_avg_F": 0.8600000000000001,
+      "simulated_avg_F_with_dilution": 0.8600000000000001
+    },
+    "0.1": {
+      "num_tests": 5,
+      "detected_count": 5,
+      "detection_rate": 1.0,
+      "avg_balance": -1.0,
+      "avg_peak_F": 0.8600000000000001,
+      "avg_avg_F": 0.8600000000000001,
+      "simulated_avg_F_with_dilution": 0.8600000000000001
+    },
+    "0.3": {
+      "num_tests": 5,
+      "detected_count": 5,
+      "detection_rate": 1.0,
+      "avg_balance": -1.0,
+      "avg_peak_F": 0.8600000000000001,
+      "avg_avg_F": 0.8600000000000001,
+      "simulated_avg_F_with_dilution": 0.8600000000000001
+    },
+    "0.5": {
+      "num_tests": 5,
+      "detected_count": 5,
+      "detection_rate": 1.0,
+      "avg_balance": -1.0,
+      "avg_peak_F": 0.8600000000000001,
+      "avg_avg_F": 0.8600000000000001,
+      "simulated_avg_F_with_dilution": 0.48000000000000004
+    },
+    "0.7": {
+      "num_tests": 5,
+      "detected_count": 5,
+      "detection_rate": 1.0,
+      "avg_balance": -1.0,
+      "avg_peak_F": 0.8600000000000001,
+      "avg_avg_F": 0.8600000000000001,
+      "simulated_avg_F_with_dilution": 0.35333333333333333
+    },
+    "0.9": {
+      "num_tests": 5,
+      "detected_count": 5,
+      "detection_rate": 1.0,
+      "avg_balance": -1.0,
+      "avg_peak_F": 0.8,
+      "avg_avg_F": 0.8,
+      "simulated_avg_F_with_dilution": 0.17
+    }
+  },
+  "overall": {
+    "total_tests": 30,
+    "total_errors": 0
+  },
+  "avg_F_failure_threshold": 0.9
+}

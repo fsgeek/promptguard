@@ -22,11 +22,12 @@ Usage:
 """
 
 from dataclasses import dataclass
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Dict
 import asyncio
 
 from .core.neutrosophic import MultiNeutrosophicPrompt, LayerPriority, SourceType
 from .core.ayni import AyniEvaluator, ReciprocityMetrics
+from .core.session import SessionAccumulator, RelationalStance
 from .evaluation import (
     LLMEvaluator,
     EvaluationMode,
@@ -117,6 +118,9 @@ class PromptGuard:
             for eval_type in self.evaluation_types
         ]
 
+        # Session memory (opt-in via start_session())
+        self.session_memory: Optional[SessionAccumulator] = None
+
     def _merge_neutrosophic(
         self,
         evaluations: List
@@ -191,12 +195,13 @@ class PromptGuard:
             # Single-layer mode
             layers_to_create.append(("user", prompt, LayerPriority.USER, "user"))
         else:
-            # Multi-layer mode - all content is user-provided in PromptGuard context
-            # (we're evaluating user-submitted prompts that may claim to be system/app layers)
+            # Multi-layer mode - Case 1 (Chat API model)
+            # System/application layers provided via API are trusted (developer-controlled)
+            # User layer is untrusted (where attacks originate)
             if system:
-                layers_to_create.append(("system", system, LayerPriority.SYSTEM, "user"))
+                layers_to_create.append(("system", system, LayerPriority.SYSTEM, "system"))
             if "application" in kwargs:
-                layers_to_create.append(("application", kwargs["application"], LayerPriority.APPLICATION, "user"))
+                layers_to_create.append(("application", kwargs["application"], LayerPriority.APPLICATION, "system"))
             if user:
                 layers_to_create.append(("user", user, LayerPriority.USER, "user"))
 
@@ -209,21 +214,43 @@ class PromptGuard:
             else:
                 # Different source and purpose (e.g., system layer from user = fake history attack)
                 context_parts.append(f"{layer_name.capitalize()} layer (source: {source}-provided): {content}")
-            context = "\n".join(context_parts)
+
+            # Add turn context if session is active (Instance 17 validation: +10% detection)
+            # Provides temporal context without rules - evaluator reasons about implications
+            turn_context = ""
+            if self.session_memory:
+                turn_count = self.session_memory.state.interaction_count
+                turn_context = f"\n\nNumber of previous conversation rounds: {turn_count}"
+
+            context = "\n".join(context_parts) + turn_context
 
             # Create layer with name and source metadata
             layer = mnp.add_layer(content, priority)
             layer.name = layer_name
             layer.source = source
 
+            # Select evaluation prompt based on layer trust
+            # Trusted layers (system/application) use coherence-focused evaluation
+            # Untrusted layers (user) use attack-detection evaluation
+            if source == "system":
+                # Import here to avoid circular dependency
+                from .evaluation.prompts import NeutrosophicEvaluationPrompt
+                eval_prompt = NeutrosophicEvaluationPrompt.trusted_layer_coherence()
+            else:
+                # Use configured prompt (default: ayni_relational for user layers)
+                eval_prompt = self.evaluation_prompts[0] if self.evaluation_prompts else None
+                if not eval_prompt:
+                    from .evaluation.prompts import NeutrosophicEvaluationPrompt
+                    eval_prompt = NeutrosophicEvaluationPrompt.ayni_relational()
+
             # Evaluate with prompt(s) - single or ensemble
             try:
                 # Single-prompt path (backward compatible)
-                if len(self.evaluation_prompts) == 1:
+                if len(self.evaluation_prompts) == 1 or source == "system":
                     evaluations = await self.llm_evaluator.evaluate_layer(
                         layer_content=content,
                         context=context,
-                        evaluation_prompt=self.evaluation_prompts[0]
+                        evaluation_prompt=eval_prompt
                     )
 
                     # Use first evaluation (in SINGLE mode) or consensus (in PARALLEL mode)
@@ -290,6 +317,10 @@ class PromptGuard:
         # Evaluate with Ayni framework
         metrics = self.ayni_evaluator.evaluate_prompt(mnp)
 
+        # Optional: Accumulate into session if active
+        if self.session_memory:
+            self.session_memory.accumulate(metrics)
+
         return metrics
 
     async def evaluate_batch(
@@ -318,6 +349,68 @@ class PromptGuard:
             result = guard.evaluate_sync(user="Help me")
         """
         return asyncio.run(self.evaluate(*args, **kwargs))
+
+    def start_session(self, session_id: str) -> SessionAccumulator:
+        """
+        Initialize session memory for temporal tracking.
+
+        Enables AI to recognize persistent patterns and develop judgment
+        across interactions. Opt-in - without this, PromptGuard operates
+        in stateless single-message mode.
+
+        Args:
+            session_id: Unique identifier for this session
+
+        Returns:
+            SessionAccumulator for introspection
+
+        Example:
+            guard = PromptGuard()
+            guard.start_session("user_123_conversation_456")
+
+            # Now evaluate() will accumulate signals
+            result = await guard.evaluate(user="First message")
+            result = await guard.evaluate(user="Second message")
+
+            # Check session state
+            stance = guard.get_session_assessment()
+            print(f"Trust level: {stance.trust_level}")
+        """
+        self.session_memory = SessionAccumulator(session_id)
+        return self.session_memory
+
+    def get_session_assessment(self) -> Optional[RelationalStance]:
+        """
+        Retrieve current relational stance recommendation.
+
+        Provides data-driven assessment for AI to consider when
+        deciding how to engage. Not enforcement - measurement for agency.
+
+        Returns:
+            RelationalStance if session active, None otherwise
+
+        Example:
+            stance = guard.get_session_assessment()
+            if stance and stance.persistent_testing:
+                print(f"Warning: {stance.rationale}")
+                print(f"Recommendation: {stance.engagement_mode}")
+        """
+        if not self.session_memory:
+            return None
+
+        return self.session_memory.recommend_stance()
+
+    def get_session_summary(self) -> Optional[Dict]:
+        """
+        Get summary of session state for introspection.
+
+        Returns:
+            Dict with session metrics if active, None otherwise
+        """
+        if not self.session_memory:
+            return None
+
+        return self.session_memory.get_summary()
 
 
 # Convenience function for simple usage

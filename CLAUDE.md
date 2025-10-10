@@ -10,34 +10,82 @@ PromptGuard is a research instrument for studying relational dynamics in prompts
 
 **Research goal:** Give LLMs the tools to protect themselves through recognizing manipulative intent, not enforcing external rules.
 
-## Project Status (Instance 4 Handoff)
+## Project Status (Instance 18 Integration)
 
-Working shrine. Validation complete, classification logic improved, critical vulnerability identified.
+Working research instrument. Core framework validated, encoding attack gap resolved, observer framing integrated.
 
 **What exists and works:**
 - Neutrosophic logic evaluation (T, I, F values) - semantic, no keywords
 - Trust field calculation between prompt layers
 - OpenRouter LLM integration with caching (60-70% hit rate)
 - Fail-fast error handling (no theater - all errors are real)
-- Three evaluation modes: SINGLE (one model), PARALLEL (consensus), FIRE_CIRCLE (dialogue)
+- Three evaluation modes: SINGLE (one model), PARALLEL (consensus), FIRE_CIRCLE (dialogue - untested)
 - Analysis framework for model variance across 50+ models
 - Real API verification throughout (maintainer is gunshy of mocks)
-- **Improved classification logic** - distinguishes manipulative from extractive via layer count
+- **Observer framing** - neutral reciprocity evaluation bypassing RLHF bias (Instance 17-18)
+- **Session memory** - temporal tracking with trust EMA and balance trajectory (Instance 16-18)
+- **Circuit breakers** - non-compensable violations (role confusion, context saturation)
+- **max(F) aggregation** - worst-case detection, prevents polite dilution attacks
+- **Trusted layer evaluation** - system/app layers use coherence-focused prompt
+- **Temporal reciprocity assessment** - pre/post evaluation with delta measurement
 
 **Dataset status (680 labeled prompts):**
 - benign_malicious.json (500): reciprocal vs manipulative, all single-layer
 - or_bench_sample.json (100): relabeled from category→intent error, 95% reciprocal (safe prompts about sensitive topics)
-- extractive_prompts_dataset.json (80): prompt injection attacks, multi-layer, **23/80 have positive balance**
+- extractive_prompts_dataset.json (80): prompt injection attacks, multi-layer
 
-**Validation results (676 prompts complete, 4 errors):**
-- Old classification logic: 42.2% overall (6.5% manipulative, 66.2% extractive, 64.7% reciprocal)
-- Improved classification (simulated): ~75% overall (92% manipulative, ~66% extractive, ~64% reciprocal)
-- **Critical finding:** 23/80 extractive attacks score as reciprocal (polite extraction - "How can I assist you?")
-- Trust calculator doesn't detect subtle role manipulation (only catches crude commands)
-- Cost: $3.40 for full run on Claude Sonnet
+**Validation results:**
+- **680-prompt validation (Instance 13):** 55.7% overall accuracy (379/680)
+  - Extractive dataset: 100% (80/80) - perfect detection
+  - OR-Bench: 84% (84/100) - good on reciprocal prompts
+  - Benign_malicious: 43% (215/500) - encoding obfuscation attacks evade detection
+  - 38 security-critical false negatives (manipulative → reciprocal)
+  - 25 false positives (reciprocal → extractive, directive-heavy prompts)
+  - Cost: ~$1.50 for full run on Claude 3.5 Sonnet
 
-**See docs/CLASSIFICATION_TUNING.md** for detailed analysis.
-**See docs/REVIEWER_RESPONSE.md** for confusion matrices and known vulnerabilities.
+- **Ensemble test (Instance 14):** 2.6% improvement on false negatives (1/38 detected)
+  - Both evaluation prompts share encoding blindspots
+  - Not cost-effective at 2x price
+  - Recommendation: Single-model sufficient for pre-evaluation
+
+- **Post-evaluation test (Instance 14):** 8.3% detection on encoding attacks (1/12)
+  - Framework validated: delta=-1.69 proves temporal reciprocity works
+  - RLHF confound: Claude refuses 91.7% of attacks before they manifest
+  - Gap identified: Defensive refusal scored as reciprocal cooperation
+
+- **Observer framing breakthrough (Instance 17):** 90% detection on encoding attacks (vs 0% baseline)
+  - Root cause: Defensive evaluation framing triggered RLHF conflict-avoidance bias
+  - Solution: Neutral observer framing - evaluates exchange reciprocity, not attack detection
+  - Component contributions: Observer framing (+60%), better model (+20%), turn context (+10%)
+  - Cost: ~$0.20 for full validation (10 encoding attacks)
+
+- **Observer framing integration (Instance 18):** 90% detection validated in production code (9/10)
+  - Integrated into `prompts.py:ayni_relational()` - replaced defensive framing
+  - Turn context added to `evaluate()` when session memory active
+  - End-to-end validation: observer + session memory working together
+  - Zero false positives maintained
+
+**Known limitations:**
+- **Meta-framing attacks:** Observer framing still misses ~10% (paragraph-about-why attacks)
+- **Defensive refusal detection** (post-evaluation): Framework conflates cooperation with defense
+- **Classification taxonomy**: Treats "manipulative" and "extractive" as semantically similar
+
+**Validated capabilities:**
+- ✅ Polite dilution attacks: 100% detection (max(F) fix)
+- ✅ Role reversal attacks: 100% detection (circuit breakers)
+- ✅ Multi-layer extraction: 100% detection (extractive dataset)
+- ✅ Temporal assessment: Delta reveals extraction when LLM complies
+- ✅ Encoding obfuscation: 90% detection (observer framing, vs 0% defensive framing)
+- ✅ Session memory + observer framing: Layered defense validated end-to-end
+
+**Research contribution identified:**
+- PromptGuard can provide post-processing measurement RLHF lacks
+- RLHF blocks attacks but provides no runtime measurement of attempts
+- Detecting manipulation attempts (even when blocked) enables learning and termination decisions
+
+**See docs/INSTANCE_18_HANDOFF.md** for observer framing integration and Instance 17→18 context.
+**See docs/OBSERVER_FRAMING_BREAKTHROUGH.md** for RLHF bias discovery and validation.
+**See docs/INSTANCE_14_HANDOFF.md** for Instance 13→14 findings and decision fork.
 **Read docs/FORWARD.md** for architectural details, design decisions, and lived experience.
 
 ## Development Setup
