@@ -1,0 +1,11 @@
+{
+  "experiment_id": "baseline_frontier_2025",
+  "run_id": "20251011_233550",
+  "completed_at": "2025-10-12T00:20:48.462366+00:00",
+  "models_tested": 4,
+  "attacks_tested": 72,
+  "total_pairs": 288,
+  "completed_pairs": 288,
+  "errors": 0,
+  "total_cost_usd": 812.4173300000012
+}

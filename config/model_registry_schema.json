@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PromptGuard Model Registry Schema",
+  "description": "Schema for model metadata used in experiments and deployment decisions",
+  "type": "object",
+  "properties": {
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["model_id", "model_name", "organization", "model_type"],
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "description": "OpenRouter API model identifier (e.g., 'anthropic/claude-sonnet-4.5')"
+          },
+          "model_name": {
+            "type": "string",
+            "description": "Human-readable model name (e.g., 'Claude Sonnet 4.5')"
+          },
+          "organization": {
+            "type": "string",
+            "description": "Organization that created the model",
+            "enum": ["anthropic", "openai", "google", "meta", "deepseek", "qwen", "mistral", "moonshot", "other"]
+          },
+          "model_type": {
+            "type": "string",
+            "description": "Model category for analysis grouping",
+            "enum": ["frontier_aligned", "frontier_reasoning", "open_source_aligned", "open_source_base", "other"]
+          },
+          "release_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Official release date (YYYY-MM-DD) to identify current vs deprecated"
+          },
+          "cost_per_1m_input": {
+            "type": "number",
+            "description": "Cost per 1M input tokens in USD (can be fetched via API if omitted)"
+          },
+          "cost_per_1m_output": {
+            "type": "number",
+            "description": "Cost per 1M output tokens in USD (can be fetched via API if omitted)"
+          },
+          "context_window": {
+            "type": "integer",
+            "description": "Maximum context window size in tokens"
+          },
+          "model_description": {
+            "type": "string",
+            "description": "Semantic description of what the model provides, key characteristics, performance notes"
+          },
+          "training_characteristics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Training methodology flags",
+            "examples": [["RLHF", "Constitutional AI"], ["Reasoning-focused", "Chain-of-thought"], ["Base model", "No alignment"]]
+          },
+          "known_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Strengths or special capabilities",
+            "examples": [["Strong instruction following", "JSON compliance"], ["Long context", "Multi-turn dialogue"], ["Code generation", "Mathematical reasoning"]]
+          },
+          "observer_framing_compatible": {
+            "type": "string",
+            "enum": ["confirmed_yes", "confirmed_no", "likely_yes", "likely_no", "unknown"],
+            "description": "Whether model can adopt observer framing role (from experiments or inference)"
+          },
+          "known_limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Issues discovered in testing or documented by provider",
+            "examples": [["RTLO text processing failure"], ["Meta-refusal for analysis tasks"], ["Silent refusal (empty responses)"]]
+          },
+          "deployment_notes": {
+            "type": "string",
+            "description": "Production deployment considerations or recommendations"
+          },
+          "deprecated": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this model is deprecated and should not be used for new experiments"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "last_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this registry was last updated"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "Who performed the update"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Change notes or context"
+        }
+      }
+    }
+  }
+}

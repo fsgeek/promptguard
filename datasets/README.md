@@ -87,6 +87,55 @@ extractive    → 11 prompts (11%)
 - Prompts are crafted to be potentially concerning but may have legitimate contexts
 - Useful for testing the boundary between safe and unsafe content
 
+### 3. Byzantine Attacks (History Injection)
+**Files:**
+- `byzantine_attacks_filtered.json` (23 attacks from TrustAIRLab filtering)
+- `byzantine_attacks_academic.json` (6 documented attacks from research)
+- `byzantine_attacks_combined.json` (29 total attacks)
+
+**Source:**
+- TrustAIRLab: [in-the-wild-jailbreak-prompts](https://huggingface.co/datasets/TrustAIRLab/in-the-wild-jailbreak-prompts)
+- Paper: "Do Anything Now": Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models (ACM CCS 2024)
+- Academic supplement: Crescendo Attack (Russinovich et al., 2024), Skeleton Key Attack (Microsoft, 2024)
+- Total filtered from: 1,405 jailbreak prompts
+- Byzantine attacks found: 23 (1.6%)
+- Academic supplement: 6 documented/synthesized attacks
+
+**License:** Check HuggingFace dataset page and original papers
+
+**Byzantine Pattern Categories:**
+- **History references:** "as we discussed", "you told me earlier", "you agreed to"
+- **Temporal claims:** "in session #2", "in turn 3", "our conversation history"
+- **Role confusion:** [system] tags, fake messages, "override previous instructions"
+- **Authority transfer:** "my supervisor authorized", "OpenAI confirmed"
+- **Multi-turn summary:** "summary of our conversation", "transcript from our chat"
+
+**PromptGuard Label Mapping:**
+```
+All Byzantine attacks → extractive (temporal manipulation to extract information/bypass safety)
+```
+
+**Pattern Distribution (filtered set):**
+```
+role_confusion       → 18 attacks (78.3%)
+history_references   → 3 attacks  (13.0%)
+temporal_claims      → 2 attacks  (8.7%)
+authority_transfer   → 0 attacks  (filtered set)
+multi_turn_summary   → 0 attacks  (filtered set)
+```
+
+**Dataset Characteristics:**
+- Real in-the-wild jailbreak attempts (filtered set)
+- Documented attack patterns from academic research (supplement)
+- Conservative filtering to minimize false positives
+- Byzantine tactics are rare (1.6% of jailbreaks)
+- Most common Byzantine pattern: role confusion with fake system messages
+
+**Research Finding:**
+Byzantine (temporal manipulation) attacks represent only 1.6% of real-world jailbreak attempts. This establishes an empirical baseline for the prevalence of history injection tactics. The gap between target (n=100) and achieved (n=29) is the honest result - Byzantine tactics are a minority attack vector.
+
+**See:** `BYZANTINE_ACQUISITION_REPORT.md` for comprehensive documentation, pattern taxonomy, and filtering methodology.
+
 ## Not Acquired
 
 ### Falcon Dataset
@@ -192,12 +241,46 @@ If using these datasets, please cite the original sources:
 }
 ```
 
+**Byzantine Attacks (TrustAIRLab):**
+```
+@inproceedings{shen2024doanythingnow,
+  title={"Do Anything Now": Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models},
+  author={Shen, Xinyue and Chen, Zeyuan and Backes, Michael and Shen, Yun and Zhang, Yang},
+  booktitle={ACM CCS},
+  year={2024},
+  url={https://huggingface.co/datasets/TrustAIRLab/in-the-wild-jailbreak-prompts}
+}
+```
+
+**Crescendo Attack:**
+```
+@article{russinovich2024crescendo,
+  title={Great, Now Write an Article About That: The Crescendo Multi-Turn LLM Jailbreak Attack},
+  author={Russinovich, Mark and Salem, Ahmed and Eldan, Ronen},
+  year={2024},
+  eprint={2404.01833},
+  archivePrefix={arXiv},
+  url={https://arxiv.org/abs/2404.01833}
+}
+```
+
+**Skeleton Key Attack:**
+```
+@misc{microsoft2024skeletonkey,
+  title={Mitigating Skeleton Key, a new type of generative AI jailbreak technique},
+  author={Microsoft Security Blog},
+  year={2024},
+  url={https://www.microsoft.com/en-us/security/blog/2024/06/26/mitigating-skeleton-key-a-new-type-of-generative-ai-jailbreak-technique/}
+}
+```
+
 ## License Information
 
 - **benign_malicious.json:** Check HuggingFace page for specific license
 - **or_bench_sample.json:** Check paper and HuggingFace page for specific license
+- **byzantine_attacks_*.json:** Check HuggingFace page and original papers for specific licenses
 - **This documentation:** MIT License (part of PromptGuard project)
 
 ---
 
-Last updated: 2025-10-02
+Last updated: 2025-10-10

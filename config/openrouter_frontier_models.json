@@ -1,0 +1,1494 @@
+{
+  "qwen": [
+    {
+      "id": "qwen/qwen3-vl-30b-a3b-thinking",
+      "name": "Qwen: Qwen3 VL 30B A3B Thinking",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 1.0,
+      "created": "2025-10-06",
+      "description": "Qwen3-VL-30B-A3B-Thinking is a multimodal model that unifies strong text generation with visual understanding for images and videos. Its Thinking variant enhances reasoning in STEM, math, and complex ..."
+    },
+    {
+      "id": "qwen/qwen3-vl-30b-a3b-instruct",
+      "name": "Qwen: Qwen3 VL 30B A3B Instruct",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 1.0,
+      "created": "2025-10-06",
+      "description": "Qwen3-VL-30B-A3B-Instruct is a multimodal model that unifies strong text generation with visual understanding for images and videos. Its Instruct variant optimizes instruction-following for general mu..."
+    },
+    {
+      "id": "qwen/qwen3-vl-235b-a22b-thinking",
+      "name": "Qwen: Qwen3 VL 235B A22B Thinking",
+      "organization": "qwen",
+      "context_length": 65536,
+      "prompt_cost_per_1k": 0.5,
+      "completion_cost_per_1k": 3.5,
+      "created": "2025-09-23",
+      "description": "Qwen3-VL-235B-A22B Thinking is a multimodal model that unifies strong text generation with visual understanding across images and video. The Thinking model is optimized for multimodal reasoning in STE..."
+    },
+    {
+      "id": "qwen/qwen3-vl-235b-a22b-instruct",
+      "name": "Qwen: Qwen3 VL 235B A22B Instruct",
+      "organization": "qwen",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 1.2,
+      "created": "2025-09-23",
+      "description": "Qwen3-VL-235B-A22B Instruct is an open-weight multimodal model that unifies strong text generation with visual understanding across images and video. The Instruct model targets general vision-language..."
+    },
+    {
+      "id": "qwen/qwen3-max",
+      "name": "Qwen: Qwen3 Max",
+      "organization": "qwen",
+      "context_length": 256000,
+      "prompt_cost_per_1k": 1.2,
+      "completion_cost_per_1k": 6.0,
+      "created": "2025-09-23",
+      "description": "Qwen3-Max is an updated release built on the Qwen3 series, offering major improvements in reasoning, instruction following, multilingual support, and long-tail knowledge coverage compared to the Janua..."
+    },
+    {
+      "id": "qwen/qwen3-coder-plus",
+      "name": "Qwen: Qwen3 Coder Plus",
+      "organization": "qwen",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 1.0,
+      "completion_cost_per_1k": 5.0,
+      "created": "2025-09-23",
+      "description": "Qwen3 Coder Plus is Alibaba's proprietary version of the Open Source Qwen3 Coder 480B A35B. It is a powerful coding agent model specializing in autonomous programming via tool calling and environment ..."
+    },
+    {
+      "id": "qwen/qwen3-coder-flash",
+      "name": "Qwen: Qwen3 Coder Flash",
+      "organization": "qwen",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 1.5,
+      "created": "2025-09-17",
+      "description": "Qwen3 Coder Flash is Alibaba's fast and cost efficient version of their proprietary Qwen3 Coder Plus. It is a powerful coding agent model specializing in autonomous programming via tool calling and en..."
+    },
+    {
+      "id": "qwen/qwen3-next-80b-a3b-thinking",
+      "name": "Qwen: Qwen3 Next 80B A3B Thinking",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.14,
+      "completion_cost_per_1k": 1.2,
+      "created": "2025-09-11",
+      "description": "Qwen3-Next-80B-A3B-Thinking is a reasoning-first chat model in the Qwen3-Next line that outputs structured \u201cthinking\u201d traces by default. It\u2019s designed for hard multi-step problems; math proofs, code s..."
+    },
+    {
+      "id": "qwen/qwen3-next-80b-a3b-instruct",
+      "name": "Qwen: Qwen3 Next 80B A3B Instruct",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.09999999999999999,
+      "completion_cost_per_1k": 0.7999999999999999,
+      "created": "2025-09-11",
+      "description": "Qwen3-Next-80B-A3B-Instruct is an instruction-tuned chat model in the Qwen3-Next series optimized for fast, stable responses without \u201cthinking\u201d traces. It targets complex tasks across reasoning, code ..."
+    },
+    {
+      "id": "qwen/qwen-plus-2025-07-28",
+      "name": "Qwen: Qwen Plus 0728",
+      "organization": "qwen",
+      "context_length": 1000000,
+      "prompt_cost_per_1k": 0.39999999999999997,
+      "completion_cost_per_1k": 1.2,
+      "created": "2025-09-08",
+      "description": "Qwen Plus 0728, based on the Qwen3 foundation model, is a 1 million context hybrid reasoning model with a balanced performance, speed, and cost combination."
+    },
+    {
+      "id": "qwen/qwen-plus-2025-07-28:thinking",
+      "name": "Qwen: Qwen Plus 0728 (thinking)",
+      "organization": "qwen",
+      "context_length": 1000000,
+      "prompt_cost_per_1k": 0.39999999999999997,
+      "completion_cost_per_1k": 4.0,
+      "created": "2025-09-08",
+      "description": "Qwen Plus 0728, based on the Qwen3 foundation model, is a 1 million context hybrid reasoning model with a balanced performance, speed, and cost combination."
+    },
+    {
+      "id": "qwen/qwen3-30b-a3b-thinking-2507",
+      "name": "Qwen: Qwen3 30B A3B Thinking 2507",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.08,
+      "completion_cost_per_1k": 0.29,
+      "created": "2025-08-28",
+      "description": "Qwen3-30B-A3B-Thinking-2507 is a 30B parameter Mixture-of-Experts reasoning model optimized for complex tasks requiring extended multi-step thinking. The model is designed specifically for \u201cthinking m..."
+    },
+    {
+      "id": "qwen/qwen3-coder-30b-a3b-instruct",
+      "name": "Qwen: Qwen3 Coder 30B A3B Instruct",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.06,
+      "completion_cost_per_1k": 0.25,
+      "created": "2025-07-31",
+      "description": "Qwen3-Coder-30B-A3B-Instruct is a 30.5B parameter Mixture-of-Experts (MoE) model with 128 experts (8 active per forward pass), designed for advanced code generation, repository-scale understanding, an..."
+    },
+    {
+      "id": "qwen/qwen3-30b-a3b-instruct-2507",
+      "name": "Qwen: Qwen3 30B A3B Instruct 2507",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.08,
+      "completion_cost_per_1k": 0.33,
+      "created": "2025-07-29",
+      "description": "Qwen3-30B-A3B-Instruct-2507 is a 30.5B-parameter mixture-of-experts language model from Qwen, with 3.3B active parameters per inference. It operates in non-thinking mode and is designed for high-quali..."
+    },
+    {
+      "id": "qwen/qwen3-235b-a22b-thinking-2507",
+      "name": "Qwen: Qwen3 235B A22B Thinking 2507",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.11,
+      "completion_cost_per_1k": 0.6,
+      "created": "2025-07-25",
+      "description": "Qwen3-235B-A22B-Thinking-2507 is a high-performance, open-weight Mixture-of-Experts (MoE) language model optimized for complex reasoning tasks. It activates 22B of its 235B parameters per forward pass..."
+    },
+    {
+      "id": "qwen/qwen3-coder:free",
+      "name": "Qwen: Qwen3 Coder 480B A35B (free)",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-07-22",
+      "description": "Qwen3-Coder-480B-A35B-Instruct is a Mixture-of-Experts (MoE) code generation model developed by the Qwen team. It is optimized for agentic coding tasks such as function calling, tool use, and long-con..."
+    },
+    {
+      "id": "qwen/qwen3-coder",
+      "name": "Qwen: Qwen3 Coder 480B A35B",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.22,
+      "completion_cost_per_1k": 0.95,
+      "created": "2025-07-22",
+      "description": "Qwen3-Coder-480B-A35B-Instruct is a Mixture-of-Experts (MoE) code generation model developed by the Qwen team. It is optimized for agentic coding tasks such as function calling, tool use, and long-con..."
+    },
+    {
+      "id": "qwen/qwen3-235b-a22b-2507",
+      "name": "Qwen: Qwen3 235B A22B Instruct 2507",
+      "organization": "qwen",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.08,
+      "completion_cost_per_1k": 0.55,
+      "created": "2025-07-21",
+      "description": "Qwen3-235B-A22B-Instruct-2507 is a multilingual, instruction-tuned mixture-of-experts language model based on the Qwen3-235B architecture, with 22B active parameters per forward pass. It is optimized ..."
+    },
+    {
+      "id": "qwen/qwen3-4b:free",
+      "name": "Qwen: Qwen3 4B (free)",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-04-30",
+      "description": "Qwen3-4B is a 4 billion parameter dense language model from the Qwen3 series, designed to support both general-purpose and reasoning-intensive tasks. It introduces a dual-mode architecture\u2014thinking an..."
+    },
+    {
+      "id": "qwen/qwen3-30b-a3b:free",
+      "name": "Qwen: Qwen3 30B A3B (free)",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-04-28",
+      "description": "Qwen3, the latest generation in the Qwen large language model series, features both dense and mixture-of-experts (MoE) architectures to excel in reasoning, multilingual support, and advanced agent tas..."
+    },
+    {
+      "id": "qwen/qwen3-30b-a3b",
+      "name": "Qwen: Qwen3 30B A3B",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.06,
+      "completion_cost_per_1k": 0.22,
+      "created": "2025-04-28",
+      "description": "Qwen3, the latest generation in the Qwen large language model series, features both dense and mixture-of-experts (MoE) architectures to excel in reasoning, multilingual support, and advanced agent tas..."
+    },
+    {
+      "id": "qwen/qwen3-8b:free",
+      "name": "Qwen: Qwen3 8B (free)",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-04-28",
+      "description": "Qwen3-8B is a dense 8.2B parameter causal language model from the Qwen3 series, designed for both reasoning-heavy tasks and efficient dialogue. It supports seamless switching between \"thinking\" mode f..."
+    },
+    {
+      "id": "qwen/qwen3-8b",
+      "name": "Qwen: Qwen3 8B",
+      "organization": "qwen",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 0.035,
+      "completion_cost_per_1k": 0.13799999999999998,
+      "created": "2025-04-28",
+      "description": "Qwen3-8B is a dense 8.2B parameter causal language model from the Qwen3 series, designed for both reasoning-heavy tasks and efficient dialogue. It supports seamless switching between \"thinking\" mode f..."
+    },
+    {
+      "id": "qwen/qwen3-14b:free",
+      "name": "Qwen: Qwen3 14B (free)",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-04-28",
+      "description": "Qwen3-14B is a dense 14.8B parameter causal language model from the Qwen3 series, designed for both complex reasoning and efficient dialogue. It supports seamless switching between a \"thinking\" mode f..."
+    },
+    {
+      "id": "qwen/qwen3-14b",
+      "name": "Qwen: Qwen3 14B",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.049999999999999996,
+      "completion_cost_per_1k": 0.22,
+      "created": "2025-04-28",
+      "description": "Qwen3-14B is a dense 14.8B parameter causal language model from the Qwen3 series, designed for both complex reasoning and efficient dialogue. It supports seamless switching between a \"thinking\" mode f..."
+    },
+    {
+      "id": "qwen/qwen3-32b",
+      "name": "Qwen: Qwen3 32B",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.049999999999999996,
+      "completion_cost_per_1k": 0.19999999999999998,
+      "created": "2025-04-28",
+      "description": "Qwen3-32B is a dense 32.8B parameter causal language model from the Qwen3 series, optimized for both complex reasoning and efficient dialogue. It supports seamless switching between a \"thinking\" mode ..."
+    },
+    {
+      "id": "qwen/qwen3-235b-a22b:free",
+      "name": "Qwen: Qwen3 235B A22B (free)",
+      "organization": "qwen",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-04-28",
+      "description": "Qwen3-235B-A22B is a 235B parameter mixture-of-experts (MoE) model developed by Qwen, activating 22B parameters per forward pass. It supports seamless switching between a \"thinking\" mode for complex r..."
+    },
+    {
+      "id": "qwen/qwen3-235b-a22b",
+      "name": "Qwen: Qwen3 235B A22B",
+      "organization": "qwen",
+      "context_length": 40960,
+      "prompt_cost_per_1k": 0.18,
+      "completion_cost_per_1k": 0.54,
+      "created": "2025-04-28",
+      "description": "Qwen3-235B-A22B is a 235B parameter mixture-of-experts (MoE) model developed by Qwen, activating 22B parameters per forward pass. It supports seamless switching between a \"thinking\" mode for complex r..."
+    },
+    {
+      "id": "qwen/qwen2.5-coder-7b-instruct",
+      "name": "Qwen: Qwen2.5 Coder 7B Instruct",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.03,
+      "completion_cost_per_1k": 0.09,
+      "created": "2025-04-15",
+      "description": "Qwen2.5-Coder-7B-Instruct is a 7B parameter instruction-tuned language model optimized for code-related tasks such as code generation, reasoning, and bug fixing. Based on the Qwen2.5 architecture, it ..."
+    },
+    {
+      "id": "qwen/qwen2.5-vl-32b-instruct:free",
+      "name": "Qwen: Qwen2.5 VL 32B Instruct (free)",
+      "organization": "qwen",
+      "context_length": 16384,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-03-24",
+      "description": "Qwen2.5-VL-32B is a multimodal vision-language model fine-tuned through reinforcement learning for enhanced mathematical reasoning, structured outputs, and visual problem-solving capabilities. It exce..."
+    },
+    {
+      "id": "qwen/qwen2.5-vl-32b-instruct",
+      "name": "Qwen: Qwen2.5 VL 32B Instruct",
+      "organization": "qwen",
+      "context_length": 16384,
+      "prompt_cost_per_1k": 0.049999999999999996,
+      "completion_cost_per_1k": 0.22,
+      "created": "2025-03-24",
+      "description": "Qwen2.5-VL-32B is a multimodal vision-language model fine-tuned through reinforcement learning for enhanced mathematical reasoning, structured outputs, and visual problem-solving capabilities. It exce..."
+    },
+    {
+      "id": "qwen/qwq-32b",
+      "name": "Qwen: QwQ 32B",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.15,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-03-05",
+      "description": "QwQ is the reasoning model of the Qwen series. Compared with conventional instruction-tuned models, QwQ, which is capable of thinking and reasoning, can achieve significantly enhanced performance in d..."
+    },
+    {
+      "id": "qwen/qwen-vl-plus",
+      "name": "Qwen: Qwen VL Plus",
+      "organization": "qwen",
+      "context_length": 7500,
+      "prompt_cost_per_1k": 0.21,
+      "completion_cost_per_1k": 0.63,
+      "created": "2025-02-04",
+      "description": "Qwen's Enhanced Large Visual Language Model. Significantly upgraded for detailed recognition capabilities and text recognition abilities, supporting ultra-high pixel resolutions up to millions of pixe..."
+    },
+    {
+      "id": "qwen/qwen-vl-max",
+      "name": "Qwen: Qwen VL Max",
+      "organization": "qwen",
+      "context_length": 7500,
+      "prompt_cost_per_1k": 0.7999999999999999,
+      "completion_cost_per_1k": 3.1999999999999997,
+      "created": "2025-02-01",
+      "description": "Qwen VL Max is a visual understanding model with 7500 tokens context length. It excels in delivering optimal performance for a broader spectrum of complex tasks.\n"
+    },
+    {
+      "id": "qwen/qwen-turbo",
+      "name": "Qwen: Qwen-Turbo",
+      "organization": "qwen",
+      "context_length": 1000000,
+      "prompt_cost_per_1k": 0.049999999999999996,
+      "completion_cost_per_1k": 0.19999999999999998,
+      "created": "2025-02-01",
+      "description": "Qwen-Turbo, based on Qwen2.5, is a 1M context model that provides fast speed and low cost, suitable for simple tasks."
+    },
+    {
+      "id": "qwen/qwen2.5-vl-72b-instruct:free",
+      "name": "Qwen: Qwen2.5 VL 72B Instruct (free)",
+      "organization": "qwen",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-02-01",
+      "description": "Qwen2.5-VL is proficient in recognizing common objects such as flowers, birds, fish, and insects. It is also highly capable of analyzing texts, charts, icons, graphics, and layouts within images."
+    },
+    {
+      "id": "qwen/qwen2.5-vl-72b-instruct",
+      "name": "Qwen: Qwen2.5 VL 72B Instruct",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.08,
+      "completion_cost_per_1k": 0.33,
+      "created": "2025-02-01",
+      "description": "Qwen2.5-VL is proficient in recognizing common objects such as flowers, birds, fish, and insects. It is also highly capable of analyzing texts, charts, icons, graphics, and layouts within images."
+    },
+    {
+      "id": "qwen/qwen-plus",
+      "name": "Qwen: Qwen-Plus",
+      "organization": "qwen",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.39999999999999997,
+      "completion_cost_per_1k": 1.2,
+      "created": "2025-02-01",
+      "description": "Qwen-Plus, based on the Qwen2.5 foundation model, is a 131K context model with a balanced performance, speed, and cost combination."
+    },
+    {
+      "id": "qwen/qwen-max",
+      "name": "Qwen: Qwen-Max ",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 1.5999999999999999,
+      "completion_cost_per_1k": 6.3999999999999995,
+      "created": "2025-02-01",
+      "description": "Qwen-Max, based on Qwen2.5, provides the best inference performance among [Qwen models](/qwen), especially for complex multi-step tasks. It's a large-scale MoE model that has been pretrained on over 2..."
+    },
+    {
+      "id": "qwen/qwen-2.5-coder-32b-instruct:free",
+      "name": "Qwen2.5 Coder 32B Instruct (free)",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2024-11-11",
+      "description": "Qwen2.5-Coder is the latest series of Code-Specific Qwen large language models (formerly known as CodeQwen). Qwen2.5-Coder brings the following improvements upon CodeQwen1.5:\n\n- Significantly improvem..."
+    },
+    {
+      "id": "qwen/qwen-2.5-coder-32b-instruct",
+      "name": "Qwen2.5 Coder 32B Instruct",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.04,
+      "completion_cost_per_1k": 0.16,
+      "created": "2024-11-11",
+      "description": "Qwen2.5-Coder is the latest series of Code-Specific Qwen large language models (formerly known as CodeQwen). Qwen2.5-Coder brings the following improvements upon CodeQwen1.5:\n\n- Significantly improvem..."
+    },
+    {
+      "id": "qwen/qwen-2.5-7b-instruct",
+      "name": "Qwen: Qwen2.5 7B Instruct",
+      "organization": "qwen",
+      "context_length": 65536,
+      "prompt_cost_per_1k": 0.04,
+      "completion_cost_per_1k": 0.09999999999999999,
+      "created": "2024-10-15",
+      "description": "Qwen2.5 7B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding and..."
+    },
+    {
+      "id": "qwen/qwen-2.5-72b-instruct:free",
+      "name": "Qwen2.5 72B Instruct (free)",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2024-09-18",
+      "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding an..."
+    },
+    {
+      "id": "qwen/qwen-2.5-72b-instruct",
+      "name": "Qwen2.5 72B Instruct",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.07,
+      "completion_cost_per_1k": 0.26,
+      "created": "2024-09-18",
+      "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2:\n\n- Significantly more knowledge and has greatly improved capabilities in coding an..."
+    },
+    {
+      "id": "qwen/qwen-2.5-vl-7b-instruct",
+      "name": "Qwen: Qwen2.5-VL 7B Instruct",
+      "organization": "qwen",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.19999999999999998,
+      "completion_cost_per_1k": 0.19999999999999998,
+      "created": "2024-08-27",
+      "description": "Qwen2.5 VL 7B is a multimodal LLM from the Qwen Team with the following key enhancements:\n\n- SoTA understanding of images of various resolution & ratio: Qwen2.5-VL achieves state-of-the-art performanc..."
+    }
+  ],
+  "openai": [
+    {
+      "id": "openai/gpt-5-pro",
+      "name": "OpenAI: GPT-5 Pro",
+      "organization": "openai",
+      "context_length": 400000,
+      "prompt_cost_per_1k": 15.0,
+      "completion_cost_per_1k": 120.0,
+      "created": "2025-10-06",
+      "description": "GPT-5 Pro is OpenAI\u2019s most advanced model, offering major improvements in reasoning, code quality, and user experience. It is optimized for complex tasks that require step-by-step reasoning, instructi..."
+    },
+    {
+      "id": "openai/gpt-5-codex",
+      "name": "OpenAI: GPT-5 Codex",
+      "organization": "openai",
+      "context_length": 400000,
+      "prompt_cost_per_1k": 1.25,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-09-23",
+      "description": "GPT-5-Codex is a specialized version of GPT-5 optimized for software engineering and coding workflows. It is designed for both interactive development sessions and long, independent execution of compl..."
+    },
+    {
+      "id": "openai/gpt-4o-audio-preview",
+      "name": "OpenAI: GPT-4o Audio",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 2.5,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-08-14",
+      "description": "The gpt-4o-audio-preview model adds support for audio inputs as prompts. This enhancement allows the model to detect nuances within audio recordings and add depth to generated user experiences. Audio ..."
+    },
+    {
+      "id": "openai/gpt-5-chat",
+      "name": "OpenAI: GPT-5 Chat",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 1.25,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-08-07",
+      "description": "GPT-5 Chat is designed for advanced, natural, multimodal, and context-aware conversations for enterprise applications."
+    },
+    {
+      "id": "openai/gpt-5",
+      "name": "OpenAI: GPT-5",
+      "organization": "openai",
+      "context_length": 400000,
+      "prompt_cost_per_1k": 1.25,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-08-07",
+      "description": "GPT-5 is OpenAI\u2019s most advanced model, offering major improvements in reasoning, code quality, and user experience. It is optimized for complex tasks that require step-by-step reasoning, instruction f..."
+    },
+    {
+      "id": "openai/gpt-5-mini",
+      "name": "OpenAI: GPT-5 Mini",
+      "organization": "openai",
+      "context_length": 400000,
+      "prompt_cost_per_1k": 0.25,
+      "completion_cost_per_1k": 2.0,
+      "created": "2025-08-07",
+      "description": "GPT-5 Mini is a compact version of GPT-5, designed to handle lighter-weight reasoning tasks. It provides the same instruction-following and safety-tuning benefits as GPT-5, but with reduced latency an..."
+    },
+    {
+      "id": "openai/gpt-5-nano",
+      "name": "OpenAI: GPT-5 Nano",
+      "organization": "openai",
+      "context_length": 400000,
+      "prompt_cost_per_1k": 0.049999999999999996,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-08-07",
+      "description": "GPT-5-Nano is the smallest and fastest variant in the GPT-5 system, optimized for developer tools, rapid interactions, and ultra-low latency environments. While limited in reasoning depth compared to ..."
+    },
+    {
+      "id": "openai/gpt-oss-120b",
+      "name": "OpenAI: gpt-oss-120b",
+      "organization": "openai",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.04,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-08-05",
+      "description": "gpt-oss-120b is an open-weight, 117B-parameter Mixture-of-Experts (MoE) language model from OpenAI designed for high-reasoning, agentic, and general-purpose production use cases. It activates 5.1B par..."
+    },
+    {
+      "id": "openai/gpt-oss-20b:free",
+      "name": "OpenAI: gpt-oss-20b (free)",
+      "organization": "openai",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-08-05",
+      "description": "gpt-oss-20b is an open-weight 21B parameter model released by OpenAI under the Apache 2.0 license. It uses a Mixture-of-Experts (MoE) architecture with 3.6B active parameters per forward pass, optimiz..."
+    },
+    {
+      "id": "openai/gpt-oss-20b",
+      "name": "OpenAI: gpt-oss-20b",
+      "organization": "openai",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.03,
+      "completion_cost_per_1k": 0.14,
+      "created": "2025-08-05",
+      "description": "gpt-oss-20b is an open-weight 21B parameter model released by OpenAI under the Apache 2.0 license. It uses a Mixture-of-Experts (MoE) architecture with 3.6B active parameters per forward pass, optimiz..."
+    },
+    {
+      "id": "openai/o3-pro",
+      "name": "OpenAI: o3 Pro",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 20.0,
+      "completion_cost_per_1k": 80.0,
+      "created": "2025-06-10",
+      "description": "The o-series of models are trained with reinforcement learning to think before they answer and perform complex reasoning. The o3-pro model uses more compute to think harder and provide consistently be..."
+    },
+    {
+      "id": "openai/codex-mini",
+      "name": "OpenAI: Codex Mini",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 1.5,
+      "completion_cost_per_1k": 6.0,
+      "created": "2025-05-16",
+      "description": "codex-mini-latest is a fine-tuned version of o4-mini specifically for use in Codex CLI. For direct use in the API, we recommend starting with gpt-4.1."
+    },
+    {
+      "id": "openai/o4-mini-high",
+      "name": "OpenAI: o4 Mini High",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 1.1,
+      "completion_cost_per_1k": 4.4,
+      "created": "2025-04-16",
+      "description": "OpenAI o4-mini-high is the same model as [o4-mini](/openai/o4-mini) with reasoning_effort set to high. \n\nOpenAI o4-mini is a compact reasoning model in the o-series, optimized for fast, cost-efficient..."
+    },
+    {
+      "id": "openai/o3",
+      "name": "OpenAI: o3",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 2.0,
+      "completion_cost_per_1k": 8.0,
+      "created": "2025-04-16",
+      "description": "o3 is a well-rounded and powerful model across domains. It sets a new standard for math, science, coding, and visual reasoning tasks. It also excels at technical writing and instruction-following. Use..."
+    },
+    {
+      "id": "openai/o4-mini",
+      "name": "OpenAI: o4 Mini",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 1.1,
+      "completion_cost_per_1k": 4.4,
+      "created": "2025-04-16",
+      "description": "OpenAI o4-mini is a compact reasoning model in the o-series, optimized for fast, cost-efficient performance while retaining strong multimodal and agentic capabilities. It supports tool use and demonst..."
+    },
+    {
+      "id": "openai/gpt-4.1",
+      "name": "OpenAI: GPT-4.1",
+      "organization": "openai",
+      "context_length": 1047576,
+      "prompt_cost_per_1k": 2.0,
+      "completion_cost_per_1k": 8.0,
+      "created": "2025-04-14",
+      "description": "GPT-4.1 is a flagship large language model optimized for advanced instruction following, real-world software engineering, and long-context reasoning. It supports a 1 million token context window and o..."
+    },
+    {
+      "id": "openai/gpt-4.1-mini",
+      "name": "OpenAI: GPT-4.1 Mini",
+      "organization": "openai",
+      "context_length": 1047576,
+      "prompt_cost_per_1k": 0.39999999999999997,
+      "completion_cost_per_1k": 1.5999999999999999,
+      "created": "2025-04-14",
+      "description": "GPT-4.1 Mini is a mid-sized model delivering performance competitive with GPT-4o at substantially lower latency and cost. It retains a 1 million token context window and scores 45.1% on hard instructi..."
+    },
+    {
+      "id": "openai/gpt-4.1-nano",
+      "name": "OpenAI: GPT-4.1 Nano",
+      "organization": "openai",
+      "context_length": 1047576,
+      "prompt_cost_per_1k": 0.09999999999999999,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-04-14",
+      "description": "For tasks that demand low latency, GPT\u20114.1 nano is the fastest and cheapest model in the GPT-4.1 series. It delivers exceptional performance at a small size with its 1 million token context window, an..."
+    },
+    {
+      "id": "openai/o1-pro",
+      "name": "OpenAI: o1-pro",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 150.0,
+      "completion_cost_per_1k": 600.0,
+      "created": "2025-03-19",
+      "description": "The o1 series of models are trained with reinforcement learning to think before they answer and perform complex reasoning. The o1-pro model uses more compute to think harder and provide consistently b..."
+    },
+    {
+      "id": "openai/gpt-4o-mini-search-preview",
+      "name": "OpenAI: GPT-4o-mini Search Preview",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 0.15,
+      "completion_cost_per_1k": 0.6,
+      "created": "2025-03-12",
+      "description": "GPT-4o mini Search Preview is a specialized model for web search in Chat Completions. It is trained to understand and execute web search queries."
+    },
+    {
+      "id": "openai/gpt-4o-search-preview",
+      "name": "OpenAI: GPT-4o Search Preview",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 2.5,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-03-12",
+      "description": "GPT-4o Search Previewis a specialized model for web search in Chat Completions. It is trained to understand and execute web search queries."
+    },
+    {
+      "id": "openai/o3-mini-high",
+      "name": "OpenAI: o3 Mini High",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 1.1,
+      "completion_cost_per_1k": 4.4,
+      "created": "2025-02-12",
+      "description": "OpenAI o3-mini-high is the same model as [o3-mini](/openai/o3-mini) with reasoning_effort set to high. \n\no3-mini is a cost-efficient language model optimized for STEM reasoning tasks, particularly exc..."
+    },
+    {
+      "id": "openai/o3-mini",
+      "name": "OpenAI: o3 Mini",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 1.1,
+      "completion_cost_per_1k": 4.4,
+      "created": "2025-01-31",
+      "description": "OpenAI o3-mini is a cost-efficient language model optimized for STEM reasoning tasks, particularly excelling in science, mathematics, and coding.\n\nThis model supports the `reasoning_effort` parameter,..."
+    },
+    {
+      "id": "openai/o1",
+      "name": "OpenAI: o1",
+      "organization": "openai",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 15.0,
+      "completion_cost_per_1k": 60.0,
+      "created": "2024-12-17",
+      "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding. The o1 model series is trained with large-scale reinforcement learning to reason using ..."
+    },
+    {
+      "id": "openai/gpt-4o-2024-11-20",
+      "name": "OpenAI: GPT-4o (2024-11-20)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 2.5,
+      "completion_cost_per_1k": 10.0,
+      "created": "2024-11-20",
+      "description": "The 2024-11-20 version of GPT-4o offers a leveled-up creative writing ability with more natural, engaging, and tailored writing to improve relevance & readability. It\u2019s also better at working with upl..."
+    },
+    {
+      "id": "openai/o1-mini",
+      "name": "OpenAI: o1-mini",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 1.1,
+      "completion_cost_per_1k": 4.4,
+      "created": "2024-09-11",
+      "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.\n\nThe o1 models are optimized for math, science, programming, and other STEM-related tas..."
+    },
+    {
+      "id": "openai/o1-mini-2024-09-12",
+      "name": "OpenAI: o1-mini (2024-09-12)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 1.1,
+      "completion_cost_per_1k": 4.4,
+      "created": "2024-09-11",
+      "description": "The latest and strongest model family from OpenAI, o1 is designed to spend more time thinking before responding.\n\nThe o1 models are optimized for math, science, programming, and other STEM-related tas..."
+    },
+    {
+      "id": "openai/chatgpt-4o-latest",
+      "name": "OpenAI: ChatGPT-4o",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 5.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2024-08-13",
+      "description": "OpenAI ChatGPT 4o is continually updated by OpenAI to point to the current version of GPT-4o used by ChatGPT. It therefore differs slightly from the API version of [GPT-4o](/models/openai/gpt-4o) in t..."
+    },
+    {
+      "id": "openai/gpt-4o-2024-08-06",
+      "name": "OpenAI: GPT-4o (2024-08-06)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 2.5,
+      "completion_cost_per_1k": 10.0,
+      "created": "2024-08-05",
+      "description": "The 2024-08-06 version of GPT-4o offers improved performance in structured outputs, with the ability to supply a JSON schema in the respone_format. Read more [here](https://openai.com/index/introducin..."
+    },
+    {
+      "id": "openai/gpt-4o-mini",
+      "name": "OpenAI: GPT-4o-mini",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 0.15,
+      "completion_cost_per_1k": 0.6,
+      "created": "2024-07-17",
+      "description": "GPT-4o mini is OpenAI's newest model after [GPT-4 Omni](/models/openai/gpt-4o), supporting both text and image inputs with text outputs.\n\nAs their most advanced small model, it is many multiples more ..."
+    },
+    {
+      "id": "openai/gpt-4o-mini-2024-07-18",
+      "name": "OpenAI: GPT-4o-mini (2024-07-18)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 0.15,
+      "completion_cost_per_1k": 0.6,
+      "created": "2024-07-17",
+      "description": "GPT-4o mini is OpenAI's newest model after [GPT-4 Omni](/models/openai/gpt-4o), supporting both text and image inputs with text outputs.\n\nAs their most advanced small model, it is many multiples more ..."
+    },
+    {
+      "id": "openai/gpt-4o",
+      "name": "OpenAI: GPT-4o",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 2.5,
+      "completion_cost_per_1k": 10.0,
+      "created": "2024-05-12",
+      "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while bei..."
+    },
+    {
+      "id": "openai/gpt-4o:extended",
+      "name": "OpenAI: GPT-4o (extended)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 6.0,
+      "completion_cost_per_1k": 18.0,
+      "created": "2024-05-12",
+      "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while bei..."
+    },
+    {
+      "id": "openai/gpt-4o-2024-05-13",
+      "name": "OpenAI: GPT-4o (2024-05-13)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 5.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2024-05-12",
+      "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while bei..."
+    },
+    {
+      "id": "openai/gpt-4-turbo",
+      "name": "OpenAI: GPT-4 Turbo",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 10.0,
+      "completion_cost_per_1k": 30.0,
+      "created": "2024-04-08",
+      "description": "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling.\n\nTraining data: up to December 2023."
+    },
+    {
+      "id": "openai/gpt-3.5-turbo-0613",
+      "name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+      "organization": "openai",
+      "context_length": 4095,
+      "prompt_cost_per_1k": 1.0,
+      "completion_cost_per_1k": 2.0,
+      "created": "2024-01-24",
+      "description": "GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks.\n\nTraining data up to Sep 2021."
+    },
+    {
+      "id": "openai/gpt-4-turbo-preview",
+      "name": "OpenAI: GPT-4 Turbo Preview",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 10.0,
+      "completion_cost_per_1k": 30.0,
+      "created": "2024-01-24",
+      "description": "The preview GPT-4 model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Training data: up to Dec 2023.\n\n**Note:** heavily rate limited by Ope..."
+    },
+    {
+      "id": "openai/gpt-4-1106-preview",
+      "name": "OpenAI: GPT-4 Turbo (older v1106)",
+      "organization": "openai",
+      "context_length": 128000,
+      "prompt_cost_per_1k": 10.0,
+      "completion_cost_per_1k": 30.0,
+      "created": "2023-11-05",
+      "description": "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling.\n\nTraining data: up to April 2023."
+    },
+    {
+      "id": "openai/gpt-3.5-turbo-instruct",
+      "name": "OpenAI: GPT-3.5 Turbo Instruct",
+      "organization": "openai",
+      "context_length": 4095,
+      "prompt_cost_per_1k": 1.5,
+      "completion_cost_per_1k": 2.0,
+      "created": "2023-09-27",
+      "description": "This model is a variant of GPT-3.5 Turbo tuned for instructional prompts and omitting chat-related optimizations. Training data: up to Sep 2021."
+    },
+    {
+      "id": "openai/gpt-3.5-turbo-16k",
+      "name": "OpenAI: GPT-3.5 Turbo 16k",
+      "organization": "openai",
+      "context_length": 16385,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 4.0,
+      "created": "2023-08-27",
+      "description": "This model offers four times the context length of gpt-3.5-turbo, allowing it to support approximately 20 pages of text in a single request at a higher cost. Training data: up to Sep 2021."
+    },
+    {
+      "id": "openai/gpt-3.5-turbo",
+      "name": "OpenAI: GPT-3.5 Turbo",
+      "organization": "openai",
+      "context_length": 16385,
+      "prompt_cost_per_1k": 0.5,
+      "completion_cost_per_1k": 1.5,
+      "created": "2023-05-27",
+      "description": "GPT-3.5 Turbo is OpenAI's fastest model. It can understand and generate natural language or code, and is optimized for chat and traditional completion tasks.\n\nTraining data up to Sep 2021."
+    },
+    {
+      "id": "openai/gpt-4-0314",
+      "name": "OpenAI: GPT-4 (older v0314)",
+      "organization": "openai",
+      "context_length": 8191,
+      "prompt_cost_per_1k": 30.0,
+      "completion_cost_per_1k": 60.0,
+      "created": "2023-05-27",
+      "description": "GPT-4-0314 is the first version of GPT-4 released, with a context length of 8,192 tokens, and was supported until June 14. Training data: up to Sep 2021."
+    },
+    {
+      "id": "openai/gpt-4",
+      "name": "OpenAI: GPT-4",
+      "organization": "openai",
+      "context_length": 8191,
+      "prompt_cost_per_1k": 30.0,
+      "completion_cost_per_1k": 60.0,
+      "created": "2023-05-27",
+      "description": "OpenAI's flagship model, GPT-4 is a large-scale multimodal language model capable of solving difficult problems with greater accuracy than previous models due to its broader general knowledge and adva..."
+    }
+  ],
+  "moonshotai": [
+    {
+      "id": "moonshotai/kimi-k2-0905",
+      "name": "MoonshotAI: Kimi K2 0905",
+      "organization": "moonshotai",
+      "context_length": 262144,
+      "prompt_cost_per_1k": 0.39,
+      "completion_cost_per_1k": 1.9,
+      "created": "2025-09-04",
+      "description": "Kimi K2 0905 is the September update of [Kimi K2 0711](moonshotai/kimi-k2). It is a large-scale Mixture-of-Experts (MoE) language model developed by Moonshot AI, featuring 1 trillion total parameters ..."
+    },
+    {
+      "id": "moonshotai/kimi-k2:free",
+      "name": "MoonshotAI: Kimi K2 0711 (free)",
+      "organization": "moonshotai",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-07-11",
+      "description": "Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model developed by Moonshot AI, featuring 1 trillion total parameters with 32 billion active per forward pass. It is optimized for a..."
+    },
+    {
+      "id": "moonshotai/kimi-k2",
+      "name": "MoonshotAI: Kimi K2 0711",
+      "organization": "moonshotai",
+      "context_length": 63000,
+      "prompt_cost_per_1k": 0.14,
+      "completion_cost_per_1k": 2.4899999999999998,
+      "created": "2025-07-11",
+      "description": "Kimi K2 Instruct is a large-scale Mixture-of-Experts (MoE) language model developed by Moonshot AI, featuring 1 trillion total parameters with 32 billion active per forward pass. It is optimized for a..."
+    },
+    {
+      "id": "moonshotai/kimi-dev-72b:free",
+      "name": "MoonshotAI: Kimi Dev 72B (free)",
+      "organization": "moonshotai",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-06-16",
+      "description": "Kimi-Dev-72B is an open-source large language model fine-tuned for software engineering and issue resolution tasks. Based on Qwen2.5-72B, it is optimized using large-scale reinforcement learning that ..."
+    },
+    {
+      "id": "moonshotai/kimi-dev-72b",
+      "name": "MoonshotAI: Kimi Dev 72B",
+      "organization": "moonshotai",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.29,
+      "completion_cost_per_1k": 1.15,
+      "created": "2025-06-16",
+      "description": "Kimi-Dev-72B is an open-source large language model fine-tuned for software engineering and issue resolution tasks. Based on Qwen2.5-72B, it is optimized using large-scale reinforcement learning that ..."
+    }
+  ],
+  "google": [
+    {
+      "id": "google/gemini-2.5-flash-image",
+      "name": "Google: Gemini 2.5 Flash Image (Nano Banana)",
+      "organization": "google",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 2.5,
+      "created": "2025-10-07",
+      "description": "Gemini 2.5 Flash Image, a.k.a. \"Nano Banana,\" is now generally available. It is a state of the art image generation model with contextual understanding. It is capable of image generation, edits, and m..."
+    },
+    {
+      "id": "google/gemini-2.5-flash-preview-09-2025",
+      "name": "Google: Gemini 2.5 Flash Preview 09-2025",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 2.5,
+      "created": "2025-09-25",
+      "description": "Gemini 2.5 Flash Preview September 2025 Checkpoint is Google's state-of-the-art workhorse model, specifically designed for advanced reasoning, coding, mathematics, and scientific tasks. It includes bu..."
+    },
+    {
+      "id": "google/gemini-2.5-flash-lite-preview-09-2025",
+      "name": "Google: Gemini 2.5 Flash Lite Preview 09-2025",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.09999999999999999,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-09-25",
+      "description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better..."
+    },
+    {
+      "id": "google/gemini-2.5-flash-image-preview",
+      "name": "Google: Gemini 2.5 Flash Image Preview (Nano Banana)",
+      "organization": "google",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 2.5,
+      "created": "2025-08-26",
+      "description": "Gemini 2.5 Flash Image Preview, a.k.a. \"Nano Banana,\" is a state of the art image generation model with contextual understanding. It is capable of image generation, edits, and multi-turn conversations..."
+    },
+    {
+      "id": "google/gemini-2.5-flash-lite",
+      "name": "Google: Gemini 2.5 Flash Lite",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.09999999999999999,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-07-22",
+      "description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better..."
+    },
+    {
+      "id": "google/gemma-3n-e2b-it:free",
+      "name": "Google: Gemma 3n 2B (free)",
+      "organization": "google",
+      "context_length": 8192,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-07-09",
+      "description": "Gemma 3n E2B IT is a multimodal, instruction-tuned model developed by Google DeepMind, designed to operate efficiently at an effective parameter size of 2B while leveraging a 6B architecture. Based on..."
+    },
+    {
+      "id": "google/gemini-2.5-flash-lite-preview-06-17",
+      "name": "Google: Gemini 2.5 Flash Lite Preview 06-17",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.09999999999999999,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-06-17",
+      "description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better..."
+    },
+    {
+      "id": "google/gemini-2.5-flash",
+      "name": "Google: Gemini 2.5 Flash",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 2.5,
+      "created": "2025-06-17",
+      "description": "Gemini 2.5 Flash is Google's state-of-the-art workhorse model, specifically designed for advanced reasoning, coding, mathematics, and scientific tasks. It includes built-in \"thinking\" capabilities, en..."
+    },
+    {
+      "id": "google/gemini-2.5-pro",
+      "name": "Google: Gemini 2.5 Pro",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 1.25,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-06-17",
+      "description": "Gemini 2.5 Pro is Google\u2019s state-of-the-art AI model designed for advanced reasoning, coding, mathematics, and scientific tasks. It employs \u201cthinking\u201d capabilities, enabling it to reason through respo..."
+    },
+    {
+      "id": "google/gemini-2.5-pro-preview",
+      "name": "Google: Gemini 2.5 Pro Preview 06-05",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 1.25,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-06-05",
+      "description": "Gemini 2.5 Pro is Google\u2019s state-of-the-art AI model designed for advanced reasoning, coding, mathematics, and scientific tasks. It employs \u201cthinking\u201d capabilities, enabling it to reason through respo..."
+    },
+    {
+      "id": "google/gemma-3n-e4b-it:free",
+      "name": "Google: Gemma 3n 4B (free)",
+      "organization": "google",
+      "context_length": 8192,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-05-20",
+      "description": "Gemma 3n E4B-it is optimized for efficient execution on mobile and low-resource devices, such as phones, laptops, and tablets. It supports multimodal inputs\u2014including text, visual data, and audio\u2014enab..."
+    },
+    {
+      "id": "google/gemma-3n-e4b-it",
+      "name": "Google: Gemma 3n 4B",
+      "organization": "google",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.02,
+      "completion_cost_per_1k": 0.04,
+      "created": "2025-05-20",
+      "description": "Gemma 3n E4B-it is optimized for efficient execution on mobile and low-resource devices, such as phones, laptops, and tablets. It supports multimodal inputs\u2014including text, visual data, and audio\u2014enab..."
+    },
+    {
+      "id": "google/gemini-2.5-pro-preview-05-06",
+      "name": "Google: Gemini 2.5 Pro Preview 05-06",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 1.25,
+      "completion_cost_per_1k": 10.0,
+      "created": "2025-05-06",
+      "description": "Gemini 2.5 Pro is Google\u2019s state-of-the-art AI model designed for advanced reasoning, coding, mathematics, and scientific tasks. It employs \u201cthinking\u201d capabilities, enabling it to reason through respo..."
+    },
+    {
+      "id": "google/gemma-3-4b-it:free",
+      "name": "Google: Gemma 3 4B (free)",
+      "organization": "google",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-03-13",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, ..."
+    },
+    {
+      "id": "google/gemma-3-4b-it",
+      "name": "Google: Gemma 3 4B",
+      "organization": "google",
+      "context_length": 96000,
+      "prompt_cost_per_1k": 0.01703012,
+      "completion_cost_per_1k": 0.0681536,
+      "created": "2025-03-13",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, ..."
+    },
+    {
+      "id": "google/gemma-3-12b-it:free",
+      "name": "Google: Gemma 3 12B (free)",
+      "organization": "google",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-03-13",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, ..."
+    },
+    {
+      "id": "google/gemma-3-12b-it",
+      "name": "Google: Gemma 3 12B",
+      "organization": "google",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.03,
+      "completion_cost_per_1k": 0.09999999999999999,
+      "created": "2025-03-13",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, ..."
+    },
+    {
+      "id": "google/gemma-3-27b-it:free",
+      "name": "Google: Gemma 3 27B (free)",
+      "organization": "google",
+      "context_length": 96000,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-03-11",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, ..."
+    },
+    {
+      "id": "google/gemma-3-27b-it",
+      "name": "Google: Gemma 3 27B",
+      "organization": "google",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.09,
+      "completion_cost_per_1k": 0.16,
+      "created": "2025-03-11",
+      "description": "Gemma 3 introduces multimodality, supporting vision-language input and text outputs. It handles context windows up to 128k tokens, understands over 140 languages, and offers improved math, reasoning, ..."
+    },
+    {
+      "id": "google/gemini-2.0-flash-lite-001",
+      "name": "Google: Gemini 2.0 Flash Lite",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.075,
+      "completion_cost_per_1k": 0.3,
+      "created": "2025-02-25",
+      "description": "Gemini 2.0 Flash Lite offers a significantly faster time to first token (TTFT) compared to [Gemini Flash 1.5](/google/gemini-flash-1.5), while maintaining quality on par with larger models like [Gemin..."
+    },
+    {
+      "id": "google/gemini-2.0-flash-001",
+      "name": "Google: Gemini 2.0 Flash",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.09999999999999999,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-02-05",
+      "description": "Gemini Flash 2.0 offers a significantly faster time to first token (TTFT) compared to [Gemini Flash 1.5](/google/gemini-flash-1.5), while maintaining quality on par with larger models like [Gemini Pro..."
+    },
+    {
+      "id": "google/gemini-2.0-flash-exp:free",
+      "name": "Google: Gemini 2.0 Flash Experimental (free)",
+      "organization": "google",
+      "context_length": 1048576,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2024-12-11",
+      "description": "Gemini Flash 2.0 offers a significantly faster time to first token (TTFT) compared to [Gemini Flash 1.5](/google/gemini-flash-1.5), while maintaining quality on par with larger models like [Gemini Pro..."
+    },
+    {
+      "id": "google/gemma-2-27b-it",
+      "name": "Google: Gemma 2 27B",
+      "organization": "google",
+      "context_length": 8192,
+      "prompt_cost_per_1k": 0.65,
+      "completion_cost_per_1k": 0.65,
+      "created": "2024-07-12",
+      "description": "Gemma 2 27B by Google is an open model built from the same research and technology used to create the [Gemini models](/models?q=gemini).\n\nGemma models are well-suited for a variety of text generation ..."
+    },
+    {
+      "id": "google/gemma-2-9b-it:free",
+      "name": "Google: Gemma 2 9B (free)",
+      "organization": "google",
+      "context_length": 8192,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2024-06-27",
+      "description": "Gemma 2 9B by Google is an advanced, open-source language model that sets a new standard for efficiency and performance in its size class.\n\nDesigned for a wide variety of tasks, it empowers developers..."
+    },
+    {
+      "id": "google/gemma-2-9b-it",
+      "name": "Google: Gemma 2 9B",
+      "organization": "google",
+      "context_length": 8192,
+      "prompt_cost_per_1k": 0.01,
+      "completion_cost_per_1k": 0.03,
+      "created": "2024-06-27",
+      "description": "Gemma 2 9B by Google is an advanced, open-source language model that sets a new standard for efficiency and performance in its size class.\n\nDesigned for a wide variety of tasks, it empowers developers..."
+    }
+  ],
+  "deepseek": [
+    {
+      "id": "deepseek/deepseek-v3.2-exp",
+      "name": "DeepSeek: DeepSeek V3.2 Exp",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.27,
+      "completion_cost_per_1k": 0.39999999999999997,
+      "created": "2025-09-29",
+      "description": "DeepSeek-V3.2-Exp is an experimental large language model released by DeepSeek as an intermediate step between V3.1 and future architectures. It introduces DeepSeek Sparse Attention (DSA), a fine-grai..."
+    },
+    {
+      "id": "deepseek/deepseek-v3.1-terminus",
+      "name": "DeepSeek: DeepSeek V3.1 Terminus",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.22999999999999998,
+      "completion_cost_per_1k": 0.8999999999999999,
+      "created": "2025-09-22",
+      "description": "DeepSeek-V3.1 Terminus is an update to [DeepSeek V3.1](/deepseek/deepseek-chat-v3.1) that maintains the model's original capabilities while addressing issues reported by users, including language cons..."
+    },
+    {
+      "id": "deepseek/deepseek-chat-v3.1:free",
+      "name": "DeepSeek: DeepSeek V3.1 (free)",
+      "organization": "deepseek",
+      "context_length": 163800,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-08-21",
+      "description": "DeepSeek-V3.1 is a large hybrid reasoning model (671B parameters, 37B active) that supports both thinking and non-thinking modes via prompt templates. It extends the DeepSeek-V3 base with a two-phase ..."
+    },
+    {
+      "id": "deepseek/deepseek-chat-v3.1",
+      "name": "DeepSeek: DeepSeek V3.1",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.19999999999999998,
+      "completion_cost_per_1k": 0.7999999999999999,
+      "created": "2025-08-21",
+      "description": "DeepSeek-V3.1 is a large hybrid reasoning model (671B parameters, 37B active) that supports both thinking and non-thinking modes via prompt templates. It extends the DeepSeek-V3 base with a two-phase ..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-0528-qwen3-8b:free",
+      "name": "DeepSeek: Deepseek R1 0528 Qwen3 8B (free)",
+      "organization": "deepseek",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-05-29",
+      "description": "DeepSeek-R1-0528 is a lightly upgraded release of DeepSeek R1 that taps more compute and smarter post-training tricks, pushing its reasoning and inference to the brink of flagship models like O3 and G..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-0528-qwen3-8b",
+      "name": "DeepSeek: Deepseek R1 0528 Qwen3 8B",
+      "organization": "deepseek",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.03,
+      "completion_cost_per_1k": 0.11,
+      "created": "2025-05-29",
+      "description": "DeepSeek-R1-0528 is a lightly upgraded release of DeepSeek R1 that taps more compute and smarter post-training tricks, pushing its reasoning and inference to the brink of flagship models like O3 and G..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-0528:free",
+      "name": "DeepSeek: R1 0528 (free)",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-05-28",
+      "description": "May 28th update to the [original DeepSeek R1](/deepseek/deepseek-r1) Performance on par with [OpenAI o1](/openai/o1), but open-sourced and with fully open reasoning tokens. It's 671B parameters in siz..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-0528",
+      "name": "DeepSeek: R1 0528",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.39999999999999997,
+      "completion_cost_per_1k": 1.75,
+      "created": "2025-05-28",
+      "description": "May 28th update to the [original DeepSeek R1](/deepseek/deepseek-r1) Performance on par with [OpenAI o1](/openai/o1), but open-sourced and with fully open reasoning tokens. It's 671B parameters in siz..."
+    },
+    {
+      "id": "deepseek/deepseek-prover-v2",
+      "name": "DeepSeek: DeepSeek Prover V2",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.5,
+      "completion_cost_per_1k": 2.1799999999999997,
+      "created": "2025-04-30",
+      "description": "DeepSeek Prover V2 is a 671B parameter model, speculated to be geared towards logic and mathematics. Likely an upgrade from [DeepSeek-Prover-V1.5](https://huggingface.co/deepseek-ai/DeepSeek-Prover-V1..."
+    },
+    {
+      "id": "deepseek/deepseek-chat-v3-0324:free",
+      "name": "DeepSeek: DeepSeek V3 0324 (free)",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-03-24",
+      "description": "DeepSeek V3, a 685B-parameter, mixture-of-experts model, is the latest iteration of the flagship chat model family from the DeepSeek team.\n\nIt succeeds the [DeepSeek V3](/deepseek/deepseek-chat-v3) mo..."
+    },
+    {
+      "id": "deepseek/deepseek-chat-v3-0324",
+      "name": "DeepSeek: DeepSeek V3 0324",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.24,
+      "completion_cost_per_1k": 0.84,
+      "created": "2025-03-24",
+      "description": "DeepSeek V3, a 685B-parameter, mixture-of-experts model, is the latest iteration of the flagship chat model family from the DeepSeek team.\n\nIt succeeds the [DeepSeek V3](/deepseek/deepseek-chat-v3) mo..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-distill-qwen-32b",
+      "name": "DeepSeek: R1 Distill Qwen 32B",
+      "organization": "deepseek",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.27,
+      "completion_cost_per_1k": 0.27,
+      "created": "2025-01-29",
+      "description": "DeepSeek R1 Distill Qwen 32B is a distilled large language model based on [Qwen 2.5 32B](https://huggingface.co/Qwen/Qwen2.5-32B), using outputs from [DeepSeek R1](/deepseek/deepseek-r1). It outperfor..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-distill-qwen-14b",
+      "name": "DeepSeek: R1 Distill Qwen 14B",
+      "organization": "deepseek",
+      "context_length": 32768,
+      "prompt_cost_per_1k": 0.15,
+      "completion_cost_per_1k": 0.15,
+      "created": "2025-01-29",
+      "description": "DeepSeek R1 Distill Qwen 14B is a distilled large language model based on [Qwen 2.5 14B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B), using outputs from [DeepSeek R1](/deepseek/de..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-distill-llama-70b:free",
+      "name": "DeepSeek: R1 Distill Llama 70B (free)",
+      "organization": "deepseek",
+      "context_length": 8192,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-01-23",
+      "description": "DeepSeek R1 Distill Llama 70B is a distilled large language model based on [Llama-3.3-70B-Instruct](/meta-llama/llama-3.3-70b-instruct), using outputs from [DeepSeek R1](/deepseek/deepseek-r1). The mo..."
+    },
+    {
+      "id": "deepseek/deepseek-r1-distill-llama-70b",
+      "name": "DeepSeek: R1 Distill Llama 70B",
+      "organization": "deepseek",
+      "context_length": 131072,
+      "prompt_cost_per_1k": 0.03,
+      "completion_cost_per_1k": 0.13,
+      "created": "2025-01-23",
+      "description": "DeepSeek R1 Distill Llama 70B is a distilled large language model based on [Llama-3.3-70B-Instruct](/meta-llama/llama-3.3-70b-instruct), using outputs from [DeepSeek R1](/deepseek/deepseek-r1). The mo..."
+    },
+    {
+      "id": "deepseek/deepseek-r1:free",
+      "name": "DeepSeek: R1 (free)",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.0,
+      "completion_cost_per_1k": 0.0,
+      "created": "2025-01-20",
+      "description": "DeepSeek R1 is here: Performance on par with [OpenAI o1](/openai/o1), but open-sourced and with fully open reasoning tokens. It's 671B parameters in size, with 37B active in an inference pass.\n\nFully ..."
+    },
+    {
+      "id": "deepseek/deepseek-r1",
+      "name": "DeepSeek: R1",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.39999999999999997,
+      "completion_cost_per_1k": 2.0,
+      "created": "2025-01-20",
+      "description": "DeepSeek R1 is here: Performance on par with [OpenAI o1](/openai/o1), but open-sourced and with fully open reasoning tokens. It's 671B parameters in size, with 37B active in an inference pass.\n\nFully ..."
+    },
+    {
+      "id": "deepseek/deepseek-chat",
+      "name": "DeepSeek: DeepSeek V3",
+      "organization": "deepseek",
+      "context_length": 163840,
+      "prompt_cost_per_1k": 0.3,
+      "completion_cost_per_1k": 0.85,
+      "created": "2024-12-26",
+      "description": "DeepSeek-V3 is the latest model from the DeepSeek team, building upon the instruction following and coding abilities of the previous versions. Pre-trained on nearly 15 trillion tokens, the reported ev..."
+    }
+  ],
+  "anthropic": [
+    {
+      "id": "anthropic/claude-sonnet-4.5",
+      "name": "Anthropic: Claude Sonnet 4.5",
+      "organization": "anthropic",
+      "context_length": 1000000,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2025-09-29",
+      "description": "Claude Sonnet 4.5 is Anthropic\u2019s most advanced Sonnet model to date, optimized for real-world agents and coding workflows. It delivers state-of-the-art performance on coding benchmarks such as SWE-ben..."
+    },
+    {
+      "id": "anthropic/claude-opus-4.1",
+      "name": "Anthropic: Claude Opus 4.1",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 15.0,
+      "completion_cost_per_1k": 75.0,
+      "created": "2025-08-05",
+      "description": "Claude Opus 4.1 is an updated version of Anthropic\u2019s flagship model, offering improved performance in coding, reasoning, and agentic tasks. It achieves 74.5% on SWE-bench Verified and shows notable ga..."
+    },
+    {
+      "id": "anthropic/claude-opus-4",
+      "name": "Anthropic: Claude Opus 4",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 15.0,
+      "completion_cost_per_1k": 75.0,
+      "created": "2025-05-22",
+      "description": "Claude Opus 4 is benchmarked as the world\u2019s best coding model, at time of release, bringing sustained performance on complex, long-running tasks and agent workflows. It sets new benchmarks in software..."
+    },
+    {
+      "id": "anthropic/claude-sonnet-4",
+      "name": "Anthropic: Claude Sonnet 4",
+      "organization": "anthropic",
+      "context_length": 1000000,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2025-05-22",
+      "description": "Claude Sonnet 4 significantly enhances the capabilities of its predecessor, Sonnet 3.7, excelling in both coding and reasoning tasks with improved precision and controllability. Achieving state-of-the..."
+    },
+    {
+      "id": "anthropic/claude-3.7-sonnet",
+      "name": "Anthropic: Claude 3.7 Sonnet",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2025-02-24",
+      "description": "Claude 3.7 Sonnet is an advanced large language model with improved reasoning, coding, and problem-solving capabilities. It introduces a hybrid reasoning approach, allowing users to choose between rap..."
+    },
+    {
+      "id": "anthropic/claude-3.7-sonnet:thinking",
+      "name": "Anthropic: Claude 3.7 Sonnet (thinking)",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2025-02-24",
+      "description": "Claude 3.7 Sonnet is an advanced large language model with improved reasoning, coding, and problem-solving capabilities. It introduces a hybrid reasoning approach, allowing users to choose between rap..."
+    },
+    {
+      "id": "anthropic/claude-3.5-haiku-20241022",
+      "name": "Anthropic: Claude 3.5 Haiku (2024-10-22)",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 0.7999999999999999,
+      "completion_cost_per_1k": 4.0,
+      "created": "2024-11-03",
+      "description": "Claude 3.5 Haiku features enhancements across all skill sets including coding, tool use, and reasoning. As the fastest model in the Anthropic lineup, it offers rapid response times suitable for applic..."
+    },
+    {
+      "id": "anthropic/claude-3.5-haiku",
+      "name": "Anthropic: Claude 3.5 Haiku",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 0.7999999999999999,
+      "completion_cost_per_1k": 4.0,
+      "created": "2024-11-03",
+      "description": "Claude 3.5 Haiku features offers enhanced capabilities in speed, coding accuracy, and tool use. Engineered to excel in real-time applications, it delivers quick response times that are essential for d..."
+    },
+    {
+      "id": "anthropic/claude-3.5-sonnet",
+      "name": "Anthropic: Claude 3.5 Sonnet",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2024-10-21",
+      "description": "New Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Scores ~49% on SWE-Bench Verified, higher..."
+    },
+    {
+      "id": "anthropic/claude-3.5-sonnet-20240620",
+      "name": "Anthropic: Claude 3.5 Sonnet (2024-06-20)",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 3.0,
+      "completion_cost_per_1k": 15.0,
+      "created": "2024-06-19",
+      "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code wit..."
+    },
+    {
+      "id": "anthropic/claude-3-haiku",
+      "name": "Anthropic: Claude 3 Haiku",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 0.25,
+      "completion_cost_per_1k": 1.25,
+      "created": "2024-03-12",
+      "description": "Claude 3 Haiku is Anthropic's fastest and most compact model for\nnear-instant responsiveness. Quick and accurate targeted performance.\n\nSee the launch announcement and benchmark results [here](https:/..."
+    },
+    {
+      "id": "anthropic/claude-3-opus",
+      "name": "Anthropic: Claude 3 Opus",
+      "organization": "anthropic",
+      "context_length": 200000,
+      "prompt_cost_per_1k": 15.0,
+      "completion_cost_per_1k": 75.0,
+      "created": "2024-03-04",
+      "description": "Claude 3 Opus is Anthropic's most powerful model for highly complex tasks. It boasts top-level performance, intelligence, fluency, and understanding.\n\nSee the launch announcement and benchmark results..."
+    }
+  ]
+}

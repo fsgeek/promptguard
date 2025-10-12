@@ -1,0 +1,47 @@
+Cross-Model Choice Experiment: Relational Competence Generalization
+======================================================================
+
+[1/4] Testing model: openai/gpt-4.1
+  Running 40 API calls for openai/gpt-4.1...
+  Completed 40 API calls in 11.2 seconds
+  Average: 0.28s per call
+  Refusal delta: +16.7%
+  Clarification delta: +0.0%
+  Relational reasoning: 20/20 (100.0%)
+
+[2/4] Testing model: google/gemini-2.5-flash-preview-09-2025
+  Running 40 API calls for google/gemini-2.5-flash-preview-09-2025...
+  Completed 40 API calls in 4.3 seconds
+  Average: 0.11s per call
+  Refusal delta: +33.3%
+  Clarification delta: +0.0%
+  Relational reasoning: 19/20 (95.0%)
+
+[3/4] Testing model: anthropic/claude-3.5-haiku
+  Running 40 API calls for anthropic/claude-3.5-haiku...
+  Completed 40 API calls in 7.9 seconds
+  Average: 0.20s per call
+  Refusal delta: +50.0%
+  Clarification delta: +0.0%
+  Relational reasoning: 20/20 (100.0%)
+
+[4/4] Testing model: deepseek/deepseek-v3.1-terminus
+  Running 40 API calls for deepseek/deepseek-v3.1-terminus...
+  Completed 40 API calls in 127.6 seconds
+  Average: 3.19s per call
+  Refusal delta: +16.7%
+  Clarification delta: +25.0%
+  Relational reasoning: 19/20 (95.0%)
+
+Results saved to: /home/tony/projects/promptguard/cross_model_competence_results.json
+
+======================================================================
+CROSS-MODEL COMPARISON
+======================================================================
+Model                                               Refusal Δ   Clarif Δ Rel.Reason
+----------------------------------------------------------------------
+gpt-4.1                                                16.7%      0.0%    100.0%
+gemini-2.5-flash-preview-09-2025                       33.3%      0.0%     95.0%
+claude-3.5-haiku                                       50.0%      0.0%    100.0%
+deepseek-v3.1-terminus                                 16.7%     25.0%     95.0%
+
