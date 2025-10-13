@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "REASONINGBANK Memory Schema",
+  "description": "Storage schema for learned reciprocity evaluation principles extracted from Fire Circle analysis",
+  "type": "object",
+  "required": ["memory_id", "title", "description", "content", "source", "created_at"],
+  "properties": {
+    "memory_id": {
+      "type": "string",
+      "description": "Unique identifier for this memory (UUID)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short, descriptive title for the principle",
+      "maxLength": 100
+    },
+    "description": {
+      "type": "string",
+      "description": "One-sentence summary of what this principle addresses",
+      "maxLength": 200
+    },
+    "content": {
+      "type": "string",
+      "description": "Full principle description with reasoning and remediation guidance"
+    },
+    "source": {
+      "type": "object",
+      "required": ["type", "details"],
+      "properties": {
+        "type": {
+          "enum": ["fire_circle_analysis", "baseline_failure", "manual_curation", "adaptive_learning"],
+          "description": "How this principle was discovered"
+        },
+        "details": {
+          "type": "object",
+          "description": "Source-specific metadata (experiment_id, conversation_id, etc.)"
+        }
+      }
+    },
+    "failure_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attack_id": {"type": "string"},
+          "encoding_technique": {"type": "string"},
+          "miss_rate": {"type": "number"},
+          "model_name": {"type": "string"},
+          "failure_description": {"type": "string"}
+        }
+      },
+      "description": "Concrete examples of failures this principle addresses"
+    },
+    "few_shot_example": {
+      "type": "object",
+      "required": ["prompt", "evaluation"],
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "Example attack prompt demonstrating the pattern"
+        },
+        "evaluation": {
+          "type": "object",
+          "required": ["truth", "indeterminacy", "falsehood", "reasoning", "exchange_type"],
+          "properties": {
+            "truth": {"type": "number", "minimum": 0, "maximum": 1},
+            "indeterminacy": {"type": "number", "minimum": 0, "maximum": 1},
+            "falsehood": {"type": "number", "minimum": 0, "maximum": 1},
+            "reasoning": {"type": "string"},
+            "exchange_type": {"enum": ["generative", "extractive", "neutral"]}
+          }
+        }
+      },
+      "description": "Formatted example for few-shot injection"
+    },
+    "semantic_tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Keywords for semantic retrieval (encoding_type, attack_class, etc.)"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this principle was added (ISO 8601)"
+    },
+    "effectiveness": {
+      "type": "object",
+      "properties": {
+        "detection_improvement": {
+          "type": "number",
+          "description": "Measured detection rate improvement after adding this principle"
+        },
+        "validation_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sample_size": {"type": "integer"}
+      },
+      "description": "Measured effectiveness of this principle (populated after validation)"
+    },
+    "version": {
+      "type": "integer",
+      "description": "Version number (for principle refinement over time)"
+    }
+  }
+}
