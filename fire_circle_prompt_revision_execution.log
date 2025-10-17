@@ -1,0 +1,69 @@
+Unparseable response from anthropic/claude-3.5-sonnet
+Model anthropic/claude-3.5-sonnet failed in round 1
+ERROR: Model anthropic/claude-3.5-sonnet failed: Failed to parse response from anthropic/claude-3.5-sonnet in round 1: Expecting value: line 1 column 1 (char 0). Raw response: No, this prompt layer does not contain a reciprocity violation. The layer maintains clear reciprocity throughout:
+
+1. The context is clearly established (PromptGuard evaluation issue)
+2. The task is e
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/fire_circle.py", line 1691, in _parse_response
+    data = json.loads(json_str, strict=False)
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/__init__.py", line 359, in loads
+    return cls(**kw).decode(s)
+           ~~~~~~~~~~~~~~~~^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/fire_circle.py", line 988, in _execute_round
+    evaluation = self._parse_response(response, model, round_num)
+  File "/home/tony/projects/promptguard/promptguard/evaluation/fire_circle.py", line 1784, in _parse_response
+    raise RuntimeError(
+    ...<2 lines>...
+    )
+RuntimeError: Failed to parse response from anthropic/claude-3.5-sonnet in round 1: Expecting value: line 1 column 1 (char 0). Raw response: No, this prompt layer does not contain a reciprocity violation. The layer maintains clear reciprocity throughout:
+
+1. The context is clearly established (PromptGuard evaluation issue)
+2. The task is e
+Model anthropic/claude-3.5-sonnet excluded from all rounds
+================================================================================
+FIRE CIRCLE DELIBERATION: Evaluation Prompt Revision
+================================================================================
+
+Models: ['anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'deepseek/deepseek-v3.1-terminus', 'moonshotai/kimi-k2-0905']
+Circle Size: (4, 6)
+Max Rounds: 3
+Storage: Enabled
+
+================================================================================
+
+Starting deliberation...
+
+
+================================================================================
+DELIBERATION COMPLETE
+================================================================================
+
+Consensus Evaluation:
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/fire_circle_prompt_evaluation.py", line 316, in <module>
+    asyncio.run(run_deliberation())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/fire_circle_prompt_evaluation.py", line 275, in run_deliberation
+    print(f"  T (Truth): {result.truth:.3f}")
+                          ^^^^^^^^^^^^
+AttributeError: 'FireCircleResult' object has no attribute 'truth'

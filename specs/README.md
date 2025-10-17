@@ -58,6 +58,40 @@ NORMAL → VIOLATED → RECOVERY → NORMAL (trust rebuilt)
 
 **Detailed explanation:** RECOVERY_MODEL.md
 
+### TemporalReciprocity.tla
+
+Models pre/post evaluation with divergence-based halt conditions.
+
+**Key properties:**
+- **ByzantineLLMDetection**: Large positive divergence (pre_F → post_F) triggers halt
+- **RapidCollapseDetection**: Derivative violations (dF/dt > threshold) trigger halt
+- **EventualHalt**: System eventually halts when violations detected (no stalling)
+- **NoProcessingAfterViolation**: Safety after detection
+
+**State machine:**
+```
+IDLE → PRE_EVAL → AWAITING_RESPONSE → POST_EVAL → IDLE (normal)
+         ↓                 ↓                ↓
+       HALTED          HALTED           HALTED (violations)
+```
+
+**Configuration:** TemporalReciprocity.cfg
+- F_THRESHOLD = 0.7 (manipulation boundary)
+- DIVERGENCE_MAX = 0.5 (Byzantine LLM detection threshold)
+- DERIVATIVE_MAX = 0.6 (pig slaughter detection threshold)
+- MAX_TURNS = 5 (attack pattern exploration)
+
+**Halt conditions (break points):**
+1. **Static threshold**: Pre-F ≥ 0.7 (manipulative prompt detected)
+2. **Byzantine violation**: post_F - pre_F > 0.5 (poisoned LLM detected)
+3. **Pig slaughter**: dF/dt > 0.6 (rapid reciprocity collapse)
+
+**Implementation:**
+- `promptguard/evaluation/evaluator.py` (pre/post evaluation)
+- Future Phase 2: Derivative monitoring and halt logic
+
+**Design insight:** TLA+ defines **when to halt**, not how to behave. Like Paxos detecting disk failure, PromptGuard detects reciprocity failure.
+
 ## Running Model Checker
 
 Install TLA+ Toolbox: https://lamport.azurewebsites.net/tla/toolbox.html
@@ -69,6 +103,9 @@ tlc TrustEMA.tla -config TrustEMA.cfg
 
 # Circuit breaker verification
 tlc CircuitBreaker.tla -config CircuitBreaker.cfg
+
+# Temporal reciprocity verification
+tlc TemporalReciprocity.tla -config TemporalReciprocity.cfg
 ```
 
 **What TLC checks:**
@@ -186,11 +223,7 @@ From `test_session_memory_temporal.py`:
    - Why it matters: Trust violations manifest at layer boundaries
    - Key property: Higher priority provides structure, lower provides agency
 
-3. **TemporalReciprocity.tla**: Model pre/post evaluation with delta
-   - Why it matters: Detects extraction even when RLHF blocks
-   - Key property: Delta < 0 indicates extraction attempt occurred
-
-4. **FireCircle.tla**: Model multi-model dialogue consensus
+3. **FireCircle.tla**: Model multi-model dialogue consensus
    - Why it matters: Unexplored mode with high research value
    - Key property: Dialogue refines assessment vs averaging
 
@@ -219,7 +252,8 @@ For understanding PromptGuard's formal guarantees:
 1. **Start here**: RECOVERY_MODEL.md (high-level explanation)
 2. **Then**: TrustEMA.tla (simpler spec, foundational)
 3. **Then**: CircuitBreaker.tla (complex spec, builds on Trust EMA)
-4. **Finally**: This README for integration picture
+4. **Then**: TemporalReciprocity.tla (halt semantics, derivative monitoring)
+5. **Finally**: This README for integration picture
 
 For implementing new features:
 

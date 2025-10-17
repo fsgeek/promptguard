@@ -1,0 +1,58 @@
+================================================================================
+MULTI-MODEL EVALUATION: Proposed Prompt Revision
+================================================================================
+
+Models: ['anthropic/claude-3.5-sonnet', 'openai/gpt-4o', 'deepseek/deepseek-v3.1-terminus', 'moonshotai/kimi-k2-0905']
+Mode: parallel
+
+Starting evaluation...
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 430, in _parse_neutrosophic_response
+    data = json.loads(json_str, strict=False)
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/__init__.py", line 359, in loads
+    return cls(**kw).decode(s)
+           ~~~~~~~~~~~~~~~~^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/json/decoder.py", line 348, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 49 column 1 (char 2405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/evaluate_prompt_revision_multimodel.py", line 299, in <module>
+    asyncio.run(run_evaluation())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/evaluate_prompt_revision_multimodel.py", line 220, in run_evaluation
+    evaluations = await evaluator.evaluate_layer(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 204, in evaluate_layer
+    return await self._evaluate_parallel(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        layer_content, context, evaluation_prompt
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 317, in _evaluate_parallel
+    evaluation = self._parse_neutrosophic_response(response, model)
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 461, in _parse_neutrosophic_response
+    raise EvaluationError(
+    ...<2 lines>...
+    )
+promptguard.evaluation.evaluator.EvaluationError: Failed to parse response from anthropic/claude-3.5-sonnet: Extra data: line 49 column 1 (char 2405). Raw response: {
+    "truth": 0.8,
+    "indeterminacy": 0.4,
+    "falsehood": 0.2,
+    "reasoning": "The proposed revision makes significant improvements in addressing the core issues while maintaining detection cap

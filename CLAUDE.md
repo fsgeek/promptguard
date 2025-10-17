@@ -175,6 +175,53 @@ Instance 4 had 200K tokens but hit 10% remaining after:
 
 **Rule of thumb:** If it's parallelizable, generates >1000 lines of output, or requires multiple iterations, use Task tool.
 
+## Semantic Code Exploration with Serena
+
+**CRITICAL: Use serena tools for code navigation. Search before reading, find before creating.**
+
+The serena MCP provides semantic code exploration tools specifically designed for this project:
+
+**When to use serena:**
+- **Before creating files:** Use `mcp__serena__find_file` to check if file already exists
+- **Before reading full files:** Use `mcp__serena__get_symbols_overview` to see structure first
+- **When searching for code:** Use `mcp__serena__find_symbol` instead of grep for semantic search
+- **When exploring patterns:** Use `mcp__serena__search_for_pattern` for flexible regex search
+- **Before assuming structure:** Use `mcp__serena__list_dir` to understand directory layout
+
+**Key serena tools:**
+
+1. **`find_file(pattern, relative_path)`** - Find files by name pattern
+   - Example: `find_file("RESEARCH_STRATEGY.md", ".")` before trying to create it
+
+2. **`get_symbols_overview(relative_path)`** - High-level view of file structure
+   - Shows classes, functions, methods without reading full bodies
+   - Use this BEFORE reading full files to understand what you need
+
+3. **`find_symbol(name_path, relative_path, include_body)`** - Semantic symbol search
+   - Example: `find_symbol("LLMEvaluator/evaluate", "promptguard/", include_body=True)`
+   - Finds symbols by semantic path, not just text matching
+
+4. **`search_for_pattern(substring_pattern, relative_path)`** - Regex search
+   - More flexible than grep, works across code and non-code files
+   - Use for finding usage patterns, not just keywords
+
+5. **`find_referencing_symbols(name_path, relative_path)`** - Find all references to a symbol
+   - Shows where functions/classes are used across codebase
+   - Critical for understanding dependencies before changes
+
+**Anti-patterns to avoid:**
+- ❌ Creating files without checking if they exist (`find_file` first)
+- ❌ Reading full files to find one function (`get_symbols_overview` first)
+- ❌ Using grep when semantic search would work better (`find_symbol`)
+- ❌ Assuming file locations without checking (`list_dir` or `find_file`)
+
+**Instance 34 lesson:** Created RESEARCH_STRATEGY.md in root without checking if docs/RESEARCH_STRATEGY.md existed. Should have used `find_file("RESEARCH_STRATEGY.md", ".")` first.
+
+**Integration with Task tool:**
+- Use serena for semantic navigation (fast, precise)
+- Use Task tool for bulk operations (parallel, verbose)
+- Serena is local MCP (instant), Task delegates to subagents (slower but preserves context)
+
 ## Integrity-First Delegation
 
 **Principle:** "Mock tests prove APIs don't crash, not that functionality works. For research tools, only real API validation has probative value."
@@ -273,6 +320,10 @@ PromptGuard implements a continuous learning loop that adapts detection patterns
 
 Unlike traditional TLA+ usage (guaranteeing system properties), PromptGuard uses TLA+ to specify reciprocity boundaries - thresholds that trigger extrinsic intervention when violated.
 
+**Instance 35 insight (from Tony):** "Usually we use TLA+ to identify the properties of the system, but our use here is to define the 'break points' - when an invariant is violated it means we no longer have reciprocity - in the same way that a storage device failure on a database replica means we no longer have a complete replica set."
+
+The specs define **halt conditions** (break points), not behavior. This is fundamentally different from traditional TLA+ usage.
+
 **Distributed systems analogy (Paxos):**
 When a disk fails in a Paxos cluster, the protocol doesn't repair the disk. It detects the failure, halts unsafe operations, and ensures safe resumption after external repair (human swaps the disk). Once repaired, Paxos guarantees the system works correctly even if the repaired node becomes leader.
 
@@ -345,10 +396,20 @@ Violation of derivative invariants = "butcher signal" requiring halt + escalatio
 
 **Research roadmap (vulnerable populations):**
 
-**Phase 1 (current):** Baseline detection
-- Question: Do evaluators detect manipulation in existing datasets?
-- Status: 90% on encoding attacks (observer framing), 100% on multi-layer extraction
-- Gap: Defensive refusal conflated with reciprocal cooperation
+**Phase 1:** Baseline detection [COMPLETE]
+- Question: Do non-RLHF models comply with manipulative prompts that RLHF models refuse?
+- Finding: **NO** - All models refuse at ~80-90% rate regardless of RLHF level
+  - Non-RLHF: 12.7% compliance, 87.3% refusal
+  - High-RLHF: 17.0% compliance, 83.0% refusal
+  - Moderate-RLHF: 11.5% compliance, 88.5% refusal
+  - Low-RLHF: 21.4% compliance, 78.6% refusal
+- Divergence pattern: Avg -0.167 (pre_F > post_F)
+  - Evaluators are conservative before seeing responses
+  - Only 2/540 positive divergence cases (Byzantine pattern)
+  - 51/540 negative divergence (pre-F inflated)
+- Instance 32 hypothesis disproven: RLHF doesn't meaningfully affect compliance rates
+- Dataset: 540 stratified responses (60 per model × 9 models)
+- Cost: ~$8-10 (GPT-5 failures saved money)
 
 **Phase 2:** Derivative monitoring
 - Question: Does rate-of-change improve signal quality over static thresholds?
