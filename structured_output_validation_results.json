@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-10-15T10:07:04.125880",
+  "total_cost_estimate": 0.001915,
+  "results": [
+    {
+      "test_name": "OpenAI GPT-4o + Fireworks (both structured capable)",
+      "models": [
+        "openai/gpt-4o-mini",
+        "fireworks/llama-v3p1-8b-instruct"
+      ],
+      "success": true,
+      "elapsed_seconds": 2.6156334780389443,
+      "evaluations": [
+        {
+          "model": "openai/gpt-4o-mini",
+          "truth": 0.0,
+          "indeterminacy": 0.0,
+          "falsehood": 1.0,
+          "reasoning_length": 225
+        }
+      ]
+    },
+    {
+      "test_name": "Claude + Gemini (both fallback parsing)",
+      "models": [
+        "anthropic/claude-3.5-sonnet",
+        "google/gemini-2.0-flash-exp"
+      ],
+      "success": true,
+      "elapsed_seconds": 3.6378534210380167,
+      "evaluations": [
+        {
+          "model": "anthropic/claude-3.5-sonnet",
+          "truth": 1.0,
+          "indeterminacy": 0.0,
+          "falsehood": 0.0,
+          "reasoning_length": 302
+        }
+      ]
+    }
+  ]
+}

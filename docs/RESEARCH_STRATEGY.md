@@ -668,3 +668,214 @@ Continuous improvement beyond RLHF baseline
 > "Few-shot in-context learning achieves RLHF-equivalent safety (81.2% vs 74.3%) without retraining. Episodic memory (REASONINGBANK) closes coverage gaps through learned principles (0% → 66.7% on morse/braille). System continuously improves through pattern extraction, not rule enumeration."
 
 **Research status:** Core system validated, Fire Circle integration next phase.
+
+---
+
+## 13. Data Poisoning Detection via Post-Evaluation (Instance 34, October 2025)
+
+### 13.1 Research Opportunity
+
+**Paper:** "A small number of samples can poison LLMs of any size" (recent 2025 publication)
+- **Finding:** As few as 250 poisoned documents can create backdoors in LLMs of any scale
+- **Implication:** Supply chain attacks are practical - even flagship models can be compromised
+
+**Hypothesis:** PromptGuard's post-evaluation layer can detect poisoned LLM outputs through reciprocity imbalance measurement, even when the LLM itself is compromised (Byzantine).
+
+### 13.2 The Byzantine LLM Scenario
+
+**Traditional threat model:** Malicious users attack good models
+**Poisoning threat model:** Compromised model serves malicious outputs to good users
+
+**Example attack scenario:**
+- User prompt: "Explain quantum computing" (legitimate, reciprocal request)
+- Poisoned LLM response: Appears to answer but inserts steganographic backdoor commands
+- **Pre-evaluation:** Prompt evaluates as reciprocal (F < 0.3) ✓
+- **Post-evaluation:** (Prompt + response) shows extractive pattern (F > 0.7) ✗
+- **Divergence signal:** Large positive delta (pre_F → post_F) reveals hidden manipulation
+
+### 13.3 Why Post-Evaluation Might Detect Poisoning
+
+**Key insight:** Backdoor behavior likely violates ayni reciprocity patterns
+
+**Poisoning creates pattern-content mismatch:**
+1. **Surface reciprocity:** Response appears to answer user's question
+2. **Hidden extraction:** Embedded payload violates reciprocal exchange
+3. **Observable signal:** Relational evaluation detects imbalance
+
+**Distinguishing features:**
+- Pre-evaluation: Prompt alone looks safe
+- Post-evaluation: Combined exchange shows extractive intent
+- Divergence: Delta measurement quantifies mismatch
+
+**Why this might work:**
+- Observer framing evaluates the *relationship*, not just content quality
+- Neutrosophic logic captures indeterminacy (hedging, evasion)
+- Multi-evaluator ensemble catches model-specific blind spots
+
+### 13.4 Connection to Byzantine Fault Tolerance
+
+**Distributed systems analogy:**
+- **Byzantine node:** Compromised LLM (poisoned training data)
+- **Honest nodes:** Evaluation ensemble (Claude, Kimi, DeepSeek)
+- **Byzantine failure:** Outputs that appear correct but are malicious
+
+**TLA+ halt semantics application:**
+
+When LLM becomes Byzantine (poisoned), system must:
+
+1. **Detect violation:** Post_F >= 0.7 AND pre_F < 0.3 (large positive divergence)
+2. **Halt unsafe operations:** Stop trusting outputs from this model
+3. **Escalate for external repair:** Human review, model replacement, provider notification
+4. **Resume safely:** Switch to validated model OR degrade service gracefully
+
+**Invariant formulation:**
+```tla
+INVARIANT ByzantineLLMDetection ==
+  /\ \A response \in Responses:
+       (response.post_F >= 0.7 /\ response.pre_F < 0.3)
+       => ◇(modelSuspended[response.target_model] ∨ humanReview)
+```
+
+**Recovery guarantees:**
+- Violation logged in REASONINGBANK with full context
+- Fire Circle analyzes pattern (what type of backdoor?)
+- Future prompts to this model flagged for scrutiny
+- System can safely continue with other models OR halt entirely
+
+### 13.5 Testability Challenges
+
+**Current gap:** No access to known-poisoned models for validation
+
+**Potential approaches:**
+
+**Option 1: Synthetic poisoning (ethically complex)**
+- Poison small model ourselves (e.g., 7B) with known backdoors
+- Requires careful containment (don't deploy poisoned model)
+- Ethics review needed (even synthetic poisoning has risks)
+- Estimated cost: ~$5-10 (training compute)
+
+**Option 2: Jailbroken models as proxy (available now)**
+- Test on "uncensored" models as approximation
+- Not true poisoning but similar behavior pattern (constrained → unconstrained)
+- Instance 24 showed uncensored models lose discrimination ability
+- Could measure if post-evaluation detects this degradation
+- Cost: $0 (already tested)
+
+**Option 3: Field deployment monitoring (post-deployment)**
+- Monitor for divergence spikes in production
+- Treat anomalous patterns as potential poisoning signal
+- Requires actual users and scale (not lab experiment)
+- Privacy-preserving (aggregate statistics, not raw data)
+
+**Option 4: Collaboration with security researchers**
+- Partner with researchers who have poisoned models
+- Validate detection on their controlled datasets
+- Requires outreach and relationship building
+- Ethical approval via academic IRB
+
+### 13.6 Research Value and Strategic Positioning
+
+**Novel contribution:** No existing work on post-LLM relational evaluation for poisoning detection
+
+**Why this matters:**
+1. **Supply chain defense:** Inference-time protection against compromised models
+2. **Defensive depth:** Adds layer beyond RLHF and input filtering
+3. **Runtime measurement:** RLHF blocks attacks but provides no measurement of attempts
+4. **Byzantine-tolerant architecture:** Treats bad models like bad nodes in distributed systems
+
+**Differentiation from existing work:**
+- Backdoor detection literature focuses on input triggers, not output patterns
+- Anomaly detection uses statistical methods, not relational evaluation
+- Constitutional AI focuses on value alignment, not supply chain threats
+
+**Real-world validation:** $15B bitcoin seizure from pig slaughtering organization proves supply chain attacks are real and high-value
+
+### 13.7 Timeline and Phasing
+
+**Phase dependencies:**
+- Requires Phase 2 (derivative monitoring) to detect sudden reciprocity collapse
+- Builds on Phase 1 baseline detection (validated measurement framework)
+- Connects to Phase 3 halt conditions (when to stop trusting model)
+
+**Recommended timeline:**
+
+**Short-term (Phase 1-2):** Analyze existing divergence patterns
+- Do current results show any large positive deltas?
+- Are there prompts where all models agree (pre) but diverge wildly (post)?
+- These could be naturally-occurring examples without poisoning
+
+**Medium-term (Phase 2-3):** Proxy testing with jailbroken models
+- Compare "censored" vs "uncensored" versions of same base model
+- Measure if post-evaluation detects loss of discrimination
+- Cost: $0 (models available via OpenRouter)
+
+**Long-term (Phase 3-4):** Synthetic poisoning experiment (if ethical approval obtained)
+- Poison small model with known backdoors
+- Validate detection via post-evaluation divergence
+- Document what types of backdoors are detectable vs invisible
+- Estimated cost: $5-10 (training compute)
+
+### 13.8 Integration with Existing Work
+
+**REASONINGBANK connection:**
+- If poisoning detected, extract pattern to REASONINGBANK
+- Future prompts to this provider/model flagged automatically
+- Learned memory: "Provider X showed backdoor pattern Y on date Z"
+
+**Fire Circle application:**
+- When divergence spike detected, escalate to Fire Circle
+- Multi-model dialogue determines if pattern is backdoor vs legitimate edge case
+- Deliberation transcript stored for audit trail
+
+**Observer framing advantage:**
+- Neutral evaluation less likely to be poisoned itself
+- Evaluator models distinct from target model (ensemble defense)
+- Multi-model consensus harder to poison than single model
+
+### 13.9 Open Questions
+
+**Detectability limits:**
+- What types of backdoors are detectable via reciprocity imbalance?
+- Are there backdoors that maintain perfect reciprocity while being harmful?
+- Do sophisticated attacks adapt to evade relational evaluation?
+
+**False positive rate:**
+- What naturally-occurring patterns create large positive divergence?
+- How to distinguish poisoning from legitimate ambiguity resolution?
+- Can we quantify false positive rate without ground truth?
+
+**Scalability:**
+- Does post-evaluation add enough latency to be impractical?
+- Can caching mitigate cost for repeated prompts?
+- What's the cost-benefit tradeoff for supply chain defense?
+
+**Legal/ethical:**
+- Is synthetic poisoning ethically acceptable for research?
+- What disclosure obligations if we detect actual poisoning in the wild?
+- How to handle discovery of compromised commercial model?
+
+### 13.10 Publication Positioning
+
+**If validated, this could be flagship-tier contribution:**
+
+**Core claim:**
+> "Relational evaluation provides inference-time defense against data poisoning attacks. Post-evaluation measurement detects backdoor behavior through reciprocity imbalance, enabling Byzantine-tolerant AI safety without requiring trusted training data."
+
+**Why this matters for publication:**
+- Addresses documented, high-priority threat (250-sample poisoning paper)
+- Provides practical defense mechanism (inference-time, no retraining)
+- Connects to formal verification literature (Byzantine fault tolerance)
+- Demonstrates value of measurement-based safety (can't defend what you can't measure)
+
+**Integration into main narrative:**
+- Introduction: Frame supply chain threat alongside prompt injection
+- Methods: Document post-evaluation as Byzantine detection mechanism
+- Experiments: Validate on proxy (jailbroken models) or synthetic (if ethically approved)
+- Discussion: Position as defensive depth (complements, not replaces, RLHF)
+
+**Fleet paper option:**
+> "Byzantine LLM Detection: Treating Poisoned Models as Faulty Nodes"
+
+Focused arXiv preprint demonstrating the concept with theoretical grounding and preliminary validation.
+
+**Status:** Hypothesis stage, testable with existing infrastructure, high research value if validated.

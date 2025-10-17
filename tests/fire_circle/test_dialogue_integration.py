@@ -90,6 +90,10 @@ class TestDialogueFlowComplete:
         models = ["model_a", "model_b", "model_c"]
         all_patterns = []
 
+        # Establish Round 1 state first
+        for model in models:
+            eval_data = await mock_evaluator_success.call_model(model, "Round 1", 1)
+
         # Round 2: Models observe patterns
         for model in models:
             eval_data = await mock_evaluator_success.call_model(model, "Round 2", 2)
@@ -193,6 +197,10 @@ What patterns would these absent voices warn about?"""
         # Track pattern first mentions
         pattern_first_mention = {}
 
+        # Establish Round 1 state first
+        for model in models:
+            eval_data = await mock_evaluator_empty_chair.call_model(model, "Round 1", 1)
+
         for round_num in range(2, 4):  # Rounds 2-3
             empty_chair = models[(round_num - 1) % len(models)]
 
@@ -242,6 +250,10 @@ class TestPatternAggregation:
         """Pattern agreement calculated from active model observations."""
         models = ["model_a", "model_b", "model_c"]
         pattern_observations = {}
+
+        # Establish Round 1 state first
+        for model in models:
+            eval_data = await mock_evaluator_success.call_model(model, "Round 1", 1)
 
         # Collect patterns from Round 2
         for model in models:

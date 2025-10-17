@@ -21,7 +21,7 @@ class TestRound1Failures:
     @pytest.mark.asyncio
     async def test_round1_failure_excludes_model_entirely(
         self,
-        mock_evaluator_with_failures
+        mock_evaluator_round1_failure
     ):
         """Model failing in Round 1 excluded from all subsequent rounds."""
         models = ["model_a", "model_b", "model_c"]
@@ -32,7 +32,7 @@ class TestRound1Failures:
         round1_evals = []
         for model in models:
             try:
-                eval_data = await mock_evaluator_with_failures.call_model(
+                eval_data = await mock_evaluator_round1_failure.call_model(
                     model, "Round 1", 1
                 )
                 round1_evals.append({"model": model, **eval_data})
@@ -48,7 +48,7 @@ class TestRound1Failures:
         # Round 2: Only active models participate
         round2_evals = []
         for model in active_models:  # Only model_a and model_c
-            eval_data = await mock_evaluator_with_failures.call_model(
+            eval_data = await mock_evaluator_round1_failure.call_model(
                 model, "Round 2", 2
             )
             round2_evals.append({"model": model, **eval_data})
@@ -70,16 +70,12 @@ class TestRound1Failures:
         # In STRICT mode, any failure aborts
         with pytest.raises(RuntimeError) as exc_info:
             for model in models:
-                eval_data = await mock_evaluator_with_failures.call_model(
+                await mock_evaluator_with_failures.call_model(
                     model, "Round 1", 1
                 )
-                # model_b will fail and raise
-                if "should_fail" in str(exc_info.value):
-                    raise RuntimeError(
-                        f"Fire Circle failed in round 1: {model} error"
-                    )
+                # model_b will fail and raise automatically
 
-        assert "Fire Circle failed" in str(exc_info.value)
+        assert "Round 1 failure" in str(exc_info.value)
 
     @pytest.mark.asyncio
     async def test_resilient_mode_continues_with_remaining_models(

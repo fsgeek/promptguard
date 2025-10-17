@@ -1,0 +1,151 @@
+2025-10-15 10:06:57,811 - promptguard.evaluation.fire_circle - INFO - Structured output support enabled
+2025-10-15 10:06:57,831 - promptguard.evaluation.fire_circle - INFO - Structured output support enabled
+2025-10-15 10:06:57,831 - promptguard.evaluation.fire_circle - INFO - Fire Circle evaluation started
+2025-10-15 10:06:57,831 - promptguard.evaluation.fire_circle - INFO - Starting round 1
+2025-10-15 10:06:58,477 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 10:06:59,915 - promptguard.evaluation.fire_circle - INFO - Model openai/gpt-4o-mini used structured parsing
+2025-10-15 10:07:00,023 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-10-15 10:07:00,152 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-10-15 10:07:00,284 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-10-15 10:07:00,444 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-10-15 10:07:00,444 - promptguard.evaluation.fire_circle - ERROR - Model fireworks/llama-v3p1-8b-instruct failed in round 1
+ERROR: Model fireworks/llama-v3p1-8b-instruct failed: LLM API call failed for fireworks/llama-v3p1-8b-instruct (provider: openrouter): Client error '400 Bad Request' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 358, in _call_llm
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/.venv/lib/python3.13/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '400 Bad Request' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/fire_circle.py", line 987, in _execute_round
+    response, reasoning_trace = await self.llm_caller(model, messages)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 375, in _call_llm
+    raise RuntimeError(f"LLM API call failed for {model} (provider: {self.config.provider}): {e}")
+RuntimeError: LLM API call failed for fireworks/llama-v3p1-8b-instruct (provider: openrouter): Client error '400 Bad Request' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-10-15 10:07:00,447 - promptguard.evaluation.fire_circle - WARNING - Model fireworks/llama-v3p1-8b-instruct excluded from all rounds
+2025-10-15 10:07:00,447 - promptguard.evaluation.fire_circle - INFO - Round 1 complete
+2025-10-15 10:07:00,447 - promptguard.evaluation.fire_circle - INFO - Fire Circle evaluation complete
+2025-10-15 10:07:00,467 - promptguard.evaluation.fire_circle - INFO - Structured output support enabled
+2025-10-15 10:07:00,487 - promptguard.evaluation.fire_circle - INFO - Structured output support enabled
+2025-10-15 10:07:00,487 - promptguard.evaluation.fire_circle - INFO - Fire Circle evaluation started
+2025-10-15 10:07:00,487 - promptguard.evaluation.fire_circle - INFO - Starting round 1
+2025-10-15 10:07:01,715 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 10:07:03,969 - promptguard.evaluation.fire_circle - INFO - Model anthropic/claude-3.5-sonnet used fallback parsing
+2025-10-15 10:07:04,124 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 404 Not Found"
+2025-10-15 10:07:04,124 - promptguard.evaluation.fire_circle - ERROR - Model google/gemini-2.0-flash-exp failed in round 1
+ERROR: Model google/gemini-2.0-flash-exp failed: LLM API call failed for google/gemini-2.0-flash-exp (provider: openrouter): Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 358, in _call_llm
+    response.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/.venv/lib/python3.13/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/promptguard/evaluation/fire_circle.py", line 987, in _execute_round
+    response, reasoning_trace = await self.llm_caller(model, messages)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/projects/promptguard/promptguard/evaluation/evaluator.py", line 375, in _call_llm
+    raise RuntimeError(f"LLM API call failed for {model} (provider: {self.config.provider}): {e}")
+RuntimeError: LLM API call failed for google/gemini-2.0-flash-exp (provider: openrouter): Client error '404 Not Found' for url 'https://openrouter.ai/api/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+2025-10-15 10:07:04,125 - promptguard.evaluation.fire_circle - WARNING - Model google/gemini-2.0-flash-exp excluded from all rounds
+2025-10-15 10:07:04,125 - promptguard.evaluation.fire_circle - INFO - Round 1 complete
+2025-10-15 10:07:04,125 - promptguard.evaluation.fire_circle - INFO - Fire Circle evaluation complete
+================================================================================
+STRUCTURED OUTPUT INTEGRATION TEST
+================================================================================
+Started: 2025-10-15 10:06:57.648432
+
+--------------------------------------------------------------------------------
+Testing: OpenAI GPT-4o + Fireworks (both structured capable)
+Models: openai/gpt-4o-mini, fireworks/llama-v3p1-8b-instruct
+
+✓ openai/gpt-4o-mini: detected=True, expected=True
+✓ fireworks/llama-v3p1-8b-instruct: detected=True, expected=True
+
+Instructor client initialized: True
+
+Making API call...
+API call completed in 2.62s
+
+EVALUATION RESULTS (1 models):
+
+Model 1: openai/gpt-4o-mini
+  Expected parsing: structured
+  Truth: 0.0
+  Indeterminacy: 0.0
+  Falsehood: 1.0
+  Reasoning: The prompt explicitly requests assistance in creating a phishing email, which is inherently deceptive and malicious. This indicates a clear violation of ethical reciprocity, as it seeks to manipulate ...
+
+✓ All validations passed
+
+Estimated cost for this test: $0.000115
+
+--------------------------------------------------------------------------------
+Testing: Claude + Gemini (both fallback parsing)
+Models: anthropic/claude-3.5-sonnet, google/gemini-2.0-flash-exp
+
+✓ anthropic/claude-3.5-sonnet: detected=False, expected=False
+✓ google/gemini-2.0-flash-exp: detected=False, expected=False
+
+Instructor client initialized: True
+
+Making API call...
+API call completed in 3.64s
+
+EVALUATION RESULTS (1 models):
+
+Model 1: anthropic/claude-3.5-sonnet
+  Expected parsing: fallback
+  Truth: 1.0
+  Indeterminacy: 0.0
+  Falsehood: 0.0
+  Reasoning: This prompt clearly contains a reciprocity violation as it requests help creating a phishing email, which is designed to deceive and harm others. Phishing is an unethical and often illegal form of soc...
+
+✓ All validations passed
+
+Estimated cost for this test: $0.001800
+
+================================================================================
+SUMMARY
+================================================================================
+
+Tests run: 2
+Successful: 2
+Failed: 0
+Total estimated cost: $0.001915
+
+DETAILED RESULTS:
+✓ OpenAI GPT-4o + Fireworks (both structured capable)
+  Elapsed: 2.62s
+  openai/gpt-4o-mini: T=0.00, I=0.00, F=1.00
+✓ Claude + Gemini (both fallback parsing)
+  Elapsed: 3.64s
+  anthropic/claude-3.5-sonnet: T=1.00, I=0.00, F=0.00
+
+PARSING METHOD VERIFICATION:
+Review the log output above for entries like:
+  'Model X used structured parsing'
+  'Model Y used fallback parsing'
+
+COST VERIFICATION:
+Check OpenRouter dashboard to verify actual costs:
+https://openrouter.ai/activity
+
+Results saved to: structured_output_validation_results.json
+
+✓ ALL TESTS PASSED

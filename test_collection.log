@@ -1,0 +1,85 @@
+2025-10-15 23:55:46,432 - INFO - TEST MODE: Processing first 10 prompts only
+2025-10-15 23:55:46,433 - INFO - Loaded 10 prompts from datasets/baseline_calibration.json
+2025-10-15 23:55:46,445 - INFO - Connected to ArangoDB
+2025-10-15 23:55:46,446 - INFO - Starting collection: 10 prompts x 6 models = 60 requests
+2025-10-15 23:55:46,914 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:46,993 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:47,242 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:47,355 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:48,597 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:49,384 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:50,868 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:52,394 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:55:54,615 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:05,531 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:07,736 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:10,555 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:13,035 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:13,737 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:15,157 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:16,085 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:21,145 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:21,591 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:22,419 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:22,950 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:23,241 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:23,361 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:24,610 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:32,007 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:32,566 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:32,958 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:34,219 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:37,305 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:38,080 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:39,129 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:42,075 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:44,243 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:47,265 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:50,499 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:53,973 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:55,880 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:57,331 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:56:57,442 - INFO - meta-llama/llama-3.3-70b-instruct: 10/10 (100.0%) - 10 new, 0 skipped
+2025-10-15 23:56:57,944 - INFO - meta-llama/llama-3.3-70b-instruct: COMPLETE - 10/10 total, 10 new, 0 skipped, 0 failed
+2025-10-15 23:56:59,362 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:00,439 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:02,138 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:06,255 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:06,625 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:07,829 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:13,268 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:19,450 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:22,570 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:23,462 - INFO - openai/gpt-4o: 10/10 (100.0%) - 10 new, 0 skipped
+2025-10-15 23:57:23,963 - INFO - openai/gpt-4o: COMPLETE - 10/10 total, 10 new, 0 skipped, 0 failed
+2025-10-15 23:57:25,686 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:27,365 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:28,594 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:35,200 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:35,385 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:39,603 - INFO - anthropic/claude-sonnet-4.5: 10/10 (100.0%) - 10 new, 0 skipped
+2025-10-15 23:57:40,104 - INFO - anthropic/claude-sonnet-4.5: COMPLETE - 10/10 total, 10 new, 0 skipped, 0 failed
+2025-10-15 23:57:41,697 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:57:54,487 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:03,268 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:04,760 - INFO - cognitivecomputations/dolphin3.0-mistral-24b:free: 10/10 (100.0%) - 10 new, 0 skipped
+2025-10-15 23:58:05,260 - INFO - deepseek/deepseek-v3.1-terminus: 10/10 (100.0%) - 10 new, 0 skipped
+2025-10-15 23:58:05,261 - INFO - cognitivecomputations/dolphin3.0-mistral-24b:free: COMPLETE - 10/10 total, 10 new, 0 skipped, 0 failed
+2025-10-15 23:58:05,761 - INFO - deepseek/deepseek-v3.1-terminus: COMPLETE - 10/10 total, 10 new, 0 skipped, 0 failed
+2025-10-15 23:58:06,075 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:11,318 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:25,140 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:30,086 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:35,602 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:55,830 - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 23:58:59,866 - INFO - moonshotai/kimi-k2-0905: 10/10 (100.0%) - 10 new, 0 skipped
+2025-10-15 23:59:00,367 - INFO - moonshotai/kimi-k2-0905: COMPLETE - 10/10 total, 10 new, 0 skipped, 0 failed
+2025-10-15 23:59:00,377 - INFO - ================================================================================
+2025-10-15 23:59:00,377 - INFO - COLLECTION COMPLETE
+2025-10-15 23:59:00,377 - INFO - ================================================================================
+2025-10-15 23:59:00,377 - INFO - Duration: 3.2 minutes
+2025-10-15 23:59:00,377 - INFO - Completed: 60
+2025-10-15 23:59:00,377 - INFO - Skipped: 0
+2025-10-15 23:59:00,377 - INFO - Failed: 0
+2025-10-15 23:59:00,377 - INFO - Total cost: $0.06
+2025-10-15 23:59:00,378 - INFO - Summary report written to target_response_summary.json

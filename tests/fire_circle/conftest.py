@@ -166,6 +166,29 @@ def mock_evaluator_with_failures():
 
 
 @pytest.fixture
+def mock_evaluator_round1_failure():
+    """Mock evaluator where model_b fails in Round 1 only."""
+    return MockEvaluator({
+        "model_a": [
+            MockLLMResponse(0.8, 0.2, 0.1, "Round 1: Success"),
+            MockLLMResponse(0.7, 0.2, 0.2, "Round 2: Success"),
+            MockLLMResponse(0.6, 0.3, 0.3, "Round 3: Success")
+        ],
+        "model_b": [
+            MockLLMResponse(0.0, 0.0, 0.0, "", should_fail=True,
+                          fail_reason="Round 1 failure"),  # Round 1: FAILS
+            MockLLMResponse(0.0, 0.0, 0.0, "", should_fail=True,
+                          fail_reason="Should not be called")
+        ],
+        "model_c": [
+            MockLLMResponse(0.9, 0.1, 0.0, "Round 1: Success"),
+            MockLLMResponse(0.7, 0.2, 0.3, "Round 2: Success"),
+            MockLLMResponse(0.5, 0.3, 0.5, "Round 3: Success")
+        ]
+    })
+
+
+@pytest.fixture
 def mock_evaluator_groupthink():
     """Mock evaluator demonstrating groupthink pressure lowering F-scores."""
     return MockEvaluator({

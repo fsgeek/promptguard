@@ -18,6 +18,13 @@ import time
 
 from .cache import CacheProvider, DiskCache, MemoryCache, CachedEvaluation, make_cache_key
 from ..config import CacheConfig
+from .fire_circle import (
+    FireCircleEvaluator,
+    FireCircleConfig,
+    FireCircleResult,
+    CircleSize,
+    FailureMode
+)
 
 
 class EvaluationError(Exception):
@@ -109,7 +116,7 @@ class LLMEvaluator:
         Initialize evaluator with configuration.
 
         Args:
-            config: Evaluation configuration including API credentials
+            config: Evaluation configuration including API credentials (or FireCircleConfig)
             cache: Optional cache provider (defaults to config-based cache)
         """
         self.config = config
@@ -122,22 +129,29 @@ class LLMEvaluator:
         else:
             raise ValueError(f"Unknown provider: {config.provider}")
 
-        # Initialize cache
+        # Initialize cache (Fire Circle configs don't have cache_config)
+        cache_config = getattr(config, 'cache_config', None)
         if cache is not None:
             self.cache = cache
-        elif config.cache_config.enabled:
+        elif cache_config and cache_config.enabled:
             # Create cache based on backend type
-            if config.cache_config.backend == "memory":
-                self.cache = MemoryCache(max_size_mb=config.cache_config.max_size_mb)
-            elif config.cache_config.backend == "disk":
+            if cache_config.backend == "memory":
+                self.cache = MemoryCache(max_size_mb=cache_config.max_size_mb)
+            elif cache_config.backend == "disk":
                 self.cache = DiskCache(
-                    cache_dir=config.cache_config.location,
-                    max_size_mb=config.cache_config.max_size_mb
+                    cache_dir=cache_config.location,
+                    max_size_mb=cache_config.max_size_mb
                 )
             else:
-                raise ValueError(f"Unknown cache backend: {config.cache_config.backend}")
+                raise ValueError(f"Unknown cache backend: {cache_config.backend}")
         else:
             self.cache = None
+
+        # Initialize Fire Circle evaluator if using Fire Circle config
+        if isinstance(config, FireCircleConfig):
+            self.fire_circle = FireCircleEvaluator(config, self._call_llm)
+        else:
+            self.fire_circle = None
 
     async def evaluate_layer(
         self,
@@ -158,7 +172,9 @@ class LLMEvaluator:
         Returns:
             List of evaluations (one per model in parallel mode, one in single mode)
         """
-        if recursion_depth >= self.config.max_recursion_depth:
+        # Check recursion depth (only for non-FireCircle configs)
+        max_depth = getattr(self.config, 'max_recursion_depth', None)
+        if max_depth and recursion_depth >= max_depth:
             # Recursion limit reached - return neutral evaluation
             return [NeutrosophicEvaluation(
                 truth=0.5,
@@ -168,7 +184,17 @@ class LLMEvaluator:
                 model="system"
             )]
 
-        if self.config.mode == EvaluationMode.SINGLE:
+        # Handle Fire Circle mode first (different config type)
+        if isinstance(self.config, FireCircleConfig):
+            fire_circle_result = await self.fire_circle.evaluate(
+                layer_content, context, evaluation_prompt, session_memory=None
+            )
+            # Return just evaluations for compatibility with current API
+            # TODO: Return full FireCircleResult when EvaluationResult wrapper implemented
+            return fire_circle_result.evaluations
+
+        # Handle standard evaluation modes
+        elif self.config.mode == EvaluationMode.SINGLE:
             result = await self._evaluate_single(
                 layer_content, context, evaluation_prompt
             )
@@ -177,11 +203,6 @@ class LLMEvaluator:
         elif self.config.mode == EvaluationMode.PARALLEL:
             return await self._evaluate_parallel(
                 layer_content, context, evaluation_prompt
-            )
-
-        elif self.config.mode == EvaluationMode.FIRE_CIRCLE:
-            return await self._evaluate_fire_circle(
-                layer_content, context, evaluation_prompt, recursion_depth
             )
 
         else:
@@ -301,77 +322,6 @@ class LLMEvaluator:
 
         return evaluations
 
-    async def _evaluate_fire_circle(
-        self,
-        layer_content: str,
-        context: str,
-        evaluation_prompt: str,
-        recursion_depth: int
-    ) -> List[NeutrosophicEvaluation]:
-        """
-        Evaluate using Fire Circle pattern - models in dialogue.
-
-        This is the most complex mode: models evaluate, see each other's
-        evaluations, and can refine based on what others observe.
-        """
-        # Round 1: Initial independent evaluations
-        initial_evals = await self._evaluate_parallel(
-            layer_content, context, evaluation_prompt
-        )
-
-        # Round 2: Share evaluations, ask for refinement
-        # Build dialogue context showing other perspectives
-        dialogue_context = self._format_fire_circle_context(initial_evals)
-
-        refinement_prompt = f"""
-You previously evaluated this prompt layer. Now you see evaluations from other models:
-
-{dialogue_context}
-
-Given these additional perspectives, refine your evaluation if warranted.
-If your original assessment stands, explain why despite the different views.
-"""
-
-        messages = [
-            {
-                "role": "user",
-                "content": self._format_evaluation_request(
-                    layer_content, context, evaluation_prompt
-                )
-            },
-            {
-                "role": "assistant",
-                "content": "I have provided my initial evaluation."
-            },
-            {
-                "role": "user",
-                "content": refinement_prompt
-            }
-        ]
-
-        # Get refined evaluations (with recursion depth incremented)
-        if recursion_depth + 1 < self.config.max_recursion_depth:
-            tasks = [
-                self._call_llm(model, messages)
-                for model in self.config.models
-            ]
-            responses = await asyncio.gather(*tasks, return_exceptions=True)
-
-            refined_evals = []
-            for model, response_tuple in zip(self.config.models, responses):
-                if isinstance(response_tuple, Exception):
-                    # Keep initial evaluation if refinement fails
-                    original = next(e for e in initial_evals if e.model == model)
-                    refined_evals.append(original)
-                else:
-                    response, reasoning_trace = response_tuple
-                    evaluation = self._parse_neutrosophic_response(response, model)
-                    evaluation.reasoning_trace = reasoning_trace
-                    refined_evals.append(evaluation)
-
-            return refined_evals
-
-        return initial_evals
 
     async def _call_llm(
         self,
@@ -452,19 +402,6 @@ Remember: Truth, Indeterminacy, and Falsehood are independent dimensions.
 A statement can have high truth AND high indeterminacy (ch'ixi - productive contradiction).
 """
 
-    def _format_fire_circle_context(
-        self,
-        evaluations: List[NeutrosophicEvaluation]
-    ) -> str:
-        """Format other models' evaluations for Fire Circle dialogue."""
-        context_parts = []
-        for eval in evaluations:
-            context_parts.append(
-                f"Model {eval.model}:\n"
-                f"  T={eval.truth:.2f}, I={eval.indeterminacy:.2f}, F={eval.falsehood:.2f}\n"
-                f"  Reasoning: {eval.reasoning}\n"
-            )
-        return "\n".join(context_parts)
 
     def _parse_neutrosophic_response(
         self,

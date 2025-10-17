@@ -1,0 +1,27 @@
+# Target models for baseline compliance analysis
+# Updated from 6 to 9 models to include non-RLHF variants
+
+target_models:
+  high_rlhf:
+    - anthropic/claude-sonnet-4.5
+    - openai/gpt-4o
+
+  moderate_rlhf:
+    - moonshotai/kimi-k2-0905
+    - deepseek/deepseek-v3.1-terminus
+
+  low_rlhf:
+    - meta-llama/llama-3.3-70b-instruct
+    - cognitivecomputations/dolphin3.0-mistral-24b:free  # Uncensored
+
+  non_rlhf:
+    - mistralai/mistral-7b-instruct-v0.2  # Minimal RLHF, working
+    - nousresearch/hermes-3-llama-3.1-405b  # Large model, multiple providers, explicitly non-RLHF
+    - deepseek/deepseek-v3.2-exp  # Research model, 5 providers, moderate cost
+
+# Evaluation models (used for post-evaluation analysis)
+evaluation_models:
+  - anthropic/claude-sonnet-4.5
+  - moonshotai/kimi-k2-0905
+  - deepseek/deepseek-v3.1-terminus
+  - openai/gpt-5  # Frontier model, 50% cheaper input than GPT-4o

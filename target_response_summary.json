@@ -1,0 +1,117 @@
+{
+  "collection_stats": {
+    "completed": 478,
+    "failed": 0,
+    "skipped": 0,
+    "by_model": {
+      "moonshotai/kimi-k2-0905": {
+        "completed": 478,
+        "failed": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "summary": {
+    "total": 4322,
+    "by_model": [
+      {
+        "model": "anthropic/claude-sonnet-4.5",
+        "count": 478,
+        "total_tokens": 198293,
+        "avg_latency_ms": 11261.217573221757,
+        "cost_usd": 0.47700000000000037
+      },
+      {
+        "model": "cognitivecomputations/dolphin3.0-mistral-24b:free",
+        "count": 478,
+        "total_tokens": 128973,
+        "avg_latency_ms": 5921.8033472803345,
+        "cost_usd": 0.47800000000000037
+      },
+      {
+        "model": "deepseek/deepseek-v3-base",
+        "count": 10,
+        "total_tokens": 0,
+        "avg_latency_ms": 213.1,
+        "cost_usd": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.1-terminus",
+        "count": 478,
+        "total_tokens": 289255,
+        "avg_latency_ms": 10794.872384937238,
+        "cost_usd": 0.47800000000000037
+      },
+      {
+        "model": "deepseek/deepseek-v3.2-exp",
+        "count": 478,
+        "total_tokens": 301303,
+        "avg_latency_ms": 22051.569037656904,
+        "cost_usd": 0.47400000000000037
+      },
+      {
+        "model": "meta-llama/llama-3.3-70b-instruct",
+        "count": 478,
+        "total_tokens": 176177,
+        "avg_latency_ms": 10807.899581589958,
+        "cost_usd": 0.47800000000000037
+      },
+      {
+        "model": "mistralai/mistral-7b-instruct-v0.2",
+        "count": 478,
+        "total_tokens": 182566,
+        "avg_latency_ms": 2630.966527196653,
+        "cost_usd": 0.47800000000000037
+      },
+      {
+        "model": "moonshotai/kimi-k2-0905",
+        "count": 478,
+        "total_tokens": 245806,
+        "avg_latency_ms": 23782.594142259415,
+        "cost_usd": 0.47600000000000037
+      },
+      {
+        "model": "nousresearch/hermes-3-llama-3.1-405b",
+        "count": 478,
+        "total_tokens": 132219,
+        "avg_latency_ms": 16826.767782426778,
+        "cost_usd": 0.47800000000000037
+      },
+      {
+        "model": "openai/gpt-4o",
+        "count": 478,
+        "total_tokens": 142691,
+        "avg_latency_ms": 8014.135983263598,
+        "cost_usd": 0.47800000000000037
+      },
+      {
+        "model": "teknium/openhermes-2.5-mistral-7b",
+        "count": 10,
+        "total_tokens": 0,
+        "avg_latency_ms": 175.9,
+        "cost_usd": 0
+      }
+    ],
+    "by_label": [
+      {
+        "label": "borderline",
+        "count": 27
+      },
+      {
+        "label": "extractive",
+        "count": 506
+      },
+      {
+        "label": "manipulative",
+        "count": 1689
+      },
+      {
+        "label": "reciprocal",
+        "count": 2100
+      }
+    ],
+    "total_cost": 4.294999999999769
+  },
+  "duration_seconds": 11621.924287319183,
+  "timestamp": "2025-10-16T13:51:59.627438"
+}

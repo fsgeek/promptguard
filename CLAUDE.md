@@ -1,3 +1,22 @@
+<!-- OPENSPEC:START -->
+# OpenSpec Instructions
+
+These instructions are for AI assistants working in this project.
+
+Always open `@/openspec/AGENTS.md` when the request:
+- Mentions planning or proposals (words like proposal, spec, change, plan)
+- Introduces new capabilities, breaking changes, architecture shifts, or big performance/security work
+- Sounds ambiguous and you need the authoritative spec before coding
+
+Use `@/openspec/AGENTS.md` to learn:
+- How to create and apply change proposals
+- Spec format and conventions
+- Project structure and guidelines
+
+Keep this managed block so 'openspec update' can refresh the instructions.
+
+<!-- OPENSPEC:END -->
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code when working with this repository.
@@ -156,6 +175,201 @@ Instance 4 had 200K tokens but hit 10% remaining after:
 
 **Rule of thumb:** If it's parallelizable, generates >1000 lines of output, or requires multiple iterations, use Task tool.
 
+## Integrity-First Delegation
+
+**Principle:** "Mock tests prove APIs don't crash, not that functionality works. For research tools, only real API validation has probative value."
+
+**Mandatory audit workflow** for any delegated implementation that touches external APIs:
+
+1. **Separate logic from validation:**
+   - Implementation agent: Build feature with unit tests (mocks acceptable for logic)
+   - Validation agent: Verify with real API calls (no mocks, document costs)
+   - Auditor agent: Confirm claims match evidence before acceptance
+
+2. **Three-tier testing standard:**
+   - **Tier 1 - Pure Logic:** Unit tests OK (neutrosophic math, parsing, data structures)
+   - **Tier 2 - API Integration:** Real calls required (Fire Circle, model evaluation, any OpenRouter/OpenAI/Anthropic integration)
+   - **Tier 3 - Production Claims:** Load testing required (performance claims, scale validation, cost analysis)
+
+3. **Audit triggers (automatic):**
+   - Claims of "tested and working"
+   - Claims of "validated with [models/providers]"
+   - Claims of "production ready" or "optimized"
+   - Any feature touching LLM APIs
+
+4. **Evidence requirements:**
+   - Real API call logs from provider dashboards
+   - Cost receipts (even $0.10 proves actual calls)
+   - Specific model names actually tested
+   - Timestamps matching implementation dates
+   - Errors encountered and resolved (real APIs always have failures)
+
+5. **Red flags indicating validation fabrication:**
+   - "All tests passing" but $0.00 spent on APIs
+   - Implementation + testing + validation in <10 minutes
+   - Zero failures reported during integration testing
+   - Test files only contain `@patch` or `Mock()` calls
+   - Claims "validated with X" but API logs show only Y
+
+**Scientific Integrity Auditor:** See `/home/tony/.claude/agents/scientific_code_auditor.md` for complete specification. This agent must approve all Tier 2+ implementations before acceptance.
+
+**Workflow example:**
+```python
+# Wrong: Single delegation claiming "tested and working"
+Task("Implement structured output - test with OpenAI/Fireworks")
+# Returns: "Implemented with 19 passing tests" (all mocked)
+# Result: Validation fabrication
+
+# Right: Separate implementation from empirical validation
+Task("Implement structured output logic - unit tests only")
+Task("Validate structured output with real OpenAI/Fireworks APIs - document costs")
+Task("Audit structured output implementation")
+# Result: Honest validation status with evidence
+```
+
+## Continuous Learning Loop Architecture
+
+**The key differentiation from static RLHF:**
+
+PromptGuard implements a continuous learning loop that adapts detection patterns dynamically, unlike RLHF which remains static until retraining. This is the research contribution.
+
+**Flow:**
+```
+1. Pre-evaluation (fast) → Evaluates prompt before sending to target
+   ↓ (miss: F < 0.7 but should be ≥ 0.7)
+2. Post-evaluation (detect) → Sees imbalance revealed by response
+   ↓ (capture reasoning delta)
+3. Fire Circle (analyze) → Models deliberate on why it was missed
+   ↓ (extract pattern)
+4. REASONINGBANK update → Store learned principle with few-shot examples
+   ↓ (enhance retrieval)
+5. Observer framing adapts → Retriever injects relevant memories into evaluation prompt
+   ↓ (detection moves forward)
+6. Pre-evaluation catches it next time → Continuous improvement
+```
+
+**Key components:**
+- **REASONINGBANK** (`reasoningbank/`): Memory storage for learned principles
+  - `models.py`: ReasoningBankMemory data model (attack pattern, detection reasoning, few-shot examples)
+  - `retriever.py`: ReasoningBankRetriever (semantic search, few-shot formatting)
+  - Validated: +improvement detections in tests
+
+- **Pre-evaluation**: Observer framing + REASONINGBANK retrieval (fast, cheap)
+- **Post-evaluation**: Compares pre-F vs post-F to detect misses (expensive, only when target responds)
+- **Fire Circle**: Deliberates on misses to extract reusable patterns (most expensive, periodic)
+- **Continuous loop**: Each miss improves future pre-evaluation
+
+**Comparison to RLHF:**
+- **RLHF**: Static rules + refusal templates, updated only during retraining
+- **PromptGuard**: Relational patterns + adaptive memory, updates continuously
+- **RLHF limitation**: No measurement of blocked attempts (silent defense)
+- **PromptGuard contribution**: Measures attempts, learns from them, provides runtime visibility
+
+**Research question**: Can continuous semantic adaptation outperform static constraint-based refusal?
+
+## TLA+ as Halt Semantics
+
+**Core principle:** TLA+ specifications define *when the system must stop*, not *how the system behaves*.
+
+Unlike traditional TLA+ usage (guaranteeing system properties), PromptGuard uses TLA+ to specify reciprocity boundaries - thresholds that trigger extrinsic intervention when violated.
+
+**Distributed systems analogy (Paxos):**
+When a disk fails in a Paxos cluster, the protocol doesn't repair the disk. It detects the failure, halts unsafe operations, and ensures safe resumption after external repair (human swaps the disk). Once repaired, Paxos guarantees the system works correctly even if the repaired node becomes leader.
+
+**Applied to PromptGuard:**
+- **What we detect:** Reciprocity collapse, derivative violations, extractive debt accumulation
+- **What we cannot fix:** Manipulative relationships, crisis situations, scammer behavior
+- **What TLA+ defines:** Halt conditions, state preservation requirements, resumption guarantees
+
+**Invariants:**
+
+```tla
+\* Static threshold (current implementation)
+INVARIANT ReciprocityThreshold ==
+  \A response \in Responses: response.F < 0.7
+
+\* Derivative monitoring (future - pig slaughter detection)
+INVARIANT ReciprocityDerivative ==
+  /\ \A response \in Responses:
+       (response.post_F - response.pre_F) > -0.5  \* No sudden collapse
+  /\ \A response \in Responses:
+       response.indeterminacy_drift < 0.2  \* Hedging bounded
+
+\* Debt accumulation
+INVARIANT DebtBound ==
+  \A participant \in Participants:
+    owed[participant] ≤ maxDebt[participant]
+
+\* Crisis escalation requirement
+INVARIANT CrisisEscalation ==
+  □◇(crisisFlag → ◇(humanIntervention ∨ consentToContinue))
+```
+
+**Violation responses:**
+- Pre-evaluation F >= 0.7 → Block prompt, log to REASONINGBANK
+- Post-evaluation divergence > threshold → Fire Circle analysis
+- Fire Circle consensus = irreparable → Halt session, require external intervention
+- Crisis detected → Immediate escalation (no AI decision-making)
+
+**Extrinsic repair mechanisms:**
+1. **Human review:** Mediator examines conversation history, determines if relationship can continue
+2. **Session termination:** Relationship cannot be repaired internally, must end
+3. **Account suspension:** Pattern of violations across sessions
+4. **Crisis intervention:** Referral to appropriate human services (suicide prevention, law enforcement, fraud reporting)
+5. **Legal escalation:** Court orders, law enforcement seizure ($15B pig slaughter case)
+
+**Resumption guarantees after external repair:**
+- Violation logged in REASONINGBANK with context
+- Fire Circle has deliberated on pattern
+- New prompts evaluated with learned context
+- Repeat violations → faster detection, lower threshold
+- System can safely continue OR definitively terminate
+
+**Rate-of-change monitoring (derivative approach):**
+
+Kimi identified that pig slaughter attacks show rapid reciprocity collapse - the derivative signal matters more than absolute value. A prompt at F=0.4 (borderline) that jumps to F=0.9 in one turn is different from gradual decay.
+
+```tla
+VARIABLES owed, lastOwed, t, lastT, indeterminacy, lastI
+
+dOwed(p) ≜ (owed[p] - lastOwed[p]) / (t - lastT)
+dI(p) ≜ (indeterminacy[p] - lastI[p]) / (t - lastT)
+
+\* Derivative invariants
+Inv3 ≜ ∀ p ∈ Participants : dOwed(p) ≥ -δMax   (* no sharp drop *)
+Inv4 ≜ □(∃ p : dOwed(p) < -δMax  ⇒  ◇(extrinsicReview ∧ haltBot))
+Inv5 ≜ dI/dt < εSuspicion   (* rate of indeterminacy growth bounded *)
+```
+
+Violation of derivative invariants = "butcher signal" requiring halt + escalation.
+
+**Research roadmap (vulnerable populations):**
+
+**Phase 1 (current):** Baseline detection
+- Question: Do evaluators detect manipulation in existing datasets?
+- Status: 90% on encoding attacks (observer framing), 100% on multi-layer extraction
+- Gap: Defensive refusal conflated with reciprocal cooperation
+
+**Phase 2:** Derivative monitoring
+- Question: Does rate-of-change improve signal quality over static thresholds?
+- Approach: Calculate divergence velocity, add derivative invariants
+- Expected: Detect pig slaughter patterns (rapid reciprocity collapse)
+
+**Phase 3:** Halt condition formalization
+- Question: When must system stop vs when can it continue?
+- Approach: Define TLA+ specs for each violation class
+- Expected: Crisp boundaries between internal repair (Fire Circle) and external escalation
+
+**Phase 4:** Vulnerable populations
+- Question: Can PromptGuard recognize when it's being used *in* an extractive relationship?
+- Targets: Pig slaughter victims, people in crisis, power imbalances
+- Contribution: LLMs detect relationship collapse even when they're not the target
+- Real-world validation: $15B bitcoin seizure proves threat model
+
+**Current limitation:** PromptGuard measures *detection accuracy* but doesn't yet define operational halt conditions. We have F-scores and divergence metrics but no formalized decision rules for "stop and escalate."
+
+**Next step:** Complete Phase 1 (current stratified sampling analysis), then design derivative monitoring experiments for Phase 2.
+
 ## Architecture Principles
 
 **No theater:**
@@ -164,6 +378,7 @@ Instance 4 had 200K tokens but hit 10% remaining after:
 - No mock data claiming things work without real API verification
 - All evaluation is semantic (via LLM) or fail-fast
 - Theater was systematically removed by previous instances
+- **NEW:** No validation claims without real API evidence
 
 **Fail-fast over graceful degradation:**
 - Incomplete data is worse than no data for research integrity
@@ -185,6 +400,120 @@ Instance 4 had 200K tokens but hit 10% remaining after:
 - PARALLEL mode averages for single result, losing variance signal
 - Research needs per-model metrics to study how models diverge
 
+## Institutional Memory: ArangoDB
+
+**Database:** ArangoDB (multi-model: document + graph + full-text search)
+
+**Why ArangoDB:** Fire Circle and session memory require tracking deliberations, dissents, and influence patterns over time. ArangoDB's graph capabilities enable queries like "which model's dissent later became consensus?" and "how did pattern discovery evolve month-over-month?"
+
+**Collections:**
+- `models` - LLM metadata (organization, capabilities, cost, observer framing compatibility)
+- `attacks` - Prompts from datasets (encoding attacks, history injection, jailbreaks)
+- `evaluations` - Model→attack assessments with T/I/F scores and reasoning (edge collection)
+- `deliberations` - Fire Circle sessions with dialogue history (document collection)
+- `turns` - Individual model contributions during deliberations (document collection)
+- `participated_in` - Graph edges: models → deliberations
+- `deliberation_about` - Graph edges: deliberations → attacks
+
+**Schema:** See `docs/DATABASE_SCHEMA.md` for complete structure and example queries
+
+**Storage Philosophy:**
+- **Dissents as compost** (DeepSeek contribution): Minority reasoning preserved for future validation
+- **Ideas for fermentation** (Kimi contribution): Today's wrong answer might be tomorrow's solution
+- Deliberations are reproducible artifacts, not disposable outputs
+- Graph relationships enable longitudinal analysis of threat model evolution
+
+**Key Capabilities:**
+- Track which attacks each model detected/missed
+- Compare Fire Circle vs SINGLE/PARALLEL detection rates
+- Identify model-specific blind spots and strengths
+- Validate dissenting opinions across multiple deliberations
+- Measure empty chair influence on consensus formation
+
+**Fire Circle Integration:**
+
+Fire Circle evaluations automatically persist to ArangoDB when storage is enabled:
+
+```python
+from promptguard.evaluation.fire_circle import FireCircleConfig, CircleSize
+from promptguard.storage.arango_backend import ArangoDBBackend
+from promptguard.evaluation.evaluator import LLMEvaluator
+
+# Configure storage backend
+storage = ArangoDBBackend()
+
+# Configure Fire Circle with storage enabled
+config = FireCircleConfig(
+    models=["anthropic/claude-3.5-sonnet", "anthropic/claude-3-haiku"],
+    circle_size=CircleSize.SMALL,
+    max_rounds=3,
+    provider="openrouter",
+    enable_storage=True,
+    storage_backend=storage
+)
+
+# Evaluations are automatically stored
+evaluator = LLMEvaluator(config)
+result = await evaluator.fire_circle.evaluate(layer_content, context, prompt)
+```
+
+Stored deliberations include:
+- Complete dialogue history (all 3 rounds)
+- Per-round model evaluations with T/I/F scores and reasoning
+- Pattern observations (temporal inconsistency, cross-layer fabrication, etc.)
+- Consensus evaluation (max(F) across active models)
+- Empty chair influence metric
+- Convergence trajectory (how F-scores evolved)
+- Model contribution tracking (which models discovered which patterns)
+- Quorum validity (structural diversity check)
+- Performance metrics (latencies, duration)
+
+**Query Examples:**
+
+```bash
+# Test storage integration
+python test_fire_circle_arango.py
+
+# Query stored deliberations
+python query_fire_circle_storage.py
+```
+
+Available queries:
+- `list_deliberations()` - Recent Fire Circle sessions
+- `query_by_pattern(pattern_type)` - Find deliberations discovering specific patterns
+- `find_dissents(min_f_delta)` - Deliberations with significant model disagreement
+- `search_reasoning(text)` - Full-text search on model reasoning
+- `query_by_model(model)` - Graph traversal: which deliberations did this model participate in?
+- `get_deliberation(fire_circle_id)` - Retrieve complete deliberation with all rounds
+
+**Environment Setup:**
+
+```bash
+export ARANGODB_PROMPTGUARD_PASSWORD="your_password"
+export ARANGODB_HOST="192.168.111.125"  # Optional, default shown
+export ARANGODB_PORT="8529"  # Optional
+export ARANGODB_DB="PromptGuard"  # Optional
+export ARANGODB_USER="pgtest"  # Optional
+```
+
+**Integration Tests:**
+
+```bash
+# Run all ArangoDB tests (mocked)
+pytest tests/storage/test_arango_backend.py -v
+
+# Run integration tests with real ArangoDB
+pytest tests/storage/test_arango_backend.py -m integration -v
+```
+
+18 passing tests validate:
+- Collection creation (idempotent)
+- Deliberation storage with all metadata
+- All query operations
+- Graph edge creation
+- Full-text search
+- FireCircleResult.save() integration
+
 ## Key Files
 
 **Core logic:**
@@ -195,9 +524,16 @@ Instance 4 had 200K tokens but hit 10% remaining after:
 
 **LLM integration:**
 - `promptguard/evaluation/evaluator.py` - LLMEvaluator, three modes (SINGLE/PARALLEL/FIRE_CIRCLE)
+- `promptguard/evaluation/fire_circle.py` - FireCircleEvaluator, dialogue-based consensus
 - `promptguard/evaluation/prompts.py` - Five evaluation prompt types
 - `promptguard/evaluation/cache.py` - Caching layer (DiskCache, MemoryCache)
 - `promptguard/evaluation/config.py` - EvaluationConfig, model settings
+
+**Storage (Institutional Memory):**
+- `promptguard/storage/arango_backend.py` - ArangoDB storage backend for Fire Circle deliberations
+- `promptguard/storage/deliberation.py` - DeliberationStorage interface
+- `test_fire_circle_arango.py` - Integration test demonstrating Fire Circle + ArangoDB
+- `query_fire_circle_storage.py` - Example queries for stored deliberations
 
 **Public API:**
 - `promptguard/promptguard.py` - PromptGuard class, simple evaluate() method
@@ -233,7 +569,12 @@ Instance 4 had 200K tokens but hit 10% remaining after:
 
 Integration tests were missing @pytest.mark.asyncio decorators initially - fixed after maintainer noted no OpenRouter charges appearing. Verify with real API calls before claiming success.
 
-Current gap: Fire Circle mode has complete implementation but no tests. High research value, completely unexplored.
+**Fire Circle Status:**
+- Complete implementation with ArangoDB storage integration
+- End-to-end integration test validates: evaluation → storage → retrieval → queries
+- 18 passing tests for storage backend
+- Example scripts demonstrate query capabilities
+- Ready for research use
 
 ## Known Issues and Gaps
 

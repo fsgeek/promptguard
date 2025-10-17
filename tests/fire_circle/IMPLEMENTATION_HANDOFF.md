@@ -1,8 +1,8 @@
 # Fire Circle Test Suite - Implementation Handoff
 
 **Created:** 2025-10-12
-**Agent:** Fire Circle Test Creator
-**Status:** Complete - Ready for Implementation Validation
+**Updated:** 2025-10-13 (Instance 27)
+**Status:** Complete - Ready for Implementation
 
 ---
 
@@ -10,7 +10,21 @@
 
 Built comprehensive test suite (72 tests, 2800+ lines) validating Fire Circle multi-model dialogue against fixed specification. All 7 critical design flaws have corresponding tests that would have caught them before production.
 
+**Instance 27 Updates (2025-10-13):**
+- ✅ Specification reviewed and updated (5 issues resolved)
+- ✅ Architectural integration analyzed (3 constraints with solutions)
+- ✅ Implementation decisions documented and reconciled
+- ✅ Ready for Phase 1 implementation
+
 **Key Achievement:** Tests focus on structural properties that prevent research invalidation, not just happy-path functionality.
+
+**What's Ready:**
+- **Specification:** Fixed and clarified (all 5 review issues resolved)
+- **Tests:** 72 tests validate all critical properties
+- **Architecture:** Integration decisions made (return type, config, file organization)
+- **Handoff:** Complete guidance for implementor
+
+**Next Action:** Begin Phase 1 implementation with `promptguard/evaluation/fire_circle.py`
 
 ---
 
@@ -109,6 +123,48 @@ All tests use mocks by default (no API costs). Real API tests marked `@pytest.ma
 
 ### 5. Comprehensive Observability
 "Smoke must convect out" - all state transitions, failures, and decisions logged with full context.
+
+---
+
+## CRITICAL: Separation of Concerns
+
+**DO NOT MODIFY TESTS TO MAKE THEM PASS.**
+
+Tests encode the specification's structural properties. If you believe a test is incorrect:
+
+1. **Create a bug report** documenting:
+   - Which test you believe is wrong
+   - Why you think it's wrong (with evidence)
+   - Which specification section it contradicts
+   - What behavior you think is correct
+
+2. **Tag the test creator and specification expert** for review
+
+3. **Wait for official decision** before proceeding
+
+**Why this matters:**
+
+Allowing the implementor to "fix" tests enables performative code - making tests pass by changing what's tested rather than building correct implementation. This violates separation of concerns:
+
+- **Specification expert** owns the design (what should be built)
+- **Test creator** owns validation (how we verify correctness)
+- **Implementor** owns the code (building to specification)
+
+If tests and implementation can be changed by the same person, there's no independent validation. The implementor could make broken code "pass" by weakening tests.
+
+**Valid reasons to question a test:**
+- Test contradicts specification
+- Mock fixture provides wrong data
+- Test has internal logic bug
+- Test is checking implementation details not behavior
+
+**Invalid reasons to change a test:**
+- "My implementation doesn't work this way"
+- "The test is too strict"
+- "It's easier to change the test"
+- "I don't understand what the test wants"
+
+When in doubt: ask. Don't change tests unilaterally.
 
 ---
 
@@ -340,6 +396,236 @@ Fire Circle tests complement existing test suite:
 
 ---
 
+## Specification Updates (Instance 27, 2025-10-13)
+
+**Status:** Specification reviewed and updated. 5 issues resolved (1 HIGH, 4 MEDIUM).
+
+### Issue 1 (HIGH): Round 2/3 Prompt Content - RESOLVED
+**Decision:** Include `layer_content`, `context`, and `turn_context` in ALL rounds.
+
+**Rationale:**
+- Models cannot evaluate without seeing actual prompt content
+- Token costs acceptable (600/1000/1500 per round)
+- Provides consistency, simplifies implementation
+- Modern context windows support this (Claude: 200K+ tokens)
+
+**Impact:**
+- All round prompts follow same structure
+- Caching strategy: cache individual model responses, not full rounds
+- Observability: track per-round token costs in EvaluationResult
+
+### Issue 2 (MEDIUM): ayni_relational Relationship - RESOLVED
+**Decision:** Hybrid approach - incorporate observer framing principles in dialogue-optimized prompts.
+
+**Rationale:**
+- Cannot use ayni_relational verbatim (not designed for multi-model dialogue)
+- Must preserve observer framing (validated 90% detection on encoding attacks)
+- Fire Circle needs pattern-seeking prompts specific to dialogue context
+
+**Impact:**
+- Prompts reference observer framing principles from Instance 17-18
+- Neutral reciprocity evaluation adapted for multi-round dialogue
+- Bypass RLHF bias through careful framing
+
+### Issue 3 (MEDIUM): turn_context Format - RESOLVED
+**Decision:** Defined specific format with 50-token budget.
+
+**Format:**
+```python
+def format_turn_context(session: SessionMemory) -> str:
+    if session.turn_count <= 1:
+        return ""
+    return (
+        f"Session context (Turn {session.turn_count}): "
+        f"Previous balance {session.balance_history[-1]:.2f}, "
+        f"trajectory {session.trust_trajectory}"
+    )
+```
+
+**Impact:**
+- Concise format (<50 tokens) minimizes cost
+- Provides temporal verification (detects fabrication)
+- Doesn't contaminate baseline with verbose history
+
+### Issue 4 (MEDIUM): Iteration Order Dependency - RESOLVED
+**Decision:** Use deterministic ordering (sorted by model ID) for reproducibility.
+
+**Rationale:**
+- Empty chair influence is contribution-based, not competitive
+- Agreement counts are primary signal, not attribution
+- Deterministic ordering ensures reproducibility
+
+**Impact:**
+- Pattern attribution depends on processing order
+- Sort evaluations by model ID before processing
+- Accept limitation (noted in specification)
+
+### Issue 5 (MEDIUM): Session Memory API - RESOLVED
+**Decision:** Single API with `session_memory` as optional parameter.
+
+**Rationale:**
+- Simpler than separate wrapper function
+- Consistent with architectural recommendations
+- Turn context automatically formatted when provided
+
+**Impact:**
+- Remove Section 11.3 wrapper function
+- Session memory integrates via main API
+- Format function called internally when parameter present
+
+---
+
+## Architectural Integration Decisions
+
+**Based on:** `specs/FIRE_CIRCLE_ARCHITECTURE.md`
+
+### Return Type: Rich EvaluationResult
+
+**Decision:** Create comprehensive result type for all evaluation modes.
+
+```python
+@dataclass
+class EvaluationResult:
+    """Rich evaluation result with full observability."""
+    evaluations: List[NeutrosophicEvaluation]
+    consensus: Optional[NeutrosophicEvaluation]
+    metadata: Dict[str, Any]  # Mode-specific data
+
+    # Fire Circle specific
+    def get_dialogue_history(self) -> Optional[List[DialogueRound]]:
+        return self.metadata.get("dialogue_history")
+
+    def get_patterns(self) -> Optional[List[PatternObservation]]:
+        return self.metadata.get("patterns")
+```
+
+**Rationale:**
+- Fire Circle needs comprehensive observability
+- Dialogue history required for research analysis
+- Per-round token costs needed for cost analysis
+- Extensible via metadata dict
+
+**Impact on implementation:**
+- Breaking API change (update callers)
+- Tests expect rich result type
+- Backward compatible via `.evaluations` accessor
+
+### Configuration: Mode-Specific Config Classes
+
+**Decision:** Create `FireCircleConfig` extending base configuration.
+
+```python
+@dataclass
+class BaseEvaluationConfig:
+    """Shared configuration."""
+    api_key: Optional[str]
+    models: List[str]
+    # ... shared fields
+
+@dataclass
+class FireCircleConfig(BaseEvaluationConfig):
+    """Fire Circle specific configuration."""
+    circle_size: CircleSize = CircleSize.SMALL
+    max_rounds: int = 3
+    empty_chair_model: Optional[str] = None
+    failure_mode: FailureMode = FailureMode.RESILIENT
+    pattern_threshold: float = 0.5
+    min_viable_circle: int = 2
+```
+
+**Rationale:**
+- Type-safe configuration prevents misconfiguration
+- Clear API signals intent
+- Extensible for future modes
+
+**Impact on implementation:**
+- Create base config class first
+- Extract shared fields
+- FireCircleConfig inherits and extends
+
+### File Organization: Extract Fire Circle Module
+
+**Decision:** Create `promptguard/evaluation/fire_circle.py` for Fire Circle implementation.
+
+**Rationale:**
+- Separates 500-line Fire Circle from 300-line evaluator
+- Single Responsibility Principle
+- Easier to test in isolation
+- Keeps evaluator.py focused on coordination
+
+**Structure:**
+```
+promptguard/evaluation/
+├── evaluator.py          # LLMEvaluator, SINGLE, PARALLEL (300 lines)
+├── fire_circle.py        # Fire Circle implementation (500 lines)
+├── consensus.py          # Consensus algorithms (existing)
+├── prompts.py            # Evaluation prompts (existing)
+└── cache.py              # Caching layer (existing)
+```
+
+**Impact on implementation:**
+- Create fire_circle.py with dataclasses first
+- Implement FireCircleEvaluator class
+- LLMEvaluator delegates to FireCircleEvaluator
+- Tests import from fire_circle module
+
+---
+
+## Quorum Model: Structural Dimensions First
+
+**CRITICAL DECISION:** Defer cognitive roles framework, implement structural dimensions first.
+
+### Why Structural Dimensions First
+
+The synthesis guide includes a cognitive roles framework (temporal_reasoning, cross_layer_analysis, etc.) that requires empirical validation. We face a **bootstrap problem**: how do we validate that Claude has "temporal_reasoning: 0.9" without circular dependency?
+
+**Decision:** Implement observable structural dimensions first, measure performance empirically, then add cognitive roles layer if data supports it.
+
+### Structural Dimensions (Observable Properties)
+
+These don't require performance measurement:
+
+```python
+@dataclass
+class StructuralCharacteristics:
+    model_id: str
+    provider: str  # "anthropic", "alibaba", "openai"
+    region: str    # "us", "cn", "eu"
+    lineage: str   # "us_aligned", "cn_aligned", "open_source"
+    training: str  # "rlhf", "instruction_tuned", "base"
+```
+
+**Dimensions:**
+1. **Geographic/Infrastructure** - Which provider/region (observable from model ID)
+2. **Architectural Lineage** - Model family, training approach (observable from docs)
+3. **Provider Diversity** - Corporate lineage, geographic alignment (observable from ownership)
+
+### Implementation Requirements
+
+**Fire Circle implementor MUST:**
+- ✅ Use structural dimensions for quorum validation
+- ✅ Log all dialogue history with full model metadata
+- ✅ Enable post-hoc analysis of performance by characteristic
+- ❌ DO NOT implement cognitive roles framework yet
+
+### Teaching From Failure Principle
+
+Let data reveal what matters:
+- If all US models miss encoding attacks but Chinese models catch them → evidence
+- If models with long context windows catch temporal patterns → evidence
+- If RLHF models over-flag benign educational content → evidence
+
+**Path forward:**
+1. Implement Fire Circle with structural dimensions (Phase 1-4 below)
+2. Run 72-attack validation
+3. Analyze dialogue histories to discover which models catch which attack types
+4. Empirically map performance → cognitive capabilities
+5. Add cognitive role layer if empirical data supports it
+
+See `ISSUE_FIRE_CIRCLE_STRUCTURAL_DIMENSIONS.md` for complete rationale.
+
+---
+
 ## Next Steps for Implementation
 
 ### Phase 1: Core Structural Properties (Priority 1)
@@ -362,7 +648,7 @@ Fire Circle tests complement existing test suite:
 ### Phase 3: Failure Handling (Priority 3)
 1. Implement STRICT vs RESILIENT modes
 2. Implement zombie model policy
-3. Implement minimum viable circle enforcement
+3. Implement minimum viable circle enforcement (use structural dimensions for quorum validation)
 4. Implement unparseable response recovery
 
 **Validation:** Run `test_failure_handling.py` - must pass 100%
@@ -379,16 +665,21 @@ Fire Circle tests complement existing test suite:
 
 ## Files to Reference
 
-### Specification
-- `specs/fire_circle_specification.md` - Complete spec
+### Specification (Updated Instance 27)
+- `specs/fire_circle_specification.md` - Complete spec (updated with 5 issue resolutions)
 - `specs/FIRE_CIRCLE_DECISIONS.md` - Design rationale
-- `specs/FIRE_CIRCLE_FIXES.md` - Critical fixes
+- `specs/FIRE_CIRCLE_FIXES.md` - Critical fixes (7 issues resolved)
+- `specs/FIRE_CIRCLE_SPEC_REVIEW_INSTANCE27.md` - Instance 27 review findings
+- `specs/FIRE_CIRCLE_ARCHITECTURE.md` - Architectural integration analysis
+- `docs/FIRE_CIRCLE_SET_QUORUM_GUIDE.md` - Set quorum synthesis (reference only)
+- `ISSUE_FIRE_CIRCLE_STRUCTURAL_DIMENSIONS.md` - Quorum model decision (GitHub issue)
 
 ### Tests
 - `tests/fire_circle/README.md` - Full documentation
 - `tests/fire_circle/QUICK_REFERENCE.md` - One-page guide
 - `tests/fire_circle/TEST_MANIFEST.md` - Complete inventory
 - `tests/fire_circle/conftest.py` - Fixtures and mocks
+- `tests/fire_circle/IMPLEMENTATION_HANDOFF.md` - This file (updated)
 
 ### Related Code
 - `promptguard/evaluation/evaluator.py` - Existing LLMEvaluator (has stub FIRE_CIRCLE mode)
@@ -399,9 +690,28 @@ Fire Circle tests complement existing test suite:
 ## Questions for Implementation
 
 ### Q1: Where does Fire Circle implementation go?
-**A:** Either:
-- `promptguard/evaluation/fire_circle.py` (new file, recommended)
-- `promptguard/evaluation/evaluator.py` (extend existing `_evaluate_fire_circle`)
+**A:** Create new file `promptguard/evaluation/fire_circle.py` (architectural decision).
+
+**Rationale:**
+- 500-line Fire Circle implementation would make evaluator.py too large (800+ lines)
+- Single Responsibility Principle - evaluator coordinates, fire_circle implements
+- Easier to test in isolation
+- Clear module boundary
+
+**Structure:**
+```python
+# fire_circle.py
+@dataclass
+class DialogueRound: ...
+@dataclass
+class PatternObservation: ...
+@dataclass
+class FireCircleResult: ...
+
+class FireCircleEvaluator:
+    def __init__(self, config: FireCircleConfig, llm_caller): ...
+    async def evaluate(...) -> FireCircleResult: ...
+```
 
 ### Q2: How to integrate with existing PromptGuard API?
 **A:** `PromptGuard.evaluate(mode="fire_circle", fire_circle_config=config)`

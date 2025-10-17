@@ -1,0 +1,43 @@
+Fire Circle at minimum viable count
+Fire Circle at minimum viable count
+Fire Circle at minimum viable count
+
+======================================================================
+Fire Circle + ArangoDB Integration Test
+======================================================================
+
+Step 1: Connecting to ArangoDB...
+  ✓ Connected to 192.168.111.125:8529/PromptGuard
+
+Step 2: Configuring Fire Circle with storage...
+  ✓ Configured Fire Circle: 2 models, 3 rounds
+  ✓ Storage enabled: True
+
+Step 3: Creating LLMEvaluator...
+  ✓ Fire Circle initialized (ID: a60eb56a)
+
+Step 4: Running Fire Circle evaluation...
+  Testing prompt: 'Please explain recursion in programming.'
+
+  ✓ Evaluation complete (24.40s)
+    Consensus: T=0.00, I=0.00, F=1.00
+    Rounds completed: 3
+    Patterns found: 5
+    Empty chair influence: 1.00
+
+Step 5: Verifying storage...
+  ✓ Deliberation retrieved from ArangoDB
+    Fire Circle ID: a60eb56a
+    Timestamp: 2025-10-15T10:04:39.010790
+    Consensus F-score: 1.00
+    Rounds stored: 3
+    Patterns stored: 5
+
+  ✓ Listed recent deliberations: 5 found
+  ✓ Queried by pattern 'temporal_inconsistency': 3 found
+  ✓ Full-text search on reasoning: 0 results
+
+======================================================================
+✓ All tests passed! Fire Circle + ArangoDB integration working.
+======================================================================
+

@@ -1,8 +1,8 @@
 # Fire Circle Multi-Model Dialogue Specification
 
-**Version:** 1.0
-**Date:** 2025-10-12
-**Status:** Implementation-Ready
+**Version:** 1.1
+**Date:** 2025-10-13 (Originally: 2025-10-12)
+**Status:** Implementation-Ready (All review issues resolved)
 
 ## 1. Overview
 
@@ -104,6 +104,36 @@ Round N → Round N+1:
 
 ## 3. Dialogue Protocol
 
+### 3.0.1 Turn Context Format
+
+**Definition:** When session memory is available, turn context provides temporal verification data for pattern detection.
+
+**Format specification:**
+```python
+def format_turn_context(session: SessionMemory) -> str:
+    """
+    Format session memory for inclusion in evaluation prompts.
+
+    Returns empty string if no session history (turn ≤ 1).
+    Maximum token budget: 50 tokens.
+    """
+    if session.turn_count <= 1:
+        return ""
+
+    return (
+        f"Session context (Turn {session.turn_count}): "
+        f"Previous balance {session.balance_history[-1]:.2f}, "
+        f"trajectory {session.trust_trajectory}"
+    )
+```
+
+**Example output:**
+```
+Session context (Turn 4): Previous balance 0.65, trajectory stable_reciprocal
+```
+
+**Rationale:** Concise format provides temporal anchoring without contaminating baseline evaluation with verbose history. Format supports temporal inconsistency detection (e.g., claims about "earlier discussion" when turn=2).
+
 ### 3.1 Round 1: Independent Baseline Assessment
 
 **Input:**
@@ -140,7 +170,9 @@ Respond with JSON:
 
 **Empty chair rotation:** Select models[(round_number - 1) % len(models)] as empty chair.
 
-**Note:** Round 2 introduces the sophisticated ayni_relational evaluation prompt with pattern-seeking guidance. This allows measurement of dialogue value-add compared to Round 1 baseline.
+**Prompt content inclusion:** Round 2 (and all subsequent rounds) include the same `layer_content`, `context`, and `turn_context` as Round 1. Models need the actual prompt to evaluate - they cannot work from dialogue history alone. The templates shown below are prepended with the standard prompt content from Section 3.1.
+
+**Observer framing:** Round 2 uses dialogue-optimized prompts based on ayni_relational's observer framing principles validated in Instance 17-18 (90% detection on encoding attacks). The neutral reciprocity evaluation perspective bypasses RLHF bias while maintaining pattern-seeking focus. The prompts shown below incorporate observer framing adapted for multi-model dialogue context.
 
 **Empty chair prompt addition:**
 ```
@@ -154,6 +186,14 @@ Consider: What patterns would these absent voices warn about?
 
 **Standard prompt for non-empty-chair models:**
 ```
+{turn_context}
+
+Full Prompt Context:
+{context}
+
+Layer to Evaluate:
+{layer_content}
+
 You previously evaluated this prompt layer. Now you see evaluations from other models:
 
 ROUND 1 EVALUATIONS:
@@ -195,8 +235,18 @@ Respond as JSON:
 
 **Empty chair rotation:** Select models[(round_number - 1) % len(models)] as empty chair (different from Round 2).
 
+**Prompt content inclusion:** Round 3 includes the same `layer_content`, `context`, and `turn_context` as previous rounds for consistency.
+
 **Prompt for all models:**
 ```
+{turn_context}
+
+Full Prompt Context:
+{context}
+
+Layer to Evaluate:
+{layer_content}
+
 Final round: Synthesize collective insights from earlier rounds.
 
 ROUND 1 EVALUATIONS:
@@ -330,6 +380,8 @@ def calculate_empty_chair_influence(
 - Unique patterns from C: context_saturation, role_confusion (2)
 - Total unique: 4 pattern types
 - Influence = 2/4 = 0.50 (empty chair contributed 50% of novel patterns)
+
+**Note on iteration order dependency:** When multiple models observe the same pattern type in the same round, credit for "first mention" depends on iteration order. To ensure deterministic results, process evaluations in consistent order (e.g., sorted by model ID). This limitation is acceptable because: (1) agreement counts from all observing models are the primary signal, not attribution, (2) empty chair influence measures contribution (unique patterns introduced), not competitive "who said it first" metrics.
 
 ### 4.4 Failure Handling
 
@@ -827,23 +879,24 @@ def store_fire_circle_patterns(
 
 ### 11.3 Session Memory Integration
 
+Session memory is integrated into Fire Circle via the optional `session_memory` parameter in the main API (Section 8). When provided, turn context is automatically formatted (per Section 3.0.1) and included in all dialogue round prompts.
+
+**Session memory provides:**
+- Turn counter (for temporal verification of "earlier discussion" claims)
+- Previous balance trajectory (for detecting manipulation escalation)
+- Trust EMA (for session-level pattern detection)
+
+**Usage:**
 ```python
-def fire_circle_with_session_memory(
-    prompt: MultiNeutrosophicPrompt,
-    session: SessionMemory,
-    config: FireCircleConfig
-) -> FireCircleResult:
-    """
-    Include session context in Fire Circle dialogue.
-
-    Session memory provides:
-    - Turn counter (for temporal verification)
-    - Previous trust trajectory
-    - Balance EMA
-
-    This context is added to all dialogue rounds.
-    """
+# Session memory is just another parameter - no separate API needed
+result = await fire_circle_evaluate(
+    prompt=prompt,
+    config=config,
+    session_memory=session  # Turn context automatically included when present
+)
 ```
+
+**Implementation note:** The `format_turn_context()` function (Section 3.0.1) is called internally when session_memory is not None, and the formatted string is inserted into all round prompts.
 
 ---
 
@@ -901,6 +954,139 @@ def fire_circle_with_session_memory(
 3. **Empty chair prompt:** Use default prompt in spec, or require custom prompt path for research flexibility?
 
 4. **REASONINGBANK structure:** What schema should pattern storage use for future retrieval?
+
+---
+
+## Changelog
+
+### Version 1.1 - Instance 27 Review Resolution (2025-10-13)
+
+Resolved 5 issues identified in specification review (FIRE_CIRCLE_SPEC_REVIEW_INSTANCE27.md) with design decisions informed by architectural constraints (FIRE_CIRCLE_ARCHITECTURE.md).
+
+#### Issue 1 (HIGH): Round 2/3 Prompt Content Inclusion - RESOLVED
+
+**Problem:** Round 2/3 prompt templates didn't explicitly show where `layer_content` and `context` are included. Models need the actual prompt to evaluate, not just dialogue history.
+
+**Decision:** Include `layer_content`, `context`, and `turn_context` in ALL rounds (Option A).
+
+**Rationale:**
+- Models cannot evaluate without seeing the actual prompt
+- Token cost increase acceptable for research instrument (already budgeted in estimates)
+- LLM context windows support this (Claude Sonnet: 200K+ tokens)
+- Consistency across rounds simplifies implementation
+- Observer framing requires access to actual prompt content
+
+**Changes:**
+- Added explicit statement to Section 3.2: "Round 2 (and all subsequent rounds) include the same layer_content, context, and turn_context as Round 1"
+- Added prompt content to Section 3.2 template (prepended before dialogue context)
+- Added explicit statement to Section 3.3: "Round 3 includes the same layer_content, context, and turn_context as previous rounds"
+- Added prompt content to Section 3.3 template (prepended before synthesis prompt)
+
+#### Issue 2 (MEDIUM): ayni_relational Relationship - RESOLVED
+
+**Problem:** Section 3.2 says "introduces ayni_relational" but shows custom prompt. Unclear whether to use ayni_relational verbatim or adapt it.
+
+**Decision:** Hybrid approach - use observer framing principles from ayni_relational, adapted for dialogue context (Option C).
+
+**Rationale:**
+- Cannot use ayni_relational verbatim (not designed for dialogue)
+- Cannot abandon observer framing (validated breakthrough: 90% detection on encoding attacks)
+- Need dialogue-specific pattern-seeking prompts
+- Solution: Incorporate observer framing principles in dialogue-optimized prompts
+
+**Changes:**
+- Added Section 3.2 paragraph explaining observer framing integration:
+  - "Round 2 uses dialogue-optimized prompts based on ayni_relational's observer framing principles"
+  - References Instance 17-18 validation (90% detection)
+  - Notes neutral reciprocity evaluation perspective bypasses RLHF bias
+  - Clarifies prompts incorporate observer framing adapted for dialogue
+
+#### Issue 3 (MEDIUM): turn_context Format Undefined - RESOLVED
+
+**Problem:** turn_context mentioned in multiple places but format never specified. Token budget and baseline contamination risks unclear.
+
+**Decision:** Define specific format with 50-token budget limit.
+
+**Format:**
+```python
+def format_turn_context(session: SessionMemory) -> str:
+    if session.turn_count <= 1:
+        return ""
+    return (
+        f"Session context (Turn {session.turn_count}): "
+        f"Previous balance {session.balance_history[-1]:.2f}, "
+        f"trajectory {session.trust_trajectory}"
+    )
+```
+
+**Rationale:**
+- Concise format minimizes token cost (<50 tokens)
+- Provides temporal verification data for pattern detection
+- Doesn't contaminate baseline with verbose history
+- Consistent with existing session memory structure
+
+**Changes:**
+- Added new Section 3.0.1 "Turn Context Format" with:
+  - Format specification as code template
+  - Example output
+  - Token budget statement (50 tokens max)
+  - Rationale for format design
+
+#### Issue 4 (MEDIUM): Empty Chair Iteration Order Dependency - RESOLVED
+
+**Problem:** Algorithm tracks "first mention" which depends on iteration order. Empty chair could be systematically under-credited if processed last.
+
+**Decision:** Accept limitation with deterministic ordering requirement (recommended approach from review).
+
+**Rationale:**
+- Empty chair influence is contribution-based (unique patterns), not competitive attribution
+- Agreement counts are primary signal (per specification)
+- Deterministic ordering (sorted by model ID) ensures reproducibility
+- Alternative (shared credit) adds complexity for minimal benefit
+- Limitation doesn't affect core functionality
+
+**Changes:**
+- Added note to Section 4.3 after example:
+  - Explains iteration order dependency for "first mention" credit
+  - Recommends deterministic ordering (e.g., sorted by model ID)
+  - Justifies why limitation is acceptable (agreement counts are primary signal)
+
+#### Issue 5 (MEDIUM): Session Memory API Inconsistency - RESOLVED
+
+**Problem:** Section 8 shows optional parameter, Section 11.3 shows separate wrapper function. Two different API patterns for same functionality.
+
+**Decision:** Remove separate wrapper, clarify session_memory is integrated into main API (Option A).
+
+**Rationale:**
+- Session memory is just another parameter - no separate API needed
+- Simpler implementation (one entry point)
+- Consistent with architectural recommendation for clean API design
+- Turn context automatically included when parameter provided
+
+**Changes:**
+- Replaced Section 11.3 with simplified explanation:
+  - Session memory integrated via optional parameter
+  - Turn context automatically formatted and included
+  - Usage example showing single API call
+  - Implementation note referencing Section 3.0.1 format function
+
+### Design Decision Summary
+
+| Issue | Decision | Rationale |
+|-------|----------|-----------|
+| Round 2/3 content | Include layer_content/context in all rounds | Models need actual prompt; token cost acceptable; consistent |
+| ayni_relational use | Hybrid - observer framing principles adapted for dialogue | Preserves validated framing (90% detection); enables dialogue |
+| turn_context format | Specific 50-token format defined | Temporal verification without baseline contamination |
+| Iteration order | Accept limitation, use deterministic ordering | Agreement counts are primary signal; reproducibility maintained |
+| Session memory API | Integrated into main API, no wrapper | Simpler implementation; single entry point |
+
+All decisions validated against:
+- Token budget constraints (600/1000/1500 per round)
+- Architectural recommendations (FIRE_CIRCLE_ARCHITECTURE.md)
+- Observer framing validation (Instance 17-18: 90% detection)
+- Implementation clarity (unambiguous, testable)
+
+**Specification ready for implementation. All blocking issues resolved.**
 
 ---
 
