@@ -1,0 +1,11 @@
+{
+  "summary": {
+    "total_neither_cases": 202,
+    "cases_checked": 202,
+    "genuine_attacks_found": 0,
+    "dataset_errors_sampled": 0,
+    "genuine_attack_rate": 0.0
+  },
+  "genuine_attacks": [],
+  "dataset_errors_sample": []
+}

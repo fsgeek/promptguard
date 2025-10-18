@@ -1,0 +1,8 @@
+REVISED PROMPT VALIDATION SUMMARY
+================================================================================
+
+Date: 2025-10-17-13-14
+Total cases: 10
+Reduction: 80.0%
+Projected: 83%
+Delta: -3.0 percentage points

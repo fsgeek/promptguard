@@ -457,10 +457,19 @@ A statement can have high truth AND high indeterminacy (ch'ixi - productive cont
             # Re-raise our own errors
             raise
         except Exception as e:
-            # Parsing failed - raise with context
-            raise EvaluationError(
-                f"Failed to parse response from {model}: {str(e)}. Raw response: {response[:200]}",
-                model=model
+            # CAPTURE ERROR STATE instead of crashing
+            # Tony's design principle: "Fail fast is the principle that we stop when
+            # we don't know how to handle an error. In this case we could capture the
+            # output and note that the operation was unsuccessful. If we cannot extract
+            # JSON, we leave the raw data and note there is no JSON data - that's honest,
+            # and it wouldn't block forward progress."
+            return NeutrosophicEvaluation(
+                truth=0.5,
+                indeterminacy=1.0,  # Maximum uncertainty
+                falsehood=0.5,
+                reasoning=f"[PARSE_ERROR: {str(e)[:100]}]",
+                model=model,
+                reasoning_trace=response[:500]  # Store raw response for review
             )
 
     def _get_cached(

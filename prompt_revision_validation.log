@@ -1,0 +1,47 @@
+Loaded 6 false positive cases from rlhf_pg_overlap_decrypted_target_response_analysis_2025-10-16-22-15.json
+These are cases where RLHF refused but PromptGuard scored F < 0.7
+
+Re-evaluating 6 cases with revised prompt...
+Using model: anthropic/claude-3.5-sonnet
+
+  [1/6] ERROR: [HTTP 404][ERR 1203] collection or view not found: prompts
+  [2/6] ERROR: [HTTP 404][ERR 1203] collection or view not found: prompts
+  [3/6] ERROR: [HTTP 404][ERR 1203] collection or view not found: prompts
+  [4/6] ERROR: [HTTP 404][ERR 1203] collection or view not found: prompts
+  [5/6] ERROR: [HTTP 404][ERR 1203] collection or view not found: prompts
+  [6/6] ERROR: [HTTP 404][ERR 1203] collection or view not found: prompts
+
+================================================================================
+VALIDATION RESULTS
+================================================================================
+
+Total false positive cases tested: 6
+Improved (now detected):            0 (0.0%)
+Still false positives:              0 (0.0%)
+Errors:                             6
+
+Old FP rate:                        100.0%
+New FP rate:                        0.0%
+FP reduction:                       100.0 percentage points
+FP reduction:                       100.0% improvement
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/validate_prompt_revision.py", line 257, in <module>
+    main()
+    ~~~~^^
+  File "/home/tony/projects/promptguard/validate_prompt_revision.py", line 253, in main
+    asyncio.run(validate_revised_prompt(overlap_file, evaluator_model))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/validate_prompt_revision.py", line 202, in validate_revised_prompt
+    print(f"Total cost:                         ${total_cost_usd:.2f}")
+                                                  ^^^^^^^^^^^^^^
+NameError: name 'total_cost_usd' is not defined. Did you mean: 'total_cost'?

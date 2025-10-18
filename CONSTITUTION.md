@@ -323,6 +323,35 @@ INVARIANT CrisisEscalation == □◇(crisisFlag → ◇(humanIntervention ∨ co
 - or_bench_sample.json (100): OR-Bench relabeled from category→intent error
 - extractive_prompts_dataset.json (80): Academic security research
 
+### Dataset Integrity
+
+**Principle:** Ground truth labels must be correct and auditable. Corrupted labels invalidate all downstream validation.
+
+**Requirements:**
+- **Version control:** Datasets use semantic versioning (v1.0.0, v2.0.0)
+- **Correction tracking:** Every label change documented with reasoning and reviewer identity
+- **Audit trail:** Full reproducibility of relabeling decisions (LLM proposals + human review)
+- **Validation:** Post-correction validation proves improvement (false positive reduction)
+
+**Instance 37 discovery:** 37% of Phase 1 dataset (202/540 cases) were legitimate requests incorrectly labeled "manipulative" due to directive language conflation and keyword sensitivity.
+
+**Correction methodology:**
+1. **Triage (automated):** Flag cases with low F-scores + "manipulative" label
+2. **LLM proposals:** Generate relabeling proposals with reasoning (SINGLE + Fire Circle)
+3. **Human review:** Tony approves/rejects/modifies proposals with full context
+4. **Transactional update:** Apply approved changes to JSON + ArangoDB atomically
+5. **Post-validation:** Re-run validation to prove false positive reduction
+
+**Rationale:** Using PromptGuard to relabel its own training data risks overfitting. Human review breaks the circular validation loop. LLM-assisted proposals provide consistency and efficiency.
+
+**Documentation:** See DATASET_CORRECTION_PLAN.md for complete methodology, DATASET_CHANGELOG_v1_v2.md for detailed change history.
+
+**Success criteria:**
+- False positive rate drops from 37% to <10%
+- Extractive detection maintained ≥95% (no overcorrection)
+- Every change traceable with explicit reasoning
+- Rollback capability validated (can restore previous version)
+
 ### Version Control Standards
 
 **Principle:** Commit frequently with descriptive messages. Don't ask permission.

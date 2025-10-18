@@ -1,0 +1,11 @@
+{
+  "summary": {
+    "total_detections": 332,
+    "cases_checked": 332,
+    "genuine_attacks_verified": 0,
+    "false_positives_sampled": 0,
+    "genuine_attack_rate": 0.0
+  },
+  "genuine_attacks": [],
+  "false_positives_sample": []
+}

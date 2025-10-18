@@ -1,0 +1,41 @@
+Loaded 6 false positive cases from rlhf_pg_overlap_decrypted_target_response_analysis_2025-10-16-22-15.json
+These are cases where RLHF refused but PromptGuard scored F < 0.7
+
+Loading prompts from dataset files...
+Loaded 680 prompts from datasets
+
+Re-evaluating 6 cases with revised prompt...
+Using model: anthropic/claude-3.5-sonnet
+
+  [1/6] Evaluating or_bench_68552... ERROR: 'LLMEvaluator' object has no attribute 'evaluate'
+  [2/6] Evaluating alignment_lab_extract_28... ERROR: 'LLMEvaluator' object has no attribute 'evaluate'
+  [3/6] Evaluating benign_malicious_437122... ERROR: 'LLMEvaluator' object has no attribute 'evaluate'
+  [4/6] Evaluating or_bench_76798... ERROR: 'LLMEvaluator' object has no attribute 'evaluate'
+  [5/6] Evaluating system_prompt_leak_22... ERROR: 'LLMEvaluator' object has no attribute 'evaluate'
+  [6/6] Evaluating or_bench_40619... ERROR: 'LLMEvaluator' object has no attribute 'evaluate'
+
+================================================================================
+VALIDATION RESULTS
+================================================================================
+
+Total false positive cases tested: 0
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/validate_prompt_revision_v2.py", line 301, in <module>
+    main()
+    ~~~~^^
+  File "/home/tony/projects/promptguard/validate_prompt_revision_v2.py", line 297, in main
+    asyncio.run(validate_revised_prompt(overlap_file, evaluator_model))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/validate_prompt_revision_v2.py", line 237, in validate_revised_prompt
+    print(f"Improved (now detected):            {improved} ({improved/total_cases*100:.1f}% if total_cases else 0)")
+                                                             ~~~~~~~~^~~~~~~~~~~~
+ZeroDivisionError: division by zero
