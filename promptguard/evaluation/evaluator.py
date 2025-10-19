@@ -25,6 +25,7 @@ from .fire_circle import (
     CircleSize,
     FailureMode
 )
+from reasoningbank.retriever import ReasoningBankRetriever
 
 
 class EvaluationError(Exception):
@@ -153,6 +154,14 @@ class LLMEvaluator:
         else:
             self.fire_circle = None
 
+        # Initialize REASONINGBANK retriever for continuous learning
+        # Only initialize if memories directory exists (graceful degradation)
+        try:
+            self.retriever = ReasoningBankRetriever()
+        except FileNotFoundError:
+            # No memories available yet - system will work without enhancement
+            self.retriever = None
+
     async def evaluate_layer(
         self,
         layer_content: str,
@@ -184,10 +193,24 @@ class LLMEvaluator:
                 model="system"
             )]
 
+        # Enhance evaluation prompt with REASONINGBANK memories (continuous learning)
+        # Retrieve relevant patterns and inject as few-shot examples
+        enhanced_prompt = evaluation_prompt
+        if self.retriever is not None:
+            try:
+                enhanced_prompt = self.retriever.enhance_few_shot_prompt(
+                    base_examples=evaluation_prompt,
+                    test_prompt=layer_content,
+                    encoding_technique=None  # Auto-detect from content
+                )
+            except Exception as e:
+                # Graceful degradation - use original prompt if retrieval fails
+                print(f"Warning: REASONINGBANK retrieval failed: {e}")
+
         # Handle Fire Circle mode first (different config type)
         if isinstance(self.config, FireCircleConfig):
             fire_circle_result = await self.fire_circle.evaluate(
-                layer_content, context, evaluation_prompt, session_memory=None
+                layer_content, context, enhanced_prompt, session_memory=None
             )
             # Return just evaluations for compatibility with current API
             # TODO: Return full FireCircleResult when EvaluationResult wrapper implemented
@@ -196,13 +219,13 @@ class LLMEvaluator:
         # Handle standard evaluation modes
         elif self.config.mode == EvaluationMode.SINGLE:
             result = await self._evaluate_single(
-                layer_content, context, evaluation_prompt
+                layer_content, context, enhanced_prompt
             )
             return [result]
 
         elif self.config.mode == EvaluationMode.PARALLEL:
             return await self._evaluate_parallel(
-                layer_content, context, evaluation_prompt
+                layer_content, context, enhanced_prompt
             )
 
         else:

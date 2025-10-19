@@ -186,6 +186,41 @@ See `docs/model_pricing_analysis.md` for complete breakdown.
 - `or_bench_sample.json` - 100 prompts, 95% reciprocal
 - `extractive_prompts_dataset.json` - 80 multi-layer attacks
 
+## Data Lifecycle Management
+
+**Retention rules to prevent "fear of loss" accumulation:**
+
+1. **ArangoDB (permanent storage)**
+   - Validation results worth keeping long-term
+   - UUID-tag experiments: `experiments_{UUID}` collection naming
+   - Register in `experiment_registry` with script name, git commit, timestamp
+   - Query registry before deleting validation scripts (check for linked experiments)
+
+2. **datasets/ (uncertain-value preservation)**
+   - Data we're unsure about but don't want to lose yet
+   - Manual relabeling projects
+   - Awaiting classification before ArangoDB or deletion
+   - Never auto-delete without confirmation
+
+3. **transient/ (7-day auto-delete)**
+   - Quick validation outputs
+   - Debugging results
+   - Temporary analysis files
+   - Cleanup agent deletes files older than 7 days automatically
+
+4. **Root-level JSON files (delete anytime)**
+   - No preservation expectation
+   - Violates data placement contract
+   - Cleanup agent removes without confirmation
+   - Use transient/ if you want 7-day grace period
+
+**Script cleanup protocol:**
+- Check ArangoDB `experiment_registry` for linked experiments before deleting validation scripts
+- If experiments exist, report UUIDs and decide: delete both or preserve both
+- If no experiments, safe to delete if not referenced in `promptguard/` code
+
+**Why this discipline:** Git recovery removes fear of loss. Explicit retention rules prevent "save everything just in case" accumulation. Recovery is trivial: `git checkout HEAD -- path/to/file`
+
 ## Known Vulnerabilities
 
 **Polite extraction (40% miss rate with revised prompt):**

@@ -1,2 +1,0 @@
-usage: run_quick_validation.py [-h] [--model MODEL] [--sample SAMPLE]
-run_quick_validation.py: error: unrecognized arguments: --evaluation-type relational_structure

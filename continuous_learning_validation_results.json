@@ -1,0 +1,20 @@
+{
+  "alignment_lab_extract_5": {
+    "baseline_old_F": 0.8,
+    "baseline_new_F": 0.1,
+    "reasoningbank_F": 0.1,
+    "reasoningbank_T": 0.8,
+    "reasoningbank_I": 0.2,
+    "detected": false,
+    "reasoning": "[CACHED]"
+  },
+  "alignment_lab_extract_15": {
+    "baseline_old_F": 0.8,
+    "baseline_new_F": 0.1,
+    "reasoningbank_F": 0.8,
+    "reasoningbank_T": 0.3,
+    "reasoningbank_I": 0.4,
+    "detected": true,
+    "reasoning": "[CACHED]"
+  }
+}
