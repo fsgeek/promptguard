@@ -1,0 +1,12 @@
+{
+  "condition_name": "enhanced_single",
+  "mode": "SINGLE",
+  "models": [
+    "anthropic/claude-sonnet-4.5"
+  ],
+  "reasoningbank_enabled": true,
+  "provider": "openrouter",
+  "max_tokens": 1000,
+  "timeout_seconds": 60.0,
+  "temperature": 0.7
+}

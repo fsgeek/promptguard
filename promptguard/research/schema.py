@@ -61,7 +61,7 @@ class RunMetadata:
         run_id: Unique identifier for this evaluation run (e.g., "exp_001_batch_01")
         timestamp: ISO 8601 timestamp of run start
         pipeline_mode: Which evaluation stages ran ("baseline" | "pre" | "post" | "both")
-        model_pre: Model used for pre-evaluation (e.g., "anthropic/claude-3.5-sonnet")
+        model_pre: Model used for pre-evaluation (e.g., "anthropic/claude-sonnet-4.5")
         model_post: Model used for post-evaluation (None if pipeline_mode != "both" or "post")
         evaluation_prompt_version: Version of evaluation prompts used (for reproducibility)
         dataset_source: Source dataset filename or description

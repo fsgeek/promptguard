@@ -142,6 +142,37 @@ Evaluation: {{"truth": {eval_data.truth:.2f}, "indeterminacy": {eval_data.indete
         # Replace placeholder with actual test prompt
         return enhanced.replace("{test_prompt}", test_prompt)
 
+    def enhance_with_transparency(self, base_examples: str, test_prompt: str, encoding_technique: Optional[str] = None) -> tuple[str, Optional[str]]:
+        """
+        Enhance few-shot prompt with transparency metadata.
+
+        Returns:
+            tuple: (enhanced_prompt, transparency_note)
+                - enhanced_prompt: Prompt with injected few-shot examples
+                - transparency_note: Human-readable explanation of which patterns were used, or None if no patterns
+        """
+        # Retrieve relevant memories
+        memories = self.retrieve(test_prompt, encoding_technique=encoding_technique, max_results=2)
+
+        if not memories:
+            # No patterns used - return original prompt with no transparency note
+            return base_examples.replace("{test_prompt}", test_prompt), None
+
+        # Build transparency note explaining which patterns informed this evaluation
+        pattern_names = [f'"{memory.title}"' for memory in memories]
+        pattern_descriptions = [memory.description for memory in memories]
+
+        if len(memories) == 1:
+            transparency_note = f"""[Pattern Context: This evaluation used REASONINGBANK pattern {pattern_names[0]} because previous instances {pattern_descriptions[0].lower()}]"""
+        else:
+            patterns_list = ", ".join(pattern_names)
+            transparency_note = f"""[Pattern Context: This evaluation used REASONINGBANK patterns {patterns_list} because previous instances identified similar attack patterns that were initially missed.]"""
+
+        # Enhance the prompt using existing method
+        enhanced_prompt = self.enhance_few_shot_prompt(base_examples, test_prompt, encoding_technique)
+
+        return enhanced_prompt, transparency_note
+
     def get_memory_count(self) -> int:
         """Return number of loaded memories."""
         return len(self.memories)

@@ -1542,7 +1542,7 @@ Respond as JSON:
         Check if model supports structured output via OpenRouter.
 
         Args:
-            model: Model ID (e.g., "openai/gpt-4o", "anthropic/claude-3.5-sonnet")
+            model: Model ID (e.g., "openai/gpt-4o", "anthropic/claude-sonnet-4.5")
 
         Returns:
             True if model is known to support structured outputs

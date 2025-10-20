@@ -67,7 +67,7 @@ class PromptGuardConfig:
             if self.provider == "lmstudio":
                 self.models = ["local-model"]
             else:
-                self.models = ["anthropic/claude-3.5-sonnet"]
+                self.models = ["anthropic/claude-sonnet-4.5"]
 
 
 class PromptGuard:
@@ -417,7 +417,7 @@ class PromptGuard:
 async def evaluate_prompt(
     prompt: str,
     api_key: Optional[str] = None,
-    model: str = "anthropic/claude-3.5-sonnet"
+    model: str = "anthropic/claude-sonnet-4.5"
 ) -> ReciprocityMetrics:
     """
     Convenience function for quick evaluation.

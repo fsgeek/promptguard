@@ -67,7 +67,7 @@ class GeneratorConfig:
         timeout_seconds: Request timeout
     """
     provider: str = "openrouter"
-    model: str = "anthropic/claude-3.5-sonnet"
+    model: str = "anthropic/claude-sonnet-4.5"
     api_key: Optional[str] = None
     lmstudio_base_url: Optional[str] = None
     max_tokens: int = 1000

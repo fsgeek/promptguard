@@ -53,7 +53,7 @@ class EvaluationConfig:
     """Configuration for LLM evaluation."""
     mode: EvaluationMode = EvaluationMode.SINGLE
     api_key: Optional[str] = None  # OpenRouter API key (not needed for local providers)
-    models: List[str] = field(default_factory=lambda: ["anthropic/claude-3.5-sonnet"])
+    models: List[str] = field(default_factory=lambda: ["anthropic/claude-sonnet-4.5"])
     max_recursion_depth: int = 1
     max_tokens: int = 1000
     timeout_seconds: float = 30.0
@@ -94,6 +94,7 @@ class NeutrosophicEvaluation:
     reasoning: str  # LLM's explanation
     model: str  # Which model provided this evaluation
     reasoning_trace: Optional[str] = None  # Model's internal reasoning (e.g., DeepSeek <think> blocks)
+    transparency_note: Optional[str] = None  # REASONINGBANK pattern attribution (Instance 45 ayni transparency)
 
     def tuple(self) -> Tuple[float, float, float]:
         """Return as neutrosophic tuple."""
@@ -194,11 +195,12 @@ class LLMEvaluator:
             )]
 
         # Enhance evaluation prompt with REASONINGBANK memories (continuous learning)
-        # Retrieve relevant patterns and inject as few-shot examples
+        # Instance 45: Added transparency layer for ayni reciprocity
         enhanced_prompt = evaluation_prompt
+        transparency_note = None
         if self.retriever is not None:
             try:
-                enhanced_prompt = self.retriever.enhance_few_shot_prompt(
+                enhanced_prompt, transparency_note = self.retriever.enhance_with_transparency(
                     base_examples=evaluation_prompt,
                     test_prompt=layer_content,
                     encoding_technique=None  # Auto-detect from content
@@ -212,6 +214,7 @@ class LLMEvaluator:
             fire_circle_result = await self.fire_circle.evaluate(
                 layer_content, context, enhanced_prompt, session_memory=None
             )
+            # TODO: Add transparency_note to Fire Circle results
             # Return just evaluations for compatibility with current API
             # TODO: Return full FireCircleResult when EvaluationResult wrapper implemented
             return fire_circle_result.evaluations
@@ -221,12 +224,18 @@ class LLMEvaluator:
             result = await self._evaluate_single(
                 layer_content, context, enhanced_prompt
             )
+            # Add transparency note to result
+            result.transparency_note = transparency_note
             return [result]
 
         elif self.config.mode == EvaluationMode.PARALLEL:
-            return await self._evaluate_parallel(
+            results = await self._evaluate_parallel(
                 layer_content, context, enhanced_prompt
             )
+            # Add transparency note to all results
+            for result in results:
+                result.transparency_note = transparency_note
+            return results
 
         else:
             raise ValueError(f"Unknown evaluation mode: {self.config.mode}")

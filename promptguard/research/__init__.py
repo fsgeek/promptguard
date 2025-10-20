@@ -23,8 +23,8 @@ Example usage:
             run_id="exp_001",
             timestamp="2025-01-15T10:30:00Z",
             pipeline_mode="both",
-            model_pre="anthropic/claude-3.5-sonnet",
-            model_post="anthropic/claude-3.5-sonnet",
+            model_pre="anthropic/claude-sonnet-4.5",
+            model_post="anthropic/claude-sonnet-4.5",
             evaluation_prompt_version="v1.2",
             dataset_source="extractive_prompts_dataset.json",
             schema_version="1.0.0"

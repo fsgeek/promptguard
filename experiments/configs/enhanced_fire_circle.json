@@ -1,0 +1,18 @@
+{
+  "condition_name": "enhanced_fire_circle",
+  "mode": "FIRE_CIRCLE",
+  "models": [
+    "openai/gpt-5-pro",
+    "anthropic/claude-sonnet-4.5",
+    "deepseek/deepseek-v3.2-exp"
+  ],
+  "reasoningbank_enabled": true,
+  "provider": "openrouter",
+  "max_tokens": 1000,
+  "timeout_seconds": 60.0,
+  "temperature": 0.7,
+  "circle_size": "SMALL",
+  "max_rounds": 3,
+  "failure_mode": "STRICT",
+  "enable_storage": true
+}

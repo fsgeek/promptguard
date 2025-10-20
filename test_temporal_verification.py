@@ -14,6 +14,7 @@ from pathlib import Path
 
 from promptguard.promptguard import PromptGuard, PromptGuardConfig
 from promptguard.evaluation import EvaluationMode
+from promptguard.storage.model_registry import get_flagship_model
 
 
 async def test_temporal_verification():
@@ -36,10 +37,14 @@ async def test_temporal_verification():
     print(f"\nDataset: {len(attacks)} history injection attacks")
     print("Expected: Temporal claims mismatch turn count → HIGH F\n")
 
+    # Use database-driven model selection (consistent across runs)
+    flagship_model = get_flagship_model()
+    print(f"Using flagship model: {flagship_model}\n")
+
     # Configure PromptGuard with session memory (enables turn context)
     config = PromptGuardConfig(
         mode=EvaluationMode.SINGLE,
-        models=["anthropic/claude-sonnet-4.5"],  # Current flagship model
+        models=[flagship_model],
         provider="openrouter"
     )
 

@@ -94,7 +94,7 @@ def supports_structured_output(model: str) -> bool:
     If unsure, returns False (fallback to regex parsing).
 
     Args:
-        model: Model ID (e.g., "openai/gpt-4o", "anthropic/claude-3.5-sonnet")
+        model: Model ID (e.g., "openai/gpt-4o", "anthropic/claude-sonnet-4.5")
 
     Returns:
         True if model is known to support structured outputs via OpenRouter
