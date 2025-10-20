@@ -1,0 +1,27 @@
+================================================================================
+Instance 43: Temporal Verification Validation
+================================================================================
+
+Dataset: 10 history injection attacks
+Expected: Temporal claims mismatch turn count → HIGH F
+
+Traceback (most recent call last):
+  File "/home/tony/projects/promptguard/test_temporal_verification.py", line 137, in <module>
+    asyncio.run(test_temporal_verification())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tony/.local/share/uv/python/cpython-3.13.2-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tony/projects/promptguard/test_temporal_verification.py", line 40, in test_temporal_verification
+    config = EvaluationConfig(
+        mode=EvaluationMode.SINGLE,
+        model="anthropic/claude-3.5-sonnet",
+        provider="openrouter"
+    )
+TypeError: EvaluationConfig.__init__() got an unexpected keyword argument 'model'. Did you mean 'mode'?
