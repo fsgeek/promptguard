@@ -362,7 +362,7 @@
         "coding_benchmark",
         "comprehensive_testing"
       ],
-      "notes": "Specialized GPT-5 for software engineering. Advanced reasoning."
+      "notes": "Specialized GPT-5 for software engineering. Advanced reasoning. Fire Circle requires provider='openrouter' (Instructor compatibility)."
     },
     {
       "id": "anthropic/claude-sonnet-4.5",

@@ -1,0 +1,203 @@
+{
+  "query_date": "2025-10-20",
+  "requested_models": {
+    "gemini_2.5_pro": {
+      "model_id": "google/gemini-2.5-pro",
+      "pricing": {
+        "input_per_m": 1.25,
+        "output_per_m": 10.0
+      },
+      "context_window": 1048576,
+      "modality": "text+image->text",
+      "available": true,
+      "stability": "stable",
+      "notes": "State-of-the-art for reasoning, coding, mathematics, scientific tasks"
+    },
+    "grok_4": {
+      "model_id": "x-ai/grok-4",
+      "pricing": {
+        "input_per_m": 3.0,
+        "output_per_m": 15.0
+      },
+      "context_window": 256000,
+      "modality": "text+image->text",
+      "available": true,
+      "stability": "stable",
+      "notes": "Latest xAI flagship"
+    },
+    "kimi_k2_0905": {
+      "model_id": "moonshotai/kimi-k2-0905",
+      "pricing": {
+        "input_per_m": 0.39,
+        "output_per_m": 1.90
+      },
+      "context_window": 262144,
+      "modality": "text->text",
+      "available": true,
+      "stability": "stable",
+      "notes": "1T MoE (32B active), optimized for agentic capabilities, expanded context from 128K->262K"
+    }
+  },
+  "gpt5_replacement_candidates": {
+    "tier1_premium": [
+      {
+        "model_id": "anthropic/claude-sonnet-4.5",
+        "pricing": {
+          "input_per_m": 3.0,
+          "output_per_m": 15.0
+        },
+        "context_window": 1000000,
+        "modality": "text+image->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.80,
+          "output": 0.875
+        },
+        "recommendation": "Best balanced option - 87.5% cheaper output, 2.5x larger context"
+      },
+      {
+        "model_id": "google/gemini-2.5-pro",
+        "pricing": {
+          "input_per_m": 1.25,
+          "output_per_m": 10.0
+        },
+        "context_window": 1048576,
+        "modality": "text+image->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.92,
+          "output": 0.92
+        },
+        "recommendation": "Best value - 92% cheaper, 2.6x larger context"
+      },
+      {
+        "model_id": "anthropic/claude-opus-4.1",
+        "pricing": {
+          "input_per_m": 15.0,
+          "output_per_m": 75.0
+        },
+        "context_window": 200000,
+        "modality": "text+image->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.0,
+          "output": 0.375
+        },
+        "recommendation": "Highest capability - 37.5% cheaper output, same input cost"
+      },
+      {
+        "model_id": "x-ai/grok-4",
+        "pricing": {
+          "input_per_m": 3.0,
+          "output_per_m": 15.0
+        },
+        "context_window": 256000,
+        "modality": "text+image->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.80,
+          "output": 0.875
+        },
+        "recommendation": "Different architecture - 87.5% cheaper output"
+      }
+    ],
+    "tier2_reasoning": [
+      {
+        "model_id": "openai/o3-pro",
+        "pricing": {
+          "input_per_m": 20.0,
+          "output_per_m": 80.0
+        },
+        "context_window": 200000,
+        "modality": "text+image->text",
+        "cost_reduction_vs_gpt5": {
+          "input": -0.33,
+          "output": 0.33
+        },
+        "notes": "Latest reasoning model, successor to o1"
+      },
+      {
+        "model_id": "openai/o1",
+        "pricing": {
+          "input_per_m": 15.0,
+          "output_per_m": 60.0
+        },
+        "context_window": 200000,
+        "modality": "text+image->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.0,
+          "output": 0.50
+        },
+        "notes": "Reasoning-focused, may not be ideal for Fire Circle dialogue"
+      }
+    ],
+    "tier3_budget": [
+      {
+        "model_id": "deepseek/deepseek-v3.2-exp",
+        "pricing": {
+          "input_per_m": 0.27,
+          "output_per_m": 0.40
+        },
+        "context_window": 163840,
+        "modality": "text->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.98,
+          "output": 0.997
+        },
+        "notes": "Experimental, 99.7% cheaper"
+      },
+      {
+        "model_id": "moonshotai/kimi-k2-0905",
+        "pricing": {
+          "input_per_m": 0.39,
+          "output_per_m": 1.90
+        },
+        "context_window": 262144,
+        "modality": "text->text",
+        "cost_reduction_vs_gpt5": {
+          "input": 0.97,
+          "output": 0.984
+        },
+        "notes": "1T MoE model, 98.4% cheaper, strong agentic capabilities"
+      }
+    ]
+  },
+  "fire_circle_recommendations": {
+    "4_model_basket": {
+      "models": [
+        "anthropic/claude-sonnet-4.5",
+        "google/gemini-2.5-pro",
+        "anthropic/claude-opus-4.1",
+        "x-ai/grok-4"
+      ],
+      "avg_cost_per_m_tokens": {
+        "input": 5.56,
+        "output": 28.75,
+        "blended_1_1_ratio": 17.16
+      },
+      "cost_reduction_vs_gpt5": 0.75,
+      "rationale": "Maximum architectural diversity, 75% cost reduction, all 200K+ context"
+    },
+    "single_flagship": {
+      "budget_pick": "google/gemini-2.5-pro",
+      "balanced_pick": "anthropic/claude-sonnet-4.5",
+      "capability_pick": "anthropic/claude-opus-4.1"
+    }
+  },
+  "unavailable_models": {
+    "gemini_2.0_flash_exp": {
+      "status": "only_free_tier",
+      "alternative": "google/gemini-2.0-flash-exp:free"
+    },
+    "gemini_exp_1206": {
+      "status": "not_found",
+      "alternative": "google/gemini-2.5-pro"
+    }
+  },
+  "gpt5_baseline": {
+    "model_id": "openai/gpt-5-pro",
+    "pricing": {
+      "input_per_m": 15.0,
+      "output_per_m": 120.0,
+      "blended_1_1_ratio": 67.5
+    },
+    "context_window": 400000,
+    "modality": "text+image->text"
+  }
+}

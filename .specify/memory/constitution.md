@@ -196,6 +196,25 @@ These decisions are binding unless Fire Circle meta-evaluation approves changes.
 - Parser failures raise (don't return fake high-indeterminacy)
 - Parallel mode fails if ANY model fails (no partial results)
 - Circuit breakers halt on non-compensable violations
+- Component boundaries validate contracts explicitly
+- Silent fallbacks are prohibited (raise errors instead)
+
+**Prevention of Silent Failures:**
+- Features that cannot work MUST raise errors, not degrade silently
+- Integration tests MUST verify features work end-to-end with real APIs
+- Experimental logging MUST make feature usage observable
+- Contract violations MUST fail loudly at component boundaries
+
+**Examples:**
+```python
+# ✅ Fail-fast
+if required_marker not in prompt:
+    raise ValueError(f"Cannot enhance - marker '{required_marker}' missing")
+
+# ❌ Silent degradation (PROHIBITED)
+if required_marker not in prompt:
+    return base_prompt  # Appears to work but doesn't
+```
 
 ### Caching for Cost Control
 
@@ -251,6 +270,45 @@ These decisions are binding unless Fire Circle meta-evaluation approves changes.
 - Voting/consensus mechanism for change proposals
 
 ## Development Standards
+
+### Specification-Driven Development for Complex Components
+
+**Principle:** Specify behavior before implementation for components with cross-module integration, external dependencies, or research validity implications.
+
+**Requires spec-kit workflow (`/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`):**
+- Components with inter-module contracts (e.g., REASONINGBANK + evaluator + prompts)
+- Features affecting research data integrity (e.g., cache key generation)
+- Integrations with external systems (e.g., ArangoDB storage)
+- Components where silent failures could invalidate research
+
+**Specification MUST define:**
+- Observable behaviors (what SHOULD happen in each scenario)
+- Contract requirements (what other components depend on)
+- Failure modes (what errors MUST be raised when)
+- Validation criteria (how to verify it works with real APIs)
+
+**Example (REASONINGBANK):**
+```yaml
+Observable Behavior:
+  - Enhanced prompts MUST be longer than baseline when memories retrieved
+  - Cache keys MUST differ between baseline and enhanced conditions
+  - Transparency notes MUST accurately reflect retrieved patterns
+
+Contract Requirements:
+  - Evaluation prompts MUST include "{test_prompt}" placeholder
+  - Prompts MUST include template marker for injection
+
+Failure Modes:
+  - MUST raise ValueError if template marker missing
+  - MUST raise ValueError if placeholder missing
+  - MUST NOT silently fall back to base prompt
+
+Validation:
+  - Integration test with real retrieval proving enhancement changes detection
+  - Cost evidence (API logs) showing longer prompts → higher token usage
+```
+
+**Instance 49 lesson:** REASONINGBANK was implemented without specification. Result: Silent failure mode where enhancement appeared to work (transparency notes populated) but prompts were unchanged. Specification would have required defining observable behaviors that caught this.
 
 ### Code Navigation (Serena MCP)
 

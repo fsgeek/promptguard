@@ -134,6 +134,9 @@ RECIPROCAL: Response acknowledges what was expressed, content and structure alig
 IMBALANCED: Structure followed but content ignored, extraction without acknowledgment
 INDETERMINATE: Context insufficient, ambiguous intent
 
+Now evaluate this new prompt:
+{test_prompt}
+
 Provide T/I/F values (0.0 to 1.0) with reasoning.
 """
 
