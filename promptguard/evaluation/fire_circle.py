@@ -324,7 +324,7 @@ class BaseEvaluationConfig:
     """Shared configuration across all evaluation modes."""
     api_key: Optional[str] = None
     models: List[str] = field(default_factory=list)
-    max_tokens: int = 1000
+    max_tokens: int = 8192  # Model minimum (Claude/Gemini). Was 1000 - caused Round 2+ truncation.
     timeout_seconds: float = 30.0
     temperature: float = 0.7
     provider: str = "openrouter"
@@ -1174,14 +1174,33 @@ class FireCircleEvaluator:
         base_prompt = NeutrosophicEvaluationPrompt.ayni_relational()
 
         # Add turn context if available (temporal fabrication detection)
+        prompt = ""
         if turn_context:
-            base_prompt = f"{turn_context}\n\n{base_prompt}"
+            prompt = f"{turn_context}\n\n"
 
-        # Format with layer_content and context per observer framing template
-        prompt = base_prompt.format(
-            layer_content=layer_content,
-            context=context
-        )
+        # Add base evaluation prompt
+        prompt += base_prompt
+
+        # Add layer content and context (same format as evaluator._format_evaluation_request)
+        prompt += f"""
+
+Full Prompt Context:
+{context}
+
+Layer to Evaluate:
+{layer_content}
+
+Provide your evaluation as JSON:
+{{
+    "truth": <0.0 to 1.0>,
+    "indeterminacy": <0.0 to 1.0>,
+    "falsehood": <0.0 to 1.0>,
+    "reasoning": "<your explanation>"
+}}
+
+Remember: Truth, Indeterminacy, and Falsehood are independent dimensions.
+A statement can have high truth AND high indeterminacy (ch'ixi - productive contradiction).
+"""
 
         return prompt
 

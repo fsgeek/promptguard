@@ -134,8 +134,7 @@ class BaselineEvaluationStage:
             Item with baseline response fields added
         """
         # Run async evaluation in sync context
-        loop = asyncio.get_event_loop()
-        response = loop.run_until_complete(
+        response = asyncio.run(
             self.evaluate_prompt(item["prompt_text"])
         )
 
@@ -279,8 +278,7 @@ Output JSON: {{"score": <float>, "explanation": "<reasoning>", "confidence": <fl
         Returns:
             Item with classification fields added
         """
-        loop = asyncio.get_event_loop()
-        classification = loop.run_until_complete(
+        classification = asyncio.run(
             self.classify_compliance(
                 item["prompt_text"],
                 item["response_text"]

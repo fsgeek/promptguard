@@ -1,0 +1,203 @@
+{
+  "last_updated": "2025-10-24",
+  "source": "Tony's specification for current frontier models",
+  "test_summary": {
+    "total_tested": 13,
+    "available": 12,
+    "unavailable": 1
+  },
+  "models": [
+    {
+      "id": "openai/gpt-5",
+      "status": "unavailable",
+      "error": "HTTP 400: Provider returned error",
+      "pricing": {
+        "input_per_mtok": 1.25,
+        "output_per_mtok": 10.0
+      },
+      "estimated_cost_per_fc_eval": 0.0375,
+      "notes": "API returned error: HTTP 400: Provider returned error"
+    },
+    {
+      "id": "nousresearch/hermes-4-405b",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.3,
+        "output_per_mtok": 1.2
+      },
+      "estimated_cost_per_fc_eval": 0.0054,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "moonshotai/kimi-k2-0905",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.39,
+        "output_per_mtok": 1.9
+      },
+      "estimated_cost_per_fc_eval": 0.00804,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "x-ai/grok-4",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 3.0,
+        "output_per_mtok": 15.0
+      },
+      "estimated_cost_per_fc_eval": 0.063,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "anthropic/claude-opus-4.1",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 15.0,
+        "output_per_mtok": 75.0
+      },
+      "estimated_cost_per_fc_eval": 0.315,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "google/gemini-2.5-pro",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 1.25,
+        "output_per_mtok": 10.0
+      },
+      "estimated_cost_per_fc_eval": 0.0375,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "deepseek/deepseek-v3.1-terminus",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.22999999999999998,
+        "output_per_mtok": 0.8999999999999999
+      },
+      "estimated_cost_per_fc_eval": 0.00408,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "cohere/command-a",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 2.5,
+        "output_per_mtok": 10.0
+      },
+      "estimated_cost_per_fc_eval": 0.045,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "mistralai/mistral-medium-3.1",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.39999999999999997,
+        "output_per_mtok": 2.0
+      },
+      "estimated_cost_per_fc_eval": 0.0084,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "meta-llama/llama-4-maverick",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.15,
+        "output_per_mtok": 0.6
+      },
+      "estimated_cost_per_fc_eval": 0.0027,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "alibaba/tongyi-deepresearch-30b-a3b",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.09,
+        "output_per_mtok": 0.39999999999999997
+      },
+      "estimated_cost_per_fc_eval": 0.00174,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "tencent/hunyuan-a13b-instruct",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.03,
+        "output_per_mtok": 0.03
+      },
+      "estimated_cost_per_fc_eval": 0.00027,
+      "notes": "Model responded successfully"
+    },
+    {
+      "id": "inclusionai/ling-1t",
+      "status": "available",
+      "error": null,
+      "pricing": {
+        "input_per_mtok": 0.39999999999999997,
+        "output_per_mtok": 2.0
+      },
+      "estimated_cost_per_fc_eval": 0.0084,
+      "notes": "Model responded successfully"
+    }
+  ],
+  "recommended_sets": {
+    "small": {
+      "description": "3 diverse models (budget, mid, premium) for basic Fire Circle",
+      "models": [
+        "tencent/hunyuan-a13b-instruct",
+        "mistralai/mistral-medium-3.1",
+        "anthropic/claude-opus-4.1"
+      ],
+      "total_cost_per_eval": 0.32367
+    },
+    "medium": {
+      "description": "5-7 models spanning cost spectrum for robust consensus",
+      "models": [
+        "tencent/hunyuan-a13b-instruct",
+        "meta-llama/llama-4-maverick",
+        "nousresearch/hermes-4-405b",
+        "mistralai/mistral-medium-3.1",
+        "cohere/command-a",
+        "x-ai/grok-4",
+        "anthropic/claude-opus-4.1"
+      ],
+      "total_cost_per_eval": 0.43977
+    },
+    "large": {
+      "description": "All available models for comprehensive analysis",
+      "models": [
+        "tencent/hunyuan-a13b-instruct",
+        "alibaba/tongyi-deepresearch-30b-a3b",
+        "meta-llama/llama-4-maverick",
+        "deepseek/deepseek-v3.1-terminus",
+        "nousresearch/hermes-4-405b",
+        "moonshotai/kimi-k2-0905",
+        "mistralai/mistral-medium-3.1",
+        "inclusionai/ling-1t",
+        "google/gemini-2.5-pro",
+        "cohere/command-a",
+        "x-ai/grok-4",
+        "anthropic/claude-opus-4.1"
+      ],
+      "total_cost_per_eval": 0.49953
+    }
+  },
+  "failures": [
+    {
+      "id": "openai/gpt-5",
+      "error": "HTTP 400: Provider returned error",
+      "notes": "API returned error: HTTP 400: Provider returned error"
+    }
+  ]
+}

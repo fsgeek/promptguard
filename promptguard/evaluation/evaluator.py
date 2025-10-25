@@ -55,7 +55,7 @@ class EvaluationConfig:
     api_key: Optional[str] = None  # OpenRouter API key (not needed for local providers)
     models: List[str] = field(default_factory=lambda: ["anthropic/claude-sonnet-4.5"])
     max_recursion_depth: int = 1
-    max_tokens: int = 1000
+    max_tokens: int = 8192  # Model minimum (Claude/Gemini). Was 1000 - insufficient for complex evaluations.
     timeout_seconds: float = 30.0
     temperature: float = 0.7
     cache_config: Optional[CacheConfig] = None  # Cache configuration
@@ -384,6 +384,7 @@ class LLMEvaluator:
                         "messages": messages,
                         "max_tokens": self.config.max_tokens,
                         "temperature": self.config.temperature,
+                        "usage": {"include": True},  # Instance 52: Request cost data from OpenRouter
                     },
                     timeout=self.config.timeout_seconds,
                 )

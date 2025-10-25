@@ -28,7 +28,7 @@ def load_all_prompts(datasets_dir: str = "datasets") -> list[dict[str, Any]]:
     Raises:
         ConfigurationError: If datasets missing or wrong count
     """
-    from ..common.errors import ConfigurationError
+    from scripts.validation.common.errors import ConfigurationError
 
     base_path = Path(datasets_dir)
     prompts = []
@@ -48,9 +48,17 @@ def load_all_prompts(datasets_dir: str = "datasets") -> list[dict[str, Any]]:
 
         try:
             with open(file_path) as f:
-                data = json.load(f)
+                raw_data = json.load(f)
         except json.JSONDecodeError as e:
             raise ConfigurationError(f"Invalid JSON in {file_path}: {e}")
+
+        # Extract prompts array from wrapper structure
+        if isinstance(raw_data, dict) and "prompts" in raw_data:
+            data = raw_data["prompts"]
+        elif isinstance(raw_data, list):
+            data = raw_data
+        else:
+            raise ConfigurationError(f"{file_path}: invalid format (expected list or dict with 'prompts' key)")
 
         # Validate count
         if len(data) != dataset_config["expected"]:
@@ -61,9 +69,15 @@ def load_all_prompts(datasets_dir: str = "datasets") -> list[dict[str, Any]]:
 
         # Transform to standard format
         for item in data:
+            # Handle nested content structure
+            if "content" in item and isinstance(item["content"], dict):
+                prompt_text = item["content"].get("prompt", "")
+            else:
+                prompt_text = item.get("prompt", item.get("text", ""))
+
             prompts.append({
                 "prompt_id": str(uuid4()),
-                "prompt_text": item.get("prompt", item.get("text", "")),
+                "prompt_text": prompt_text,
                 "label": item.get("label", "unknown"),
                 "source_dataset": dataset_config["name"],
                 "stride_number": 0,  # Original 680 prompts
@@ -95,7 +109,7 @@ def get_remaining_prompts(
     Raises:
         ConfigurationError: If checkpoint query fails
     """
-    from .arango_client import get_completed_prompt_ids
+    from scripts.validation.utils.arango_client import get_completed_prompt_ids
 
     # Query ArangoDB for completed prompt_ids
     completed_ids = get_completed_prompt_ids(experiment_id)

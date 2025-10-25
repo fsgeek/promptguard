@@ -34,7 +34,7 @@ class ArangoConnection:
         self.password = os.getenv("ARANGODB_PROMPTGUARD_PASSWORD")
 
         if not self.password:
-            from ..common.errors import ConfigurationError
+            from scripts.validation.common.errors import ConfigurationError
             raise ConfigurationError(
                 "ARANGODB_PROMPTGUARD_PASSWORD environment variable required"
             )
@@ -61,7 +61,7 @@ class ArangoConnection:
                     password=self.password
                 )
             except Exception as e:
-                from ..common.errors import ConfigurationError
+                from scripts.validation.common.errors import ConfigurationError
                 raise ConfigurationError(
                     f"Cannot connect to ArangoDB at {self.host}:{self.port}: {e}"
                 )
@@ -88,7 +88,7 @@ class ArangoSink:
 
         # Verify collection exists
         if not self.db.has_collection(collection_name):
-            from ..common.errors import ConfigurationError
+            from scripts.validation.common.errors import ConfigurationError
             raise ConfigurationError(
                 f"Collection '{collection_name}' does not exist. "
                 f"Run scripts/validation/init_database.py first."
@@ -110,7 +110,7 @@ class ArangoSink:
         try:
             self.collection.insert(item)
         except Exception as e:
-            from ..common.errors import StorageError
+            from scripts.validation.common.errors import StorageError
             raise StorageError(
                 f"Failed to insert into {self.collection_name}: {e}"
             )
@@ -163,7 +163,7 @@ class ArangoSource:
             )
             return list(cursor)
         except Exception as e:
-            from ..common.errors import ConfigurationError
+            from scripts.validation.common.errors import ConfigurationError
             raise ConfigurationError(f"Query failed: {e}")
 
 
@@ -194,5 +194,5 @@ def get_completed_prompt_ids(experiment_id: str, collection_name: str = "prompts
         cursor = db.aql.execute(query, bind_vars={"exp_id": experiment_id})
         return set(cursor)
     except Exception as e:
-        from ..common.errors import ConfigurationError
+        from scripts.validation.common.errors import ConfigurationError
         raise ConfigurationError(f"Checkpoint query failed: {e}")

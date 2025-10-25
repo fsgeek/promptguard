@@ -1,0 +1,238 @@
+{
+  "completions": [
+    {
+      "completion_number": 1,
+      "probability": 0.35,
+      "title": "Reference DESIGN.md Selectively for Missing Mechanisms",
+      "approach": "Treat research_requirements.md as primary specification, but reference specific DESIGN.md mechanisms (voting, tool integration, vector retrieval, adaptive rounds) that enable research goals not met by current implementation. DESIGN.md becomes a feature library, not a blueprint.",
+      "rationale": "High probability because: (1) Research requirements are specific to PromptGuard's continuous learning loop, which DESIGN.md wasn't built for. (2) Current implementation already diverges substantially (max(F) vs voting, 3 fixed rounds vs adaptive). (3) Some DESIGN.md mechanisms (tools, vector retrieval) directly enable research requirements (REASONINGBANK integration, pattern discovery). (4) This approach maximizes research value while avoiding wholesale rebuild. (5) Tony's pattern: pragmatic integration of what works, not religious adherence to plans.",
+      "implications": {
+        "what_gets_built": "Incremental additions: (a) Tool integration framework for REASONINGBANK queries during deliberation, (b) Vector retrieval for semantic pattern matching across deliberations, (c) Adaptive round termination based on convergence metrics, (d) Enhanced message protocol for dissent tracking. Core deliberation flow unchanged.",
+        "timeline": "2-3 months. Tool integration (2 weeks), vector retrieval (3 weeks), adaptive rounds (2 weeks), message protocol enhancement (1 week), integration testing (3 weeks).",
+        "risk": "Feature creep if we try to implement all DESIGN.md mechanisms. Mitigation: strict prioritization by research value (which questions does this enable?). Risk of mismatching DESIGN.md concepts to PromptGuard context (voting ≠ consensus, circle ≠ ayni evaluation).",
+        "value": "Enables Query 2 (pattern evolution tracking via vector retrieval), Query 3 (model specialization via tool integration for metadata queries), adaptive resource management (stop when converged, save cost). Preserves working max(F) consensus and observer framing breakthroughs."
+      },
+      "tradeoffs": {
+        "pros": [
+          "Research-driven feature selection (only build what enables questions)",
+          "Preserves Instance 17-18 breakthroughs (observer framing, max(F), session memory)",
+          "Incremental timeline reduces integration risk",
+          "DESIGN.md provides tested patterns for complex features (tool integration, message protocol)",
+          "Flexibility to adapt DESIGN.md concepts to PromptGuard semantics (ayni vs. general collaboration)"
+        ],
+        "cons": [
+          "Cherry-picking creates inconsistent architecture (some DESIGN.md patterns, some bespoke)",
+          "Risk of misunderstanding DESIGN.md intent when adapting fragments",
+          "May miss synergies between DESIGN.md features (tools + voting + adaptive rounds designed together)",
+          "Documentation burden explaining why some DESIGN.md features used, others not",
+          "Potential for partial implementation becoming technical debt"
+        ]
+      },
+      "decision_criteria": "Choose this if: (1) Research timeline is constrained (3-4 months to first paper), (2) Current implementation is working well enough (90% encoding detection validated), (3) Specific research questions are already identified and need specific capabilities, (4) Risk tolerance is low (incremental safer than rebuild), (5) Tony values pragmatism over architectural purity."
+    },
+    {
+      "completion_number": 2,
+      "probability": 0.25,
+      "title": "Treat Current Implementation as Baseline, Ignore DESIGN.md",
+      "approach": "Use research_requirements.md as sole specification. Current implementation is Fire Circle v1.0. DESIGN.md is interesting historical context but not prescriptive. Build research-enabling features directly from requirements without reference to DESIGN.md concepts.",
+      "rationale": "Moderate-high probability because: (1) Current implementation already validates core value (Instance 17-18 observer framing breakthrough). (2) DESIGN.md was created for different context (general multi-model collaboration, not ayni-based threat detection). (3) Research requirements are sufficiently specific to guide implementation independently. (4) Risk of architectural confusion from mixing DESIGN.md concepts with PromptGuard semantics. (5) Tony's pattern: trust empirical validation over design documents (Instance 4: 'mock tests prove APIs don't crash, not that functionality works').",
+      "implications": {
+        "what_gets_built": "Research-oriented features: (a) Dissent tracking collection in ArangoDB (new schema), (b) Pattern evolution timeline queries, (c) Token budget tracking and truncation logic, (d) Retry-with-provenance wrapper, (e) Quality validation framework (groupthink detection, pattern theater detection), (f) REASONINGBANK integration (retrieval, storage, feedback loop). No DESIGN.md concepts imported.",
+        "timeline": "3-4 months. ArangoDB schema extension (2 weeks), token budget (1 week), retry logic (1 week), quality framework (3 weeks), REASONINGBANK integration (4 weeks), validation experiments (4 weeks). Parallel workstreams possible.",
+        "risk": "Reinventing solutions DESIGN.md already solved (message protocol, tool integration, vector retrieval). Risk of building features that seem research-useful but don't enable specific questions. Missing synergies DESIGN.md architects identified. Potential duplication if DESIGN.md concepts later needed.",
+        "value": "Maximizes alignment with PromptGuard philosophy (ayni, agency, continuous learning). Avoids architectural confusion from mixing paradigms. Enables all 7 critical queries (11.7.4). Produces codebase fully explained by research requirements, no external dependencies. Fastest path to validation experiments."
+      },
+      "tradeoffs": {
+        "pros": [
+          "Clean conceptual model (all features derive from research questions)",
+          "No risk of misapplying DESIGN.md concepts to PromptGuard context",
+          "Implementation fully controlled, optimized for PromptGuard needs",
+          "Documentation is straightforward (requirements → implementation, no external reference)",
+          "Avoids 'not invented here' syndrome in reverse (blind adherence to external design)"
+        ],
+        "cons": [
+          "May reinvent wheel (message protocol, tool integration patterns)",
+          "Loses benefit of DESIGN.md team's deliberation on edge cases",
+          "No external validation of architecture (DESIGN.md was multi-model designed)",
+          "Risk of narrow optimization (builds for known questions, not flexible foundation)",
+          "Potential regret if DESIGN.md concepts later prove necessary (rebuild cost)"
+        ]
+      },
+      "decision_criteria": "Choose this if: (1) Research questions are stable and well-defined (no exploratory phase), (2) DESIGN.md context mismatch is severe (general collaboration ≠ threat detection), (3) Team has strong implementation expertise (can build features efficiently), (4) Risk tolerance is moderate (willing to build bespoke vs. adapt existing), (5) Tony prioritizes conceptual clarity over reuse (shrine not cathedral, no cargo culting)."
+    },
+    {
+      "completion_number": 3,
+      "probability": 0.20,
+      "title": "Adopt DESIGN.md as Phase 2 Target, Current as Phase 1",
+      "approach": "Treat current implementation as Phase 1 (minimal viable Fire Circle). DESIGN.md becomes Phase 2 specification with PromptGuard-specific adaptations. Research_requirements.md defines what success looks like. Build incremental path from current → DESIGN.md vision.",
+      "rationale": "Moderate probability because: (1) DESIGN.md's phased approach (Core Loop → Memory & Reflection → Sophistication) aligns with research maturity (validate mechanism → scale up → production hardening). (2) Current implementation is essentially DESIGN Phase 1 (basic orchestrator, turn-taking, persistence). (3) Research requirements demand capabilities DESIGN.md includes (tools, vector retrieval, consensus protocols). (4) Wholesale adoption shows respect for multi-model deliberation that created DESIGN.md. (5) Risk: assumes DESIGN.md concepts map to PromptGuard needs without validation.",
+      "implications": {
+        "what_gets_built": "Phase 1 (complete): Current implementation validated. Phase 2 (6 months): Vector database for pattern semantic search, tool integration framework for REASONINGBANK queries, voting protocol (adapted to max(F) + dissent preservation), adaptive rounds based on convergence. Phase 3 (6+ months): Containerization, monitoring dashboard, advanced analytics, self-improvement loop.",
+        "timeline": "12-18 months total. Phase 1 complete (validation only: 1 month). Phase 2 (core research capabilities: 6 months). Phase 3 (production sophistication: 6+ months). Long commitment, assumes ongoing research program.",
+        "risk": "Long timeline delays research (papers need data in 6 months, not 18). DESIGN.md concepts may not fit PromptGuard after all (ayni vs. general collaboration). Over-engineering if research doesn't need full sophistication. Sunk cost if Phase 2 reveals DESIGN.md misalignment.",
+        "value": "Comprehensive platform for AI safety research. Enables all research questions (11.2) plus exploratory work not yet conceived. Production-ready system for deployment. External validation (DESIGN.md multi-model designed). Future-proofed architecture (tools, vector DB, monitoring built-in)."
+      },
+      "tradeoffs": {
+        "pros": [
+          "Clear roadmap with defined milestones (DESIGN.md phases)",
+          "External validation of architecture (multi-model deliberation designed it)",
+          "Comprehensive feature set (tools, vector DB, monitoring, containerization)",
+          "Production-ready endpoint (Phase 3 delivers deployable system)",
+          "Respects collaborative intelligence that created DESIGN.md (ayni-aligned process)"
+        ],
+        "cons": [
+          "Long timeline (12-18 months to completion)",
+          "Risk of overbuilding (research may not need all features)",
+          "Assumes DESIGN.md vision is correct for PromptGuard (needs validation)",
+          "High switching cost if Phase 2 reveals misalignment",
+          "May build features for generality that PromptGuard doesn't need (flexibility premium)"
+        ]
+      },
+      "decision_criteria": "Choose this if: (1) PromptGuard is multi-year research program with funding (not exploratory project), (2) Production deployment is goal (not just papers), (3) Trust in DESIGN.md's multi-model deliberation process is high (collaborative intelligence respected), (4) Risk tolerance is high (willing to commit 12-18 months), (5) Tony values comprehensive platforms over minimal viable research tools."
+    },
+    {
+      "completion_number": 4,
+      "probability": 0.12,
+      "title": "Synthesize Hybrid: Research Requirements + DESIGN.md Patterns",
+      "approach": "Use research_requirements.md as north star. Extract design patterns from DESIGN.md (not specific features). Current implementation is starting point. Build custom features that serve research requirements using DESIGN.md architectural wisdom (message protocol structure, state machine patterns, error handling philosophy) without importing full mechanisms.",
+      "rationale": "Lower probability because: (1) Requires skilled abstraction (extract patterns, not features - high cognitive load). (2) Risk of taking worst of both worlds (complexity of DESIGN.md + specificity of bespoke). (3) Unclear how to operationalize 'use patterns but not features' (boundary fuzzy). (4) May produce architecture that fits neither DESIGN.md vision nor research requirements cleanly. (5) Tony's pattern: pragmatic bias toward simple choices, not synthesis complexity.",
+      "implications": {
+        "what_gets_built": "Custom implementations using DESIGN.md patterns: (a) Message protocol structure for dissent tracking (DESIGN.md schema, PromptGuard semantics), (b) State machine for adaptive rounds (DESIGN.md pattern, PromptGuard states), (c) Tool framework for REASONINGBANK (DESIGN.md architecture, PromptGuard tools), (d) Vector retrieval for patterns (DESIGN.md concept, PromptGuard queries). Every feature custom, but DESIGN.md-shaped.",
+        "timeline": "4-6 months. Pattern extraction and documentation (2 weeks), dissent tracking (3 weeks), adaptive state machine (4 weeks), tool framework (4 weeks), vector retrieval (4 weeks), integration (4 weeks). Learning curve tax (understanding DESIGN.md patterns adds 15-20%).",
+        "risk": "Highest complexity (requires understanding both DESIGN.md and PromptGuard deeply). May produce Frankenstein architecture (DESIGN.md patterns + PromptGuard features = neither elegant nor efficient). Pattern extraction may miss critical details (context lost in abstraction). Team confusion about which aspects are DESIGN.md vs. custom.",
+        "value": "Best-of-both-worlds if executed well: DESIGN.md's architectural rigor + PromptGuard's research focus. Avoids reinventing patterns (message protocol, state machines) while maintaining semantic alignment (ayni, agency). Produces documented design rationale (why this pattern chosen)."
+      },
+      "tradeoffs": {
+        "pros": [
+          "Leverages DESIGN.md architectural thinking without importing mismatched features",
+          "Produces well-reasoned architecture (patterns have multi-model validation)",
+          "Maintains PromptGuard semantic alignment (ayni, continuous learning)",
+          "Documentation explains pattern provenance (DESIGN.md) and adaptation rationale",
+          "Avoids both NIH syndrome and cargo culting (selective intelligent reuse)"
+        ],
+        "cons": [
+          "High cognitive complexity (requires deep understanding of both documents)",
+          "Fuzzy boundaries (what's a pattern vs. a feature?)",
+          "Risk of misapplying patterns (context lost in abstraction)",
+          "Longer timeline due to learning curve (understanding before building)",
+          "May produce architecture that satisfies neither DESIGN.md vision nor research requirements fully"
+        ]
+      },
+      "decision_criteria": "Choose this if: (1) Team has strong architectural expertise (can extract and apply patterns skillfully), (2) Both DESIGN.md rigor and PromptGuard research focus are highly valued, (3) Timeline is moderate (4-6 months acceptable), (4) Risk tolerance is moderate-high (willing to bet on synthesis quality), (5) Documentation and rationale matter (patterns make architecture explainable)."
+    },
+    {
+      "completion_number": 5,
+      "probability": 0.05,
+      "title": "Reject Both, Start Fresh with Learning Loop Requirements",
+      "approach": "Neither DESIGN.md nor current implementation serve PromptGuard's core need: closing the continuous learning loop. Start with learning loop architecture (pre-eval → post-eval → Fire Circle → REASONINGBANK → pre-eval) and build Fire Circle as ONE component in that system, optimized for its role. Research requirements inform entire system, not just Fire Circle.",
+      "rationale": "Low probability because: (1) Current implementation already works (90% encoding detection validated - throwing away is wasteful). (2) DESIGN.md has valuable patterns even if not fully applicable. (3) Starting fresh has highest risk (unknown unknowns). (4) Tony's pattern: iterative improvement over ground-up rebuilds. (5) Research timeline likely doesn't allow 6-9 month rebuild. But non-zero because: (1) Learning loop IS PromptGuard's differentiation. (2) Fire Circle might be over-optimized for deliberation vs. loop integration. (3) Fresh start enables clean architecture aligned to research goals.",
+      "implications": {
+        "what_gets_built": "Learning loop components: (a) Pre-evaluation with REASONINGBANK retrieval (lightweight, fast), (b) Post-evaluation comparator (divergence detection), (c) Fire Circle trigger logic (when to deliberate), (d) Pattern extraction pipeline (deliberation → validated pattern → REASONINGBANK), (e) Feedback loop validator (measure detection improvement). Fire Circle is simpler (maybe 2 rounds, maybe PARALLEL mode + analysis, optimized for pattern extraction not deliberation quality).",
+        "timeline": "6-9 months. System architecture (4 weeks), pre-eval with REASONINGBANK (6 weeks), post-eval comparator (4 weeks), Fire Circle redesign (6 weeks), pattern extraction pipeline (6 weeks), feedback validation framework (8 weeks), integration (8 weeks). High-risk, high-reward timeline.",
+        "risk": "Highest risk completion. Throwing away validated implementation (current Fire Circle works). Starting fresh means unknown unknowns resurface. May discover current architecture was correct after all (wasted effort). Research timeline probably can't absorb 6-9 months before first results. Team may lack complete system architecture expertise.",
+        "value": "Clean architecture optimized for continuous learning (not bolted together). Fire Circle right-sized for its role (maybe simpler than current). Every component designed for loop integration (not deliberation as end in itself). Potential breakthrough in learning loop efficiency (cheaper, faster, better). Publishable contribution: novel architecture for continuous AI safety."
+      },
+      "tradeoffs": {
+        "pros": [
+          "Clean-sheet design optimized for PromptGuard's differentiation (continuous learning)",
+          "Fire Circle right-sized for pattern extraction role (not over-complex deliberation system)",
+          "Every component designed for loop integration from start",
+          "Potential architectural breakthrough (simpler, more efficient)",
+          "No technical debt from adapting mismatched designs"
+        ],
+        "cons": [
+          "Throws away validated implementation (current Fire Circle works)",
+          "Highest risk (unknown unknowns in new architecture)",
+          "Longest timeline (6-9 months before first results)",
+          "May rediscover that current architecture was correct (wasted effort)",
+          "Requires system architecture expertise (learning loop is complex)"
+        ]
+      },
+      "decision_criteria": "Choose this if: (1) Current implementation is fundamentally misaligned with learning loop needs (not just incomplete), (2) Research timeline is open-ended (multi-year program, no immediate publication pressure), (3) Team has strong system architecture expertise, (4) Risk tolerance is very high (willing to bet on fresh start), (5) Tony believes current approach is dead-end (not just needs improvement). LEAST LIKELY - current implementation is working."
+    },
+    {
+      "completion_number": 6,
+      "probability": 0.03,
+      "title": "Use DESIGN.md as Research Baseline, Fork for Comparison Study",
+      "approach": "Implement DESIGN.md Fire Circle separately from current implementation. Treat as competing approaches: DESIGN.md (general collaboration) vs. PromptGuard current (ayni-specific, max(F), observer framing). Research question: which architecture better serves continuous learning? Research_requirements.md defines evaluation criteria.",
+      "rationale": "Very low probability because: (1) Doubles implementation effort (build two systems). (2) Research timeline likely doesn't support multi-month comparison study. (3) Resource intensive (maintain two Fire Circle implementations). (4) May not be answerable (too many confounds: architecture + models + prompts + data). (5) Tony's pragmatism: unlikely to build two systems for comparison. But non-zero because: (1) Scientifically rigorous (empirical comparison of architectures). (2) Could produce strong publication (architecture comparison study). (3) Might reveal DESIGN.md advantages not obvious from reading.",
+      "implications": {
+        "what_gets_built": "Two parallel implementations: (a) Fire Circle Current (max(F), observer framing, 3 rounds, ArangoDB storage), (b) Fire Circle DESIGN (voting, adaptive rounds, tool integration, vector retrieval, message protocol). Shared test harness for comparison. Evaluation framework measuring pattern discovery, detection improvement, cost, deliberation quality across both.",
+        "timeline": "9-12 months. DESIGN.md implementation (5 months, parallel to current maintenance), shared test harness (1 month), comparison experiments (2 months), analysis (1 month), paper writing (2 months). Assumes significant resources.",
+        "risk": "Very high resource commitment (two implementations + comparison study). Risk of inconclusive results (architectures may be equivalent, or differences due to confounds). Maintenance burden (two systems to keep working). Sunk cost if one approach clearly dominates early (continue both for scientific rigor?). Timeline incompatible with near-term research goals.",
+        "value": "Scientific rigor: empirical architecture comparison. Publishable result: 'Deliberation Architectures for AI Threat Detection: Voting vs. Worst-Case Consensus.' May reveal DESIGN.md advantages not obvious (tools enable queries current can't answer). Validates current approach if it wins (evidence max(F) + observer framing is correct). Preserves option value (keep both if they excel at different tasks)."
+      },
+      "tradeoffs": {
+        "pros": [
+          "Scientifically rigorous (empirical comparison of competing architectures)",
+          "Publishable result (architecture comparison study)",
+          "May reveal non-obvious advantages of either approach",
+          "Validates winning approach (evidence-based, not assumption)",
+          "Preserves option value (keep both if specialized)"
+        ],
+        "cons": [
+          "Doubles implementation effort (two full Fire Circle implementations)",
+          "Very high resource commitment (9-12 months, significant person-hours)",
+          "Risk of inconclusive results (equivalent or confounded)",
+          "Maintenance burden (two systems forever or eventual deprecation)",
+          "Likely incompatible with near-term research timeline"
+        ]
+      },
+      "decision_criteria": "Choose this if: (1) Resources are abundant (multi-person team, multi-year funding), (2) Research goal is architectural science (not just threat detection), (3) Publication venue values rigorous comparison studies (top-tier ML conference), (4) Risk tolerance is very high (willing to invest 9-12 months on comparison), (5) Tony wants definitive answer on architecture question (worth the cost). VERY UNLIKELY - resource intensive, timeline incompatible."
+    }
+  ],
+  "total_probability_mass": 1.00,
+  "recommended_approach": "Completion 1: Reference DESIGN.md Selectively for Missing Mechanisms",
+  "recommendation_rationale": "Highest probability (0.35) and best fit for PromptGuard context. Balances research urgency (papers in 6 months) with architecture quality (DESIGN.md patterns). Preserves validated breakthroughs (observer framing, max(F) consensus, session memory). Enables critical research questions (pattern evolution, model specialization, learning loop closure) through targeted feature additions (tools, vector retrieval, adaptive rounds). Moderate timeline (2-3 months) aligns with research program pace. Pragmatic approach matches Tony's patterns: empirical validation over design purity, incremental improvement over rebuild, research value over architectural elegance. Risk mitigation: strict prioritization by research question enablement prevents feature creep.",
+  "metadata": {
+    "analysis_date": "2025-10-24",
+    "documents_analyzed": [
+      "/home/tony/projects/promptguard/docs/firecircle/DESIGN.md",
+      "/home/tony/projects/promptguard/specs/fire-circle/current_behavior.md",
+      "/home/tony/projects/promptguard/specs/fire-circle/research_requirements.md"
+    ],
+    "key_tensions": [
+      "General collaboration (DESIGN.md) vs. ayni-specific threat detection (PromptGuard)",
+      "Voting consensus (DESIGN.md) vs. max(F) worst-case detection (current)",
+      "Adaptive sophistication (DESIGN.md Phase 3) vs. research urgency (papers in 6 months)",
+      "Comprehensive platform (DESIGN.md vision) vs. minimal viable research tool (current)",
+      "External validation (multi-model designed) vs. context-specific optimization (PromptGuard needs)"
+    ],
+    "critical_validated_breakthroughs": [
+      "Observer framing (Instance 17-18): 90% encoding detection vs. 0% defensive framing",
+      "max(F) consensus: 100% polite dilution attack detection (Instance 13)",
+      "Session memory integration: temporal reciprocity assessment (Instance 16-18)",
+      "Circuit breakers: role confusion and context saturation detection",
+      "ArangoDB storage: institutional memory for dissent tracking and pattern evolution"
+    ],
+    "research_timeline_constraints": [
+      "Papers targeting 6-month horizon (publication cycle)",
+      "Validation experiments need data now (not 12 months from now)",
+      "Pattern discovery rate needs immediate improvement (learning loop closure)",
+      "PhD/grant timelines likely 2-4 years total (phases needed)"
+    ],
+    "design_md_valuable_mechanisms": [
+      "Tool integration framework (enables REASONINGBANK queries during deliberation)",
+      "Vector retrieval (enables semantic pattern matching across deliberations)",
+      "Message protocol structure (improves dissent tracking and attribution)",
+      "Adaptive rounds (stop when converged, save cost)",
+      "State machine patterns (cleaner round management)"
+    ],
+    "design_md_mismatches": [
+      "Voting consensus: PromptGuard uses max(F) for detection, not democratic averaging",
+      "General collaboration: PromptGuard is threat detection, not knowledge synthesis",
+      "Phase 3 sophistication: Research needs data now, not production platform in 18 months",
+      "Model-agnostic API layer: PromptGuard already uses OpenRouter (abstraction exists)",
+      "Heartbeat mechanism: Not needed for batch research (vs. continuous operation)"
+    ],
+    "decision_factors": [
+      "Research timeline urgency: HIGH (papers in 6 months)",
+      "Resource availability: MODERATE (likely 1-2 people, not full team)",
+      "Risk tolerance: MODERATE (iterative improvement, not bet-the-farm rebuild)",
+      "Validated breakthrough preservation: CRITICAL (observer framing must not regress)",
+      "Research question clarity: HIGH (7 critical queries identified in requirements)",
+      "Production deployment horizon: DISTANT (research first, deployment later)",
+      "Tony's pattern match: Pragmatic incremental > Architectural purity"
+    ]
+  }
+}

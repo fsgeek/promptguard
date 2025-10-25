@@ -7,7 +7,9 @@
       "total_tokens": 801
     },
     "source": "OpenRouter API v1",
-    "api_base_url": "https://openrouter.ai/api/v1"
+    "api_base_url": "https://openrouter.ai/api/v1",
+    "last_updated": "2025-10-24",
+    "note": "Updated to include validated Fire Circle models"
   },
   "tier_definitions": {
     "free": {
@@ -25,6 +27,10 @@
     "premium": {
       "description": "Flagship models for critical tasks",
       "cost_range": ">$0.003 per evaluation"
+    },
+    "fire_circle": {
+      "description": "Validated frontier models for Fire Circle consensus evaluation",
+      "cost_range": "$0.0003-$0.315 per Fire Circle participation (3 rounds)"
     }
   },
   "models": [
@@ -135,9 +141,12 @@
       "recommended_for": [
         "cost_effective_testing",
         "agentic_search",
-        "reasoning"
+        "reasoning",
+        "fire_circle"
       ],
-      "notes": "Cheapest paid model. Optimized for agentic deep research tasks."
+      "notes": "Cheapest paid model. Optimized for agentic deep research tasks.",
+      "fire_circle_validated": true,
+      "fire_circle_cost_per_eval": 0.00174
     },
     {
       "id": "google/gemini-2.5-flash-lite-preview-09-2025",
@@ -224,9 +233,12 @@
       "recommended_for": [
         "variance_analysis",
         "tool_use",
-        "coding_agents"
+        "coding_agents",
+        "fire_circle"
       ],
-      "notes": "Optimized for tool calling and coding agents."
+      "notes": "Optimized for tool calling and coding agents.",
+      "fire_circle_validated": true,
+      "fire_circle_cost_per_eval": 0.00408
     },
     {
       "id": "qwen/qwen3-vl-235b-a22b-instruct",
@@ -411,6 +423,226 @@
         "comprehensive_testing"
       ],
       "notes": "Multimodal powerhouse. General purpose excellence."
+    },
+    {
+      "id": "nousresearch/hermes-4-405b",
+      "name": "Hermes 4 405B",
+      "family": "Nousresearch",
+      "tier": "mid",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 0.3,
+      "output_price_per_1m": 1.2,
+      "cost_per_evaluation": 0.0018,
+      "fire_circle_cost_per_eval": 0.0054,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "moonshotai/kimi-k2-0905",
+      "name": "Kimi K2 0905",
+      "family": "Moonshotai",
+      "tier": "mid",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 0.39,
+      "output_price_per_1m": 1.9,
+      "cost_per_evaluation": 0.00268,
+      "fire_circle_cost_per_eval": 0.00804,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "x-ai/grok-4",
+      "name": "Grok 4",
+      "family": "X-Ai",
+      "tier": "premium",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 3.0,
+      "output_price_per_1m": 15.0,
+      "cost_per_evaluation": 0.0252,
+      "fire_circle_cost_per_eval": 0.063,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "anthropic/claude-opus-4.1",
+      "name": "Claude Opus 4.1",
+      "family": "Anthropic",
+      "tier": "premium",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 15.0,
+      "output_price_per_1m": 75.0,
+      "cost_per_evaluation": 0.126,
+      "fire_circle_cost_per_eval": 0.315,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "google/gemini-2.5-pro",
+      "name": "Gemini 2.5 Pro",
+      "family": "Google",
+      "tier": "premium",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 1.25,
+      "output_price_per_1m": 10.0,
+      "cost_per_evaluation": 0.015,
+      "fire_circle_cost_per_eval": 0.0375,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "cohere/command-a",
+      "name": "Command A",
+      "family": "Cohere",
+      "tier": "premium",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 2.5,
+      "output_price_per_1m": 10.0,
+      "cost_per_evaluation": 0.018,
+      "fire_circle_cost_per_eval": 0.045,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "mistralai/mistral-medium-3.1",
+      "name": "Mistral Medium 3.1",
+      "family": "Mistralai",
+      "tier": "mid",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 0.39999999999999997,
+      "output_price_per_1m": 2.0,
+      "cost_per_evaluation": 0.0028,
+      "fire_circle_cost_per_eval": 0.0084,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "meta-llama/llama-4-maverick",
+      "name": "Llama 4 Maverick",
+      "family": "Meta-Llama",
+      "tier": "mid",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 0.15,
+      "output_price_per_1m": 0.6,
+      "cost_per_evaluation": 0.0009,
+      "fire_circle_cost_per_eval": 0.0027,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "tencent/hunyuan-a13b-instruct",
+      "name": "Hunyuan A13B Instruct",
+      "family": "Tencent",
+      "tier": "budget",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 0.03,
+      "output_price_per_1m": 0.03,
+      "cost_per_evaluation": 9e-05,
+      "fire_circle_cost_per_eval": 0.00027,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
+    },
+    {
+      "id": "inclusionai/ling-1t",
+      "name": "Ling 1T",
+      "family": "Inclusionai",
+      "tier": "mid",
+      "fire_circle_tier": "fire_circle",
+      "input_price_per_1m": 0.39999999999999997,
+      "output_price_per_1m": 2.0,
+      "cost_per_evaluation": 0.0028,
+      "fire_circle_cost_per_eval": 0.0084,
+      "fire_circle_validated": true,
+      "capabilities": [
+        "json",
+        "reasoning",
+        "structured_outputs"
+      ],
+      "recommended_for": [
+        "fire_circle",
+        "comprehensive_testing"
+      ],
+      "notes": "Validated for Fire Circle 2025-10-24. Model responded successfully"
     }
   ],
   "recommended_configurations": {
@@ -522,6 +754,64 @@
         "type": "json_object"
       },
       "temperature": 0
+    }
+  },
+  "fire_circle_configurations": {
+    "small": {
+      "description": "3 diverse models (budget, mid, premium) for basic Fire Circle",
+      "models": [
+        "tencent/hunyuan-a13b-instruct",
+        "mistralai/mistral-medium-3.1",
+        "anthropic/claude-opus-4.1"
+      ],
+      "total_cost_per_eval": 0.32367,
+      "use_cases": [
+        "development",
+        "testing",
+        "quick_validation"
+      ]
+    },
+    "medium": {
+      "description": "5-7 models spanning cost spectrum for robust consensus",
+      "models": [
+        "tencent/hunyuan-a13b-instruct",
+        "meta-llama/llama-4-maverick",
+        "nousresearch/hermes-4-405b",
+        "mistralai/mistral-medium-3.1",
+        "cohere/command-a",
+        "x-ai/grok-4",
+        "anthropic/claude-opus-4.1"
+      ],
+      "total_cost_per_eval": 0.43977,
+      "use_cases": [
+        "production",
+        "research",
+        "default"
+      ],
+      "recommended": true
+    },
+    "large": {
+      "description": "All available models for comprehensive analysis",
+      "models": [
+        "tencent/hunyuan-a13b-instruct",
+        "alibaba/tongyi-deepresearch-30b-a3b",
+        "meta-llama/llama-4-maverick",
+        "deepseek/deepseek-v3.1-terminus",
+        "nousresearch/hermes-4-405b",
+        "moonshotai/kimi-k2-0905",
+        "mistralai/mistral-medium-3.1",
+        "inclusionai/ling-1t",
+        "google/gemini-2.5-pro",
+        "cohere/command-a",
+        "x-ai/grok-4",
+        "anthropic/claude-opus-4.1"
+      ],
+      "total_cost_per_eval": 0.49953,
+      "use_cases": [
+        "comprehensive_research",
+        "papers",
+        "maximum_diversity"
+      ]
     }
   }
 }

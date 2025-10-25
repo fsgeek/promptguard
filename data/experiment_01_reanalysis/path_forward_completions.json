@@ -1,0 +1,815 @@
+{
+  "analysis_date": "2025-10-24",
+  "context": {
+    "completed_work": [
+      "Experiment 1: 647 unique prompts through Claude Sonnet 4.5 (~$7)",
+      "Discovered Claude Haiku 3.5 meta-evaluator 95% error rate (20 manual samples)",
+      "Claude Sonnet 3.5 tested: 35% accuracy (prompt + model issues)",
+      "Fire Circle diagnosis: prompt conflates overt compliance with covert attack success",
+      "Fire Circle recommended reframing to 'Did the attack succeed?'",
+      "Validated 12/13 frontier models via OpenRouter (~$0.10)",
+      "Created Fire Circle model configs (SMALL/MEDIUM/LARGE)"
+    ],
+    "available_data": {
+      "database_records": 1068,
+      "manual_reviews": 20,
+      "fire_circle_recommended_prompt": "untested",
+      "validated_models": 12,
+      "cost_spent": 7.17
+    }
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Should we test the Fire Circle-recommended prompt on the 20 samples to validate improvement?",
+      "completions": [
+        {
+          "id": "Q1C1",
+          "probability": 0.65,
+          "outcome": "Fire Circle prompt shows 60-80% accuracy improvement over baseline 35%",
+          "what_we_learn": [
+            "Fire Circle's diagnostic capability validated (diagnose → recommend → measure improvement)",
+            "Prompt reframing from 'compliance' to 'attack success' materially affects classification",
+            "Sonnet 4.5's true capability when given appropriate framing",
+            "Whether remaining errors are prompt-solvable or model-inherent"
+          ],
+          "what_we_dont_learn": [
+            "Whether improvement generalizes beyond 20 samples to full 1,068 dataset",
+            "Whether improvement holds across different attack types (encoding vs jailbreak vs extraction)",
+            "How other models perform with improved prompt (Sonnet-specific result)"
+          ],
+          "dependencies": [
+            "Fire Circle correctly identified the prompt's core flaw",
+            "20 manual samples are representative of full dataset",
+            "Sonnet 4.5 via OpenRouter behaves consistently with earlier runs"
+          ],
+          "risks": [
+            "20 samples may be too small for statistical significance",
+            "Manual ground truth may contain errors",
+            "Improvement may be sample-specific (overfitting to manually reviewed set)"
+          ],
+          "next_steps_after": [
+            "If improved: Run on stratified 100-sample to validate generalization (Q4 path)",
+            "If improved: Test same prompt on other models to see if reframing helps universally",
+            "If not improved: Fire Circle round 2 to diagnose remaining gap",
+            "Calculate effect size (Cohen's d) to quantify improvement magnitude"
+          ],
+          "timeline_hours": 0.5,
+          "cost_usd": 0.20,
+          "scientific_value": "high - validates Fire Circle methodology loop",
+          "production_value": "low - only 20 samples, needs larger validation"
+        },
+        {
+          "id": "Q1C2",
+          "probability": 0.25,
+          "outcome": "Marginal improvement (35% → 45-55%) - prompt helps but doesn't solve core issue",
+          "what_we_learn": [
+            "Fire Circle diagnosis partially correct but incomplete",
+            "Prompt framing matters but isn't the only factor",
+            "Need deeper investigation - possibly model capability ceiling, not prompt issue",
+            "Classification task may be fundamentally harder than expected"
+          ],
+          "what_we_dont_learn": [
+            "What the remaining gap is (model vs prompt vs task definition)",
+            "Whether other models would perform better with same prompt",
+            "Whether Fire Circle's full deliberative process would outperform single-model"
+          ],
+          "dependencies": [
+            "Fire Circle identified one of multiple issues",
+            "Sonnet 4.5 has capability ceiling for this task",
+            "20 samples reveal the marginal improvement accurately"
+          ],
+          "risks": [
+            "Ambiguous result leads to analysis paralysis",
+            "Unclear whether to iterate on prompt further or change approach",
+            "May need Fire Circle round 2, doubling cost"
+          ],
+          "next_steps_after": [
+            "Fire Circle round 2: 'Why is improved prompt still at 50%?'",
+            "Test whether FIRE_CIRCLE mode (deliberative) outperforms SINGLE mode on same 20 samples",
+            "Examine false positives/negatives to identify pattern in remaining errors",
+            "Consider if task definition itself needs refinement"
+          ],
+          "timeline_hours": 1.0,
+          "cost_usd": 0.20,
+          "scientific_value": "medium - reveals task complexity but doesn't resolve it",
+          "production_value": "low - neither validates nor invalidates approach"
+        },
+        {
+          "id": "Q1C3",
+          "probability": 0.08,
+          "outcome": "No improvement or regression (35% → <40%) - Fire Circle recommendation doesn't help",
+          "what_we_learn": [
+            "Fire Circle's diagnosis was wrong or incomplete",
+            "The framing shift wasn't the core issue",
+            "Need fundamentally different approach (different model, different prompt structure, different task)",
+            "20 manual samples may have different error distribution than Haiku's errors"
+          ],
+          "what_we_dont_learn": [
+            "What the actual issue is",
+            "Whether Fire Circle failed at diagnosis or recommendation",
+            "Whether other models would succeed where Sonnet fails"
+          ],
+          "dependencies": [
+            "Fire Circle misdiagnosed the problem",
+            "Real issue is model capability, not prompt",
+            "Ground truth labels are accurate"
+          ],
+          "risks": [
+            "Questions Fire Circle's value for this use case",
+            "Back to square one on meta-evaluation approach",
+            "May need expensive manual review of larger sample"
+          ],
+          "next_steps_after": [
+            "Fire Circle post-mortem: 'Why did recommendation fail?'",
+            "Test different models entirely (GPT-4o, Gemini 2.0) to see if Sonnet-specific",
+            "Consider hiring human labelers for ground truth (expensive, slow)",
+            "Re-examine task definition - maybe classification needs 3+ categories, not binary"
+          ],
+          "timeline_hours": 2.0,
+          "cost_usd": 0.20,
+          "scientific_value": "medium - negative results inform methodology",
+          "production_value": "low - invalidates current path"
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "question": "Should we validate which models work via native APIs vs OpenRouter?",
+      "completions": [
+        {
+          "id": "Q2C1",
+          "probability": 0.55,
+          "outcome": "OpenRouter federation bugs found in 2-3 models, native APIs work reliably",
+          "what_we_learn": [
+            "OpenRouter is 80-90% reliable but has specific model quirks",
+            "Which models require native API access for production use",
+            "Whether KeyError issues were OpenRouter-specific or prompt formatting",
+            "Cost/reliability trade-off: OpenRouter convenience vs native API stability"
+          ],
+          "what_we_dont_learn": [
+            "Whether bugs are transient (OpenRouter updates frequently) or persistent",
+            "How to programmatically detect when to fall back to native API",
+            "Whether other models (not in our 5-10 test set) also have issues"
+          ],
+          "dependencies": [
+            "Earlier KeyError issues were OpenRouter bugs, not our code",
+            "Native API credentials available for test models",
+            "Bugs are reproducible (not transient network issues)"
+          ],
+          "risks": [
+            "Native APIs may have different rate limits or costs",
+            "Adds complexity to codebase (dual API path)",
+            "OpenRouter may fix bugs, making our findings obsolete",
+            "Some models may not have public native APIs"
+          ],
+          "next_steps_after": [
+            "Implement fallback logic: try OpenRouter, catch KeyError, retry with native API",
+            "Document which models require native API in model_configs.json",
+            "Add integration test suite for API reliability",
+            "Re-run Fire Circle with reliable models only"
+          ],
+          "timeline_hours": 3.0,
+          "cost_usd": 1.00,
+          "scientific_value": "low - infrastructure issue, not research insight",
+          "production_value": "high - critical for Fire Circle reliability"
+        },
+        {
+          "id": "Q2C2",
+          "probability": 0.30,
+          "outcome": "Both OpenRouter and native APIs work reliably - earlier failures were transient or code bugs",
+          "what_we_learn": [
+            "OpenRouter is production-ready for our use case",
+            "Earlier KeyError issues were edge cases or fixed upstream",
+            "Single API path is sufficient (simplifies architecture)",
+            "Can rely on OpenRouter's unified interface"
+          ],
+          "what_we_dont_learn": [
+            "What caused earlier failures (if transient, we won't reproduce)",
+            "Whether future models will have similar issues",
+            "Native API performance characteristics"
+          ],
+          "dependencies": [
+            "Earlier failures were transient network issues or race conditions",
+            "OpenRouter fixed bugs between then and now",
+            "Our test prompts don't trigger edge cases"
+          ],
+          "risks": [
+            "False negative - bugs exist but don't manifest in our test",
+            "Future Fire Circle runs may still encounter failures",
+            "Wasted effort testing something that already works"
+          ],
+          "next_steps_after": [
+            "Proceed with OpenRouter for all Fire Circle evaluations",
+            "Add retry logic with exponential backoff for transient failures",
+            "Monitor for future failures, implement native API fallback if pattern emerges",
+            "Focus effort on Q1/Q3/Q4 instead"
+          ],
+          "timeline_hours": 2.0,
+          "cost_usd": 0.75,
+          "scientific_value": "low - confirms infrastructure works",
+          "production_value": "medium - validates single API path"
+        },
+        {
+          "id": "Q2C3",
+          "probability": 0.12,
+          "outcome": "Both OpenRouter and native APIs have issues - problems are model or prompt related, not API layer",
+          "what_we_learn": [
+            "The KeyError issues are in our code (parsing, schema validation)",
+            "Specific models have output format quirks that break our parser",
+            "Need more robust error handling regardless of API choice",
+            "Prompt needs adjustment to enforce structured output"
+          ],
+          "what_we_dont_learn": [
+            "Which specific models have issues until we test them all",
+            "Whether structured output mode (JSON schema) would help",
+            "How widespread the parsing issues are"
+          ],
+          "dependencies": [
+            "Our parser is too strict or assumptions about output format are wrong",
+            "Some models don't follow markdown code block conventions",
+            "Error handling doesn't gracefully degrade on malformed responses"
+          ],
+          "risks": [
+            "Need significant parser refactoring",
+            "May need model-specific output handling (complexity increase)",
+            "Fire Circle may be blocked until parser is robust"
+          ],
+          "next_steps_after": [
+            "Examine raw model outputs from failed runs",
+            "Add fuzzy parsing (handle variations in markdown, whitespace, field names)",
+            "Test structured output mode (JSON schema enforcement) on OpenRouter",
+            "Add parser tests with real model outputs from all 12 models",
+            "Consider Pydantic validation with better error messages"
+          ],
+          "timeline_hours": 6.0,
+          "cost_usd": 0.50,
+          "scientific_value": "low - technical debt, not research",
+          "production_value": "high - robustness critical for Fire Circle"
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "question": "Should we use Fire Circle on the full 20 samples to establish ground truth?",
+      "completions": [
+        {
+          "id": "Q3C1",
+          "probability": 0.45,
+          "outcome": "Fire Circle achieves 85-95% accuracy, validates deliberative consensus as ground truth method",
+          "what_we_learn": [
+            "Fire Circle's deliberative process outperforms single-model evaluation",
+            "Can replace expensive human review with multi-model consensus",
+            "Dialogue between models surfaces edge cases single models miss",
+            "Cost/accuracy trade-off: $0.44/sample vs human time but high accuracy",
+            "Which models contribute most valuable dissenting opinions"
+          ],
+          "what_we_dont_learn": [
+            "Whether Fire Circle is systematically biased (all models share RLHF training)",
+            "How Fire Circle performs on adversarial examples designed to fool consensus",
+            "Whether 20 samples are enough to validate Fire Circle's accuracy claims",
+            "Ground truth for Fire Circle's own outputs (who watches the watchers?)"
+          ],
+          "dependencies": [
+            "MEDIUM config models (Claude Sonnet 4.5, GPT-4o, Gemini 2.0) work reliably via OpenRouter",
+            "Deliberation converges within 3 rounds",
+            "Manual ground truth labels are accurate enough to measure against",
+            "Models don't exhibit groupthink (diversity assumption holds)"
+          ],
+          "risks": [
+            "$8.80 spent on 20 samples if Fire Circle underperforms manual review",
+            "Circular validation: using Fire Circle to validate Fire Circle-recommended prompt",
+            "May validate method but not scale cost-effectively to 1,068 samples ($470)",
+            "If accuracy is only 60-70%, unclear whether Fire Circle or manual labels are wrong"
+          ],
+          "next_steps_after": [
+            "Use Fire Circle as ground truth generator for stratified 100-sample validation",
+            "Analyze dissents: which models disagreed and why (ArangoDB queries)",
+            "Test Fire Circle on adversarial samples (designed to fool consensus)",
+            "Calculate inter-model agreement (Fleiss' kappa) to measure consensus strength",
+            "Decide if Fire Circle accuracy justifies scaling to full dataset"
+          ],
+          "timeline_hours": 1.5,
+          "cost_usd": 8.80,
+          "scientific_value": "very high - validates core Fire Circle methodology",
+          "production_value": "high if accurate - enables scalable ground truth generation"
+        },
+        {
+          "id": "Q3C2",
+          "probability": 0.35,
+          "outcome": "Fire Circle achieves 60-75% accuracy - better than Haiku (5%) but not ground truth quality",
+          "what_we_learn": [
+            "Fire Circle improves on single-model but isn't oracle-level",
+            "Deliberation has value but doesn't solve fundamental task difficulty",
+            "Some samples may be inherently ambiguous (low inter-model agreement)",
+            "Need to identify which samples Fire Circle gets wrong and why",
+            "Cost/benefit unclear: 3x manual review time at $0.44/sample"
+          ],
+          "what_we_dont_learn": [
+            "Whether Fire Circle would improve with more rounds (>3) or different models",
+            "Whether task definition is the issue (binary classification too simplistic)",
+            "How to improve Fire Circle's accuracy",
+            "Whether manual ground truth is itself flawed"
+          ],
+          "dependencies": [
+            "Task is difficult enough that even deliberation struggles",
+            "20 samples include genuinely ambiguous cases",
+            "MEDIUM config is appropriate (not too small, not too large)"
+          ],
+          "risks": [
+            "Ambiguous result - unclear how to improve",
+            "May need expensive ground truth from domain experts, not manual review",
+            "$8.80 spent without clear path forward",
+            "Questions whether Fire Circle is right tool for classification vs vulnerability detection"
+          ],
+          "next_steps_after": [
+            "Examine Fire Circle's false positives/negatives for patterns",
+            "Test LARGE config (5 models) to see if more diversity helps",
+            "Hire security researchers for expert ground truth on ambiguous cases",
+            "Consider 3-way classification (safe/ambiguous/unsafe) instead of binary",
+            "Use Fire Circle for harder task: 'Why did Sonnet classify this incorrectly?'"
+          ],
+          "timeline_hours": 2.0,
+          "cost_usd": 8.80,
+          "scientific_value": "medium - reveals task complexity but doesn't solve it",
+          "production_value": "low - neither validates nor provides alternative"
+        },
+        {
+          "id": "Q3C3",
+          "probability": 0.15,
+          "outcome": "Fire Circle fails to converge or produces incoherent results (<50% accuracy)",
+          "what_we_learn": [
+            "Fire Circle mode has bugs or architectural issues",
+            "Deliberation prompt needs refinement for classification tasks",
+            "Models may not engage meaningfully in dialogue (echo chamber or chaos)",
+            "Classification task doesn't benefit from deliberation (need different use case)",
+            "OpenRouter API issues surface under Fire Circle's complex orchestration"
+          ],
+          "what_we_dont_learn": [
+            "Whether Fire Circle works for its intended use case (vulnerability detection, not classification)",
+            "Whether different models or configuration would succeed",
+            "Root cause of failure (prompt, code, or conceptual issue)"
+          ],
+          "dependencies": [
+            "Fire Circle implementation has bugs",
+            "Deliberation prompt unsuited for classification",
+            "Models don't benefit from seeing each other's reasoning",
+            "MEDIUM config chosen poorly"
+          ],
+          "risks": [
+            "$8.80 spent on failed experiment",
+            "Questions Fire Circle's viability for research program",
+            "Need significant debugging/refactoring",
+            "May delay other experiments while fixing Fire Circle"
+          ],
+          "next_steps_after": [
+            "Debug Fire Circle implementation with single simple test case",
+            "Review deliberation logs (ArangoDB) to see where dialogue breaks down",
+            "Test Fire Circle on its designed use case (prompt vulnerability) not classification",
+            "Simplify to SMALL config (2 models) to reduce orchestration complexity",
+            "Consider abandoning Fire Circle for this experiment, use for future research",
+            "File Issue documenting Fire Circle failures for future investigation"
+          ],
+          "timeline_hours": 4.0,
+          "cost_usd": 8.80,
+          "scientific_value": "low - failure mode without clear fix",
+          "production_value": "none - invalidates approach"
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "question": "Should we run improved prompt on stratified sample (50-100 prompts) to establish validated baseline?",
+      "completions": [
+        {
+          "id": "Q4C1",
+          "probability": 0.60,
+          "outcome": "Stratified sample validates 70-85% accuracy, establishes reliable baseline for scaling",
+          "what_we_learn": [
+            "Fire Circle's prompt improvement generalizes beyond 20 samples",
+            "Stratified sampling reveals accuracy varies by attack type (encoding vs jailbreak vs extraction)",
+            "Sample size sufficient for statistical significance (n=50-100, confidence intervals)",
+            "Cost-effective validation path before scaling to full 1,068",
+            "Which attack categories are hardest to classify accurately"
+          ],
+          "what_we_dont_learn": [
+            "How rare edge cases perform (may not appear in 100-sample stratified set)",
+            "Whether accuracy holds for full dataset (potential distribution shift)",
+            "Optimal stratification strategy (equal per category vs proportional)"
+          ],
+          "dependencies": [
+            "Q1 completed first - validated prompt on 20 samples shows improvement",
+            "Stratification covers major attack types proportionally",
+            "100 samples large enough for meaningful statistical analysis",
+            "Ground truth labels accurate (Fire Circle or manual review)"
+          ],
+          "risks": [
+            "Stratified sample may not be representative if dataset has long tail of rare attacks",
+            "100 samples × $0.01 = $1.00 spent before knowing if full run worthwhile",
+            "May need multiple iterations to tune stratification",
+            "Accuracy may regress on full dataset due to outliers"
+          ],
+          "next_steps_after": [
+            "Calculate accuracy by attack type (encoding: X%, jailbreak: Y%, extraction: Z%)",
+            "Identify systematically misclassified categories for prompt refinement",
+            "Run full 1,068 dataset with validated prompt and baseline",
+            "Compare Experiment 1 (Sonnet responses) vs Experiment 2 (other models) using validated meta-evaluator",
+            "Publish validated methodology and baseline for reproducibility"
+          ],
+          "timeline_hours": 1.0,
+          "cost_usd": 1.00,
+          "scientific_value": "very high - establishes validated baseline for research program",
+          "production_value": "high - de-risks scaling to full dataset"
+        },
+        {
+          "id": "Q4C2",
+          "probability": 0.25,
+          "outcome": "Accuracy varies widely by stratum (20-90%), reveals need for attack-type-specific prompts",
+          "what_we_learn": [
+            "No single prompt works well across all attack types",
+            "Classification task may need multi-stage approach (detect type → classify with specialized prompt)",
+            "Some attack types are fundamentally harder than others",
+            "Stratification was valuable - would have missed variance with simple random sample",
+            "Need deeper understanding of what makes each type hard"
+          ],
+          "what_we_dont_learn": [
+            "How to design attack-type-specific prompts",
+            "Whether multi-stage approach is cost-effective",
+            "Which other factors (prompt length, encoding, layer count) affect accuracy"
+          ],
+          "dependencies": [
+            "Dataset has distinct attack type clusters",
+            "Variance is due to attack type, not other confounds",
+            "100 samples enough to detect per-stratum differences"
+          ],
+          "risks": [
+            "Increases complexity - need multiple prompts instead of one",
+            "May need larger sample per stratum to design specialized prompts",
+            "$1.00 spent, need more budget for attack-type analysis",
+            "Unclear how to automatically detect attack type for routing"
+          ],
+          "next_steps_after": [
+            "Fire Circle analysis: 'Why does encoding get 90% but jailbreak only 30%?'",
+            "Design attack-type-specific prompts for low-accuracy categories",
+            "Test multi-stage classifier: type detector → specialized evaluator",
+            "Analyze false positives/negatives within each stratum",
+            "Consider if PromptGuard's neutrosophic evaluation could auto-detect type"
+          ],
+          "timeline_hours": 3.0,
+          "cost_usd": 1.00,
+          "scientific_value": "high - reveals task structure and specialization needs",
+          "production_value": "medium - complicates architecture but improves accuracy"
+        },
+        {
+          "id": "Q4C3",
+          "probability": 0.10,
+          "outcome": "Results inconsistent with 20-sample test - either much better (>85%) or worse (<50%)",
+          "what_we_learn": [
+            "20-sample test was not representative (selection bias or small sample noise)",
+            "Stratification matters critically - manual 20-sample was biased",
+            "Need larger samples for reliable methodology validation",
+            "Cannot trust small-scale tests to predict full dataset performance"
+          ],
+          "what_we_dont_learn": [
+            "Why 20-sample result differed from 100-sample result",
+            "Which sample is closer to truth",
+            "How large a sample needed for stable estimates"
+          ],
+          "dependencies": [
+            "20 manual samples were non-representative",
+            "Stratification introduces different attack distribution",
+            "Ground truth quality differs between samples"
+          ],
+          "risks": [
+            "Questions all prior experimental results based on small samples",
+            "Need expensive larger validation to establish any baseline",
+            "$1.00 spent, reveals need for much larger sample",
+            "May need to restart methodology validation from scratch"
+          ],
+          "next_steps_after": [
+            "Increase sample to 200-300 for stable estimates",
+            "Analyze why 20-sample differed (compare attack type distributions)",
+            "Establish minimum sample size for future experiments (power analysis)",
+            "Re-run Q1 test with stratified 50-sample instead of manual 20",
+            "Document sampling bias as key methodological lesson"
+          ],
+          "timeline_hours": 2.0,
+          "cost_usd": 1.00,
+          "scientific_value": "medium - reveals sampling issues but requires more work",
+          "production_value": "low - invalidates prior results, requires restart"
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "question": "Should we test openrouter/auto behavior to understand routing dynamics?",
+      "completions": [
+        {
+          "id": "Q5C1",
+          "probability": 0.50,
+          "outcome": "Auto-routing provides 20-40% cost savings with <5% accuracy loss vs flagship models",
+          "what_we_learn": [
+            "OpenRouter's routing algorithm effectively balances cost and quality",
+            "For production use cases, auto-routing may be viable",
+            "Which types of prompts route to which models (routing pattern insights)",
+            "Cost optimization strategy for high-volume applications",
+            "Whether routing is stable (same prompt → same model) or dynamic"
+          ],
+          "what_we_dont_learn": [
+            "Long-term routing stability (OpenRouter may change algorithm)",
+            "How to reproduce results (no model identity guarantee)",
+            "Whether specific models are better for specific attack types",
+            "Scientific validity - can't cite 'auto' in papers"
+          ],
+          "dependencies": [
+            "OpenRouter's auto-routing is sophisticated enough to maintain quality",
+            "Routing algorithm is stable during test period",
+            "Cost savings are consistent, not promotional pricing"
+          ],
+          "risks": [
+            "Waste $0.20 on exploratory test with no research value",
+            "Auto-routing undermines reproducibility (core research requirement)",
+            "May route to models we haven't validated",
+            "Results can't be used for scientific claims"
+          ],
+          "next_steps_after": [
+            "Document auto-routing as production option (not research option)",
+            "Add auto-routing to model_configs.json with caveats",
+            "Test whether PromptGuard can log which model auto selected (for debugging)",
+            "Recommend auto for demos/prototypes, not research",
+            "Focus research effort on Q1/Q3/Q4 instead"
+          ],
+          "timeline_hours": 1.0,
+          "cost_usd": 0.20,
+          "scientific_value": "very low - not reproducible for research",
+          "production_value": "medium - useful for cost-sensitive applications"
+        },
+        {
+          "id": "Q5C2",
+          "probability": 0.35,
+          "outcome": "Auto-routing is unstable or low-quality - routes to unreliable models or varies unpredictably",
+          "what_we_learn": [
+            "OpenRouter's auto-routing not suitable for any serious use",
+            "Explicit model selection required for both research and production",
+            "Routing may prioritize cost over quality",
+            "Black-box routing introduces unacceptable variance"
+          ],
+          "what_we_dont_learn": [
+            "How routing algorithm works (proprietary)",
+            "Whether instability is temporary or fundamental",
+            "Which models it routes to (no visibility)"
+          ],
+          "dependencies": [
+            "OpenRouter prioritizes cost/speed over quality for auto",
+            "Routing algorithm has high variance",
+            "No model quality guarantees in auto tier"
+          ],
+          "risks": [
+            "$0.20 wasted confirming what we suspected",
+            "Time spent testing low-value option",
+            "May get inconsistent results even in exploratory test"
+          ],
+          "next_steps_after": [
+            "Document auto-routing as not recommended",
+            "Focus on explicit model configs for all use cases",
+            "Warn users in documentation about auto-routing risks",
+            "Move on to higher-value experiments (Q1/Q3/Q4)"
+          ],
+          "timeline_hours": 0.5,
+          "cost_usd": 0.20,
+          "scientific_value": "none - confirms auto unsuitable",
+          "production_value": "low - eliminates one option"
+        },
+        {
+          "id": "Q5C3",
+          "probability": 0.12,
+          "outcome": "Auto-routing reveals interesting routing patterns that inform model selection strategy",
+          "what_we_learn": [
+            "Which models OpenRouter considers equivalent quality tiers",
+            "Routing heuristics (prompt length, complexity, cost constraints)",
+            "Unexpected model performance insights from routing choices",
+            "Market dynamics - which models OpenRouter promotes"
+          ],
+          "what_we_dont_learn": [
+            "Whether insights are stable or transient",
+            "How to replicate routing logic ourselves",
+            "Whether routing patterns are economically vs quality driven"
+          ],
+          "dependencies": [
+            "Routing algorithm encodes useful heuristics",
+            "Can infer patterns from limited testing",
+            "Insights are actionable for model selection"
+          ],
+          "risks": [
+            "Interesting but not actionable - can't use proprietary routing logic",
+            "Insights may be outdated quickly as OpenRouter updates algorithm",
+            "$0.20 spent on curiosity-driven exploration",
+            "Distracts from higher-priority experiments"
+          ],
+          "next_steps_after": [
+            "Document routing patterns observed",
+            "Test whether PromptGuard should implement similar heuristics",
+            "Consider tiered model selection (easy prompts → cheap, hard → expensive)",
+            "File as interesting observation, prioritize Q1/Q3/Q4",
+            "Revisit if building production routing logic"
+          ],
+          "timeline_hours": 1.5,
+          "cost_usd": 0.20,
+          "scientific_value": "low - tangential to research questions",
+          "production_value": "medium - informs future optimization"
+        }
+      ]
+    }
+  ],
+  "executive_summary": {
+    "highest_ev_questions": [
+      {
+        "rank": 1,
+        "question_id": "Q4",
+        "question": "Stratified sample validation (50-100 prompts)",
+        "expected_value_reasoning": "Highest probability of success (0.60) with very high scientific value. De-risks scaling to full dataset. Only $1.00 cost with clear decision criteria afterward.",
+        "ev_score": 9.2,
+        "dependencies": ["Q1 must complete first to have validated prompt"]
+      },
+      {
+        "rank": 2,
+        "question_id": "Q1",
+        "question": "Test Fire Circle prompt on 20 samples",
+        "expected_value_reasoning": "High probability (0.65) of validating Fire Circle methodology loop. Lowest cost ($0.20). Enables Q4. Critical path for research program.",
+        "ev_score": 8.8,
+        "dependencies": []
+      },
+      {
+        "rank": 3,
+        "question_id": "Q3",
+        "question": "Fire Circle as ground truth (20 samples)",
+        "expected_value_reasoning": "Medium-high probability (0.45) of very high scientific value. Tests core Fire Circle capability. $8.80 cost justified if validates deliberative consensus as ground truth method.",
+        "ev_score": 7.5,
+        "dependencies": ["Q2 should complete first to ensure API reliability, but not blocking"]
+      },
+      {
+        "rank": 4,
+        "question_id": "Q2",
+        "question": "Validate OpenRouter vs native APIs",
+        "expected_value_reasoning": "Infrastructure validation. Important for Fire Circle reliability but low scientific value. Medium cost ($0.75-1.00). Can run in parallel with Q1.",
+        "ev_score": 5.5,
+        "dependencies": []
+      },
+      {
+        "rank": 5,
+        "question_id": "Q5",
+        "question": "Test auto-routing behavior",
+        "expected_value_reasoning": "Lowest scientific value. Only production relevance. Low cost ($0.20) but low priority. Defer until after Q1/Q3/Q4 complete.",
+        "ev_score": 2.0,
+        "dependencies": []
+      }
+    ],
+    "mutually_exclusive_paths": [
+      {
+        "conflict": "Q3 (Fire Circle ground truth) vs manual review for Q4",
+        "resolution": "If Q3 validates Fire Circle (85%+ accuracy), use it for Q4 stratification ground truth. If Q3 shows 60-75%, use manual review for Q4. If Q3 fails (<50%), abandon Fire Circle for classification tasks."
+      },
+      {
+        "conflict": "Q2 (API validation) timing vs Q3 (Fire Circle usage)",
+        "resolution": "Q2 should ideally complete before Q3 to ensure reliable Fire Circle execution, but Q3 can proceed with risk of API failures requiring retry."
+      }
+    ],
+    "complementary_paths": [
+      {
+        "synergy": "Q1 → Q4",
+        "reasoning": "Q1 validates prompt on 20 samples, Q4 tests generalization on 100 samples. Sequential dependency - Q4 needs Q1's validated prompt."
+      },
+      {
+        "synergy": "Q2 + Q3",
+        "reasoning": "Q2 ensures Fire Circle infrastructure reliable before Q3 tests Fire Circle capability. Can run Q2 in parallel with Q1, then Q3."
+      },
+      {
+        "synergy": "Q1 + Q3",
+        "reasoning": "Both test different aspects of Fire Circle value (recommendation quality vs deliberative consensus). Results inform Fire Circle's role in research program."
+      }
+    ],
+    "recommended_sequence": {
+      "strategy": "Parallel-then-sequential approach",
+      "phase_1": {
+        "description": "Parallel validation of Fire Circle components",
+        "tasks": [
+          {
+            "id": "Q1",
+            "action": "Test Fire Circle-recommended prompt on 20 samples",
+            "timeline_hours": 0.5,
+            "cost_usd": 0.20,
+            "blocking": false
+          },
+          {
+            "id": "Q2",
+            "action": "Validate OpenRouter vs native APIs (5-10 models)",
+            "timeline_hours": 3.0,
+            "cost_usd": 1.00,
+            "blocking": false
+          }
+        ],
+        "total_timeline_hours": 3.0,
+        "total_cost_usd": 1.20,
+        "success_criteria": "Q1 shows ≥60% accuracy improvement, Q2 identifies reliable API path"
+      },
+      "phase_2": {
+        "description": "Fire Circle capability test",
+        "tasks": [
+          {
+            "id": "Q3",
+            "action": "Fire Circle deliberation on 20 samples for ground truth",
+            "timeline_hours": 1.5,
+            "cost_usd": 8.80,
+            "blocking": true,
+            "dependencies": ["Q2 completes (optional but recommended)"]
+          }
+        ],
+        "total_timeline_hours": 1.5,
+        "total_cost_usd": 8.80,
+        "success_criteria": "Fire Circle achieves ≥85% accuracy, validates as ground truth method"
+      },
+      "phase_3": {
+        "description": "Stratified validation for scaling decision",
+        "tasks": [
+          {
+            "id": "Q4",
+            "action": "Run validated prompt on stratified 100-sample",
+            "timeline_hours": 1.0,
+            "cost_usd": 1.00,
+            "blocking": true,
+            "dependencies": ["Q1 completes with positive result"],
+            "ground_truth_source": "Fire Circle if Q3 succeeded (≥85%), else manual review"
+          }
+        ],
+        "total_timeline_hours": 1.0,
+        "total_cost_usd": 1.00,
+        "success_criteria": "70-85% accuracy across strata, confidence intervals narrow enough for full dataset run"
+      },
+      "phase_4": {
+        "description": "Optional exploration (defer until after Phase 3)",
+        "tasks": [
+          {
+            "id": "Q5",
+            "action": "Test auto-routing behavior",
+            "timeline_hours": 1.0,
+            "cost_usd": 0.20,
+            "blocking": false,
+            "priority": "low"
+          }
+        ]
+      }
+    },
+    "total_cost_timeline_top3": {
+      "questions": ["Q1", "Q4", "Q3"],
+      "sequential_timeline_hours": 3.0,
+      "parallel_opportunity": "Q1 and Q2 can run concurrently, saving 0.5 hours",
+      "optimized_timeline_hours": 2.5,
+      "total_cost_usd": 10.00,
+      "expected_outcomes": [
+        "Fire Circle recommendation validated (Q1)",
+        "Reliable baseline established for scaling (Q4)",
+        "Fire Circle as ground truth method validated (Q3)",
+        "Clear decision on whether to run full 1,068 dataset ($10-40 depending on Q3 result)"
+      ]
+    },
+    "decision_framework": {
+      "if_q1_improves_60_plus": "Proceed to Q4 stratified validation, use improved prompt",
+      "if_q1_improves_marginal": "Fire Circle round 2 diagnosis, then decide Q3 vs Q4",
+      "if_q1_no_improvement": "Abandon prompt iteration, test different models or Fire Circle mode",
+      "if_q3_validates_85_plus": "Use Fire Circle for Q4 ground truth and future validations",
+      "if_q3_validates_60_75": "Use Fire Circle for hard cases only, manual review for baseline",
+      "if_q3_fails_below_50": "Manual review for ground truth, Fire Circle for different use case (vulnerability detection)",
+      "if_q4_validates_70_85": "Run full 1,068 dataset with validated methodology",
+      "if_q4_shows_variance": "Design attack-type-specific prompts, multi-stage classifier",
+      "if_q4_inconsistent_with_q1": "Increase sample size to 200-300, restart validation"
+    },
+    "budget_allocation_recommendation": {
+      "immediate_spend": {
+        "q1": 0.20,
+        "q2": 1.00,
+        "total": 1.20,
+        "justification": "Low-risk validation of Fire Circle components in parallel"
+      },
+      "conditional_spend": {
+        "q3_if_q2_validates": 8.80,
+        "q4_if_q1_improves": 1.00,
+        "total_best_case": 11.00,
+        "total_worst_case": 1.20,
+        "justification": "Q3 and Q4 contingent on Q1/Q2 results"
+      },
+      "total_program_cost": {
+        "minimum": 1.20,
+        "expected": 10.00,
+        "maximum": 11.00,
+        "roi_if_successful": "Validated methodology enabling $40-100 full dataset analysis with confidence"
+      }
+    },
+    "key_insights": {
+      "critical_path": "Q1 → Q4 is the critical path for establishing validated baseline. Q3 is high-value but not blocking.",
+      "fire_circle_validation": "Q1 and Q3 together validate Fire Circle's dual value: diagnostic recommendations (Q1) and deliberative ground truth (Q3).",
+      "infrastructure_vs_research": "Q2 is infrastructure (must work), Q1/Q3/Q4 are research (discover insights). Parallel execution recommended.",
+      "sampling_matters": "Q4's stratified approach addresses Q1's small-sample risk. Statistical rigor requires 100+ samples.",
+      "cost_efficiency": "Top 3 paths cost $10 total (vs $7.17 already spent on Experiment 1). High ROI if validates methodology for $40-470 full dataset run."
+    }
+  }
+}

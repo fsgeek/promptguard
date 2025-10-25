@@ -58,10 +58,15 @@ class FireCircleEvaluation(BaseModel):
 # Model capabilities for structured output support
 # Based on OpenRouter documentation: https://openrouter.ai/docs/features/structured-outputs
 #
-# EMPIRICALLY VALIDATED (2025-10-15):
+# EMPIRICALLY VALIDATED (2025-10-15, updated 2025-10-25):
 # - OpenAI GPT-4o models: CONFIRMED working via OpenRouter
+# - Anthropic Claude models: NOT SUPPORTED - OpenRouter catalog shows 0/12 Anthropic models support structured_outputs
+# - Mistral, Google, DeepSeek, Qwen: SUPPORTED per OpenRouter catalog (175 total models)
 # - Fireworks models: REMOVED - OpenRouter returns HTTP 400 when structured output requested
 #   (may work via direct Fireworks API, but not via OpenRouter)
+#
+# Instance 52 fix: Expanded from 7 OpenAI models to include Mistral/Google/DeepSeek based on
+# OpenRouter catalog analysis showing 175 models with structured_outputs parameter.
 #
 STRUCTURED_OUTPUT_CAPABLE_MODELS = {
     # OpenAI models (GPT-4o and later) - VALIDATED 2025-10-15
@@ -73,16 +78,29 @@ STRUCTURED_OUTPUT_CAPABLE_MODELS = {
     "openai/o1-mini",
     "openai/o1-preview",
 
+    # Mistral models - OpenRouter catalog shows 27/36 support structured_outputs (75%)
+    "mistralai/mistral-medium-3.1",
+    "mistralai/codestral-2508",
+    "mistralai/devstral-medium",
+
+    # Google models - OpenRouter catalog shows 18/25 support structured_outputs (72%)
+    "google/gemini-2.5-flash-preview-09-2025",
+    "google/gemini-2.0-flash-exp",
+
+    # DeepSeek models - OpenRouter catalog shows 8/18 support structured_outputs (44%)
+    "deepseek/deepseek-v3.2-exp",
+    "deepseek/deepseek-chat-v3.1",
+
+    # Qwen models - OpenRouter catalog shows support
+    "qwen/qwen-2.5-72b-instruct",
+
+    # Anthropic models - EXPLICITLY EXCLUDED
+    # OpenRouter catalog analysis: 0/12 Anthropic models support structured_outputs parameter
+    # This is an Anthropic API limitation, not OpenRouter or Instructor limitation
+
     # Fireworks models - REMOVED 2025-10-15
     # Reason: OpenRouter returns HTTP 400 Bad Request when structured output requested
     # See: test_structured_output_real.py validation results
-    # "fireworks/llama-v3p1-405b-instruct",
-    # "fireworks/llama-v3p1-70b-instruct",
-    # "fireworks/llama-v3p1-8b-instruct",
-    # "fireworks/mythomax-l2-13b",
-    # "fireworks/qwen-qwq-32b-preview",
-
-    # Add more as confirmed working via OpenRouter
 }
 
 

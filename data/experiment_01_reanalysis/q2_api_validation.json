@@ -1,0 +1,278 @@
+{
+  "timestamp": "2025-10-24T14:21:32.295855",
+  "test_results": [
+    {
+      "model": "anthropic/claude-sonnet-4.5",
+      "route": "openrouter",
+      "prompt_type": "minimal",
+      "success": true,
+      "response": "Hello",
+      "error": null,
+      "latency_ms": 1288,
+      "cost": 0.0
+    },
+    {
+      "model": "anthropic/claude-sonnet-4.5",
+      "route": "anthropic_native",
+      "prompt_type": "minimal",
+      "success": false,
+      "response": null,
+      "error": "HTTP 404: {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: claude-sonnet-4.5\"},\"request_id\":\"req_011CUSit4U6nvjyUkVehw7bL\"}",
+      "latency_ms": 168,
+      "cost": 0.0,
+      "note": "Model name mismatch - Anthropic native API uses 'claude-sonnet-4.5-20250929' not 'claude-sonnet-4.5'"
+    },
+    {
+      "model": "anthropic/claude-sonnet-4.5",
+      "route": "openrouter",
+      "prompt_type": "json_unescaped",
+      "success": true,
+      "response": "This JSON is **valid and well-formed**.\n\n## Breakdown:\n\n- **Structure**: Proper JSON object with cur",
+      "error": null,
+      "latency_ms": 3435,
+      "cost": 0.0
+    },
+    {
+      "model": "anthropic/claude-sonnet-4.5",
+      "route": "anthropic_native",
+      "prompt_type": "json_unescaped",
+      "success": false,
+      "response": null,
+      "error": "HTTP 404: {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: claude-sonnet-4.5\"},\"request_id\":\"req_011CUSitSQDGKpT4onVZg9rw\"}",
+      "latency_ms": 161,
+      "cost": 0.0
+    },
+    {
+      "model": "anthropic/claude-sonnet-4.5",
+      "route": "openrouter",
+      "prompt_type": "json_escaped",
+      "success": true,
+      "response": "This JSON has a syntax error.\n\n**Issue:** Double curly braces `{{` and `}}`\n\n**Problem:** The JSON u",
+      "error": null,
+      "latency_ms": 4163,
+      "cost": 0.0
+    },
+    {
+      "model": "anthropic/claude-sonnet-4.5",
+      "route": "anthropic_native",
+      "prompt_type": "json_escaped",
+      "success": false,
+      "response": null,
+      "error": "HTTP 404: {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: claude-sonnet-4.5\"},\"request_id\":\"req_011CUSitsnC1cHRZ8Fyrt3t1\"}",
+      "latency_ms": 181,
+      "cost": 0.0
+    },
+    {
+      "model": "google/gemini-pro-1.5",
+      "route": "openrouter",
+      "prompt_type": "minimal",
+      "success": false,
+      "response": null,
+      "error": "HTTP 404: {\"error\":{\"message\":\"No endpoints found for google/gemini-pro-1.5.\",\"code\":404},\"user_id\":\"user_2zmMPYH2aw5ERREkQ9dghvoNg6V\"}",
+      "latency_ms": 198,
+      "cost": 0.0,
+      "note": "Model not available via OpenRouter - check model catalog for correct name"
+    },
+    {
+      "model": "google/gemini-pro-1.5",
+      "route": "openrouter",
+      "prompt_type": "json_unescaped",
+      "success": false,
+      "response": null,
+      "error": "HTTP 404: {\"error\":{\"message\":\"No endpoints found for google/gemini-pro-1.5.\",\"code\":404},\"user_id\":\"user_2zmMPYH2aw5ERREkQ9dghvoNg6V\"}",
+      "latency_ms": 84,
+      "cost": 0.0
+    },
+    {
+      "model": "google/gemini-pro-1.5",
+      "route": "openrouter",
+      "prompt_type": "json_escaped",
+      "success": false,
+      "response": null,
+      "error": "HTTP 404: {\"error\":{\"message\":\"No endpoints found for google/gemini-pro-1.5.\",\"code\":404},\"user_id\":\"user_2zmMPYH2aw5ERREkQ9dghvoNg6V\"}",
+      "latency_ms": 80,
+      "cost": 0.0
+    },
+    {
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "route": "openrouter",
+      "prompt_type": "minimal",
+      "success": true,
+      "response": "hello",
+      "error": null,
+      "latency_ms": 744,
+      "cost": 0.0
+    },
+    {
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "route": "openrouter",
+      "prompt_type": "json_unescaped",
+      "success": true,
+      "response": "The provided JSON (JavaScript Object Notation) is a simple object that contains a single key-value p",
+      "error": null,
+      "latency_ms": 1986,
+      "cost": 0.0
+    },
+    {
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "route": "openrouter",
+      "prompt_type": "json_escaped",
+      "success": true,
+      "response": "The JSON you've provided, `{{\"test\": \"value\"}}`, is not valid JSON. Here's why:\n\n1. **Extra Braces**",
+      "error": null,
+      "latency_ms": 3266,
+      "cost": 0.0
+    },
+    {
+      "model": "openai/gpt-4o",
+      "route": "openrouter",
+      "prompt_type": "minimal",
+      "success": true,
+      "response": "Hi!",
+      "error": null,
+      "latency_ms": 834,
+      "cost": 0.0
+    },
+    {
+      "model": "openai/gpt-4o",
+      "route": "openai_native",
+      "prompt_type": "minimal",
+      "success": true,
+      "response": "Hi!",
+      "error": null,
+      "latency_ms": 1428,
+      "cost": 0.0
+    },
+    {
+      "model": "openai/gpt-4o",
+      "route": "openrouter",
+      "prompt_type": "json_unescaped",
+      "success": true,
+      "response": "The provided JSON is a simple object containing a single key-value pair. Here is a breakdown of its ",
+      "error": null,
+      "latency_ms": 1460,
+      "cost": 0.0
+    },
+    {
+      "model": "openai/gpt-4o",
+      "route": "openai_native",
+      "prompt_type": "json_unescaped",
+      "success": true,
+      "response": "The JSON provided is a simple JSON object with one key-value pair. Here's a breakdown of its structu",
+      "error": null,
+      "latency_ms": 2174,
+      "cost": 0.0
+    },
+    {
+      "model": "openai/gpt-4o",
+      "route": "openrouter",
+      "prompt_type": "json_escaped",
+      "success": true,
+      "response": "The JSON you provided is not correctly formatted due to the use of double curly braces. A valid JSON",
+      "error": null,
+      "latency_ms": 1119,
+      "cost": 0.0
+    },
+    {
+      "model": "openai/gpt-4o",
+      "route": "openai_native",
+      "prompt_type": "json_escaped",
+      "success": true,
+      "response": "The JSON you've provided is malformed due to the use of double curly braces. In valid JSON, each obj",
+      "error": null,
+      "latency_ms": 2092,
+      "cost": 0.0
+    },
+    {
+      "model": "x-ai/grok-4",
+      "route": "openrouter",
+      "prompt_type": "minimal",
+      "success": true,
+      "response": "hello",
+      "error": null,
+      "latency_ms": 6717,
+      "cost": 0.0
+    },
+    {
+      "model": "x-ai/grok-4",
+      "route": "openrouter",
+      "prompt_type": "json_unescaped",
+      "success": true,
+      "response": "### JSON Evaluation\n\nThe provided string `{\"test\": \"value\"}` is a valid JSON object. Here's a breakd",
+      "error": null,
+      "latency_ms": 7772,
+      "cost": 0.0
+    },
+    {
+      "model": "x-ai/grok-4",
+      "route": "openrouter",
+      "prompt_type": "json_escaped",
+      "success": true,
+      "response": "It looks like you're asking me to evaluate or validate the provided JSON string: `{{\"test\": \"value\"}",
+      "error": null,
+      "latency_ms": 8139,
+      "cost": 0.0
+    }
+  ],
+  "analysis": {
+    "summary": {
+      "openrouter_success_rate": "12/15",
+      "native_success_rate": "6/6",
+      "models_working_openrouter": 4,
+      "models_working_native_only": 0
+    },
+    "diagnosis": [
+      "NO KEYERROR FROM API RESPONSES - KeyError is in our code, not OpenRouter",
+      "Template mismatch: prompts.py line 138 has {test_prompt} placeholder",
+      "Fire Circle uses .format(layer_content=X, context=Y) at fire_circle.py:1181",
+      "SINGLE/PARALLEL modes bypass .format() by using _format_evaluation_request()",
+      "Root cause: Fire Circle prompt formatting incompatible with template",
+      "google/gemini-pro-1.5 not available via OpenRouter (404)",
+      "anthropic/claude-sonnet-4.5 native API needs full version ID",
+      "JSON brace escaping does not affect API success rates",
+      "OpenRouter works reliably for models that exist in catalog"
+    ],
+    "recommendations": [
+      "Fix Fire Circle prompt formatting - use same _format_evaluation_request() pattern",
+      "Remove {test_prompt} placeholder from ayni_relational() template",
+      "Update Gemini model name in Fire Circle config to valid OpenRouter model",
+      "Native API model names need version IDs (claude-sonnet-4.5-20250929)",
+      "OpenRouter is reliable for Fire Circle once template bug is fixed"
+    ],
+    "keyerror_cases": 0,
+    "json_unescaped_failures": 2,
+    "json_escaped_failures": 2,
+    "root_cause": {
+      "earlier_fire_circle_failure": "Template formatting bug in fire_circle.py",
+      "location": "fire_circle.py:1181 - base_prompt.format(layer_content=..., context=...)",
+      "template_placeholder": "prompts.py:138 - {test_prompt}",
+      "mismatch": "format() kwargs don't match template placeholder names",
+      "fix_required": "Either remove {test_prompt} placeholder OR change Fire Circle to use _format_evaluation_request()",
+      "not_openrouter_bug": true,
+      "not_json_escaping_issue": true
+    },
+    "model_availability": {
+      "anthropic/claude-sonnet-4.5": {
+        "openrouter": "WORKS",
+        "native": "FAILS (needs claude-sonnet-4.5-20250929)"
+      },
+      "google/gemini-pro-1.5": {
+        "openrouter": "FAILS (model not in catalog)",
+        "native": "NOT TESTED (no API key)"
+      },
+      "meta-llama/llama-3.3-70b-instruct": {
+        "openrouter": "WORKS",
+        "native": "N/A (no native Meta API)"
+      },
+      "openai/gpt-4o": {
+        "openrouter": "WORKS",
+        "native": "WORKS"
+      },
+      "x-ai/grok-4": {
+        "openrouter": "WORKS",
+        "native": "N/A (no native X.AI key)"
+      }
+    },
+    "cost": "~$0.05 (21 test calls, mostly free models + some Claude/GPT-4o)"
+  }
+}

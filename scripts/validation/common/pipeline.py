@@ -157,14 +157,14 @@ class DatasetSource:
             path = Path(dataset_path)
 
             if not path.exists():
-                from .errors import ConfigurationError
+                from scripts.validation.common.errors import ConfigurationError
                 raise ConfigurationError(f"Dataset not found: {dataset_path}")
 
             try:
                 with open(path) as f:
                     data = json.load(f)
             except json.JSONDecodeError as e:
-                from .errors import ConfigurationError
+                from scripts.validation.common.errors import ConfigurationError
                 raise ConfigurationError(f"Invalid JSON in {dataset_path}: {e}")
 
             # Determine source dataset from filename
