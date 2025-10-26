@@ -14,8 +14,8 @@ from dataclasses import dataclass
 from collections import defaultdict
 import json
 
-from ..reasoningbank.models import ReasoningBankMemory, SourceType
-from ..reasoningbank.retriever import ReasoningBankRetriever
+from reasoningbank.models import ReasoningBankMemory, SourceType
+from reasoningbank.retriever import ReasoningBankRetriever
 
 
 @dataclass
