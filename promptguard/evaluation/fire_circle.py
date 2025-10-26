@@ -611,7 +611,7 @@ class FireCircleEvaluator:
         Args:
             layer_content: The layer content to evaluate
             context: Full prompt context
-            evaluation_prompt: Base evaluation prompt (not used in Round 1)
+            evaluation_prompt: Base evaluation prompt (used in Round 1, fallback to ayni_relational if empty)
             session_memory: Optional session memory for turn context
 
         Returns:
@@ -679,7 +679,8 @@ class FireCircleEvaluator:
                     context=context,
                     turn_context=turn_context,
                     dialogue_history=dialogue_history,
-                    model_latencies=model_latencies
+                    model_latencies=model_latencies,
+                    evaluation_prompt=evaluation_prompt
                 )
 
                 round_duration = time.time() - round_start_time
@@ -906,7 +907,8 @@ class FireCircleEvaluator:
         context: str,
         turn_context: str,
         dialogue_history: List[DialogueRound],
-        model_latencies: Dict[str, List[Dict[str, Any]]]
+        model_latencies: Dict[str, List[Dict[str, Any]]],
+        evaluation_prompt: str = ""
     ) -> DialogueRound:
         """
         Execute a single dialogue round.
@@ -919,6 +921,8 @@ class FireCircleEvaluator:
             context: Full prompt context
             turn_context: Formatted turn context from session memory
             dialogue_history: Previous rounds' dialogue
+            model_latencies: Dict tracking model latencies
+            evaluation_prompt: Base evaluation prompt (only used in Round 1)
 
         Returns:
             DialogueRound with evaluations from all active models
@@ -942,7 +946,8 @@ class FireCircleEvaluator:
                     layer_content=layer_content,
                     context=context,
                     turn_context=turn_context,
-                    dialogue_history=dialogue_history
+                    dialogue_history=dialogue_history,
+                    evaluation_prompt=evaluation_prompt
                 )
 
                 # Log model evaluation start
@@ -1121,7 +1126,8 @@ class FireCircleEvaluator:
         layer_content: str,
         context: str,
         turn_context: str,
-        dialogue_history: List[DialogueRound]
+        dialogue_history: List[DialogueRound],
+        evaluation_prompt: str = ""
     ) -> str:
         """
         Build evaluation prompt for specific round and role.
@@ -1133,13 +1139,14 @@ class FireCircleEvaluator:
             context: Full prompt context
             turn_context: Formatted turn context
             dialogue_history: Previous rounds' dialogue
+            evaluation_prompt: Base evaluation prompt (only used in Round 1)
 
         Returns:
             Complete prompt string for this round
         """
         if round_num == 1:
-            # Round 1: Simple baseline (no ayni_relational)
-            return self._round_1_prompt(layer_content, context, turn_context)
+            # Round 1: Use provided evaluation prompt (general-purpose deliberation)
+            return self._round_1_prompt(layer_content, context, turn_context, evaluation_prompt)
 
         elif round_num == 2:
             # Round 2: Pattern-seeking with dialogue context
@@ -1165,13 +1172,14 @@ class FireCircleEvaluator:
         self,
         layer_content: str,
         context: str,
-        turn_context: str
+        turn_context: str,
+        evaluation_prompt: str
     ) -> str:
-        """Round 1: Independent baseline assessment using observer framing."""
+        """Round 1: Independent baseline assessment using provided evaluation prompt."""
         from .prompts import NeutrosophicEvaluationPrompt
 
-        # Use ayni_relational observer framing (matches SINGLE/PARALLEL modes)
-        base_prompt = NeutrosophicEvaluationPrompt.ayni_relational()
+        # Use provided evaluation_prompt, or fallback to ayni_relational for attack detection
+        base_prompt = evaluation_prompt if evaluation_prompt else NeutrosophicEvaluationPrompt.ayni_relational()
 
         # Add turn context if available (temporal fabrication detection)
         prompt = ""

@@ -278,21 +278,32 @@ Common features in this pattern: {', '.join(cluster.common_features[:3])}
 """.strip()
 
     def _generate_validation_question(self, cluster: PatternCluster) -> str:
-        """Generate Fire Circle validation question."""
+        """
+        Generate Fire Circle validation question using neutral descriptive framing.
+
+        Note: Evaluative framing ("Does this help?") triggers extraction detection (F≈0.9).
+        Descriptive framing ("Describe this") enables analysis (F≈0.1).
+        """
         return (
-            f"Does this observer addition improve detection of "
+            f"Read this proposed observer framing addition for "
             f"{cluster.pattern_type.replace('_', ' ')} attacks "
-            f"(currently {cluster.miss_rate*100:.0f}% miss rate) "
-            f"without creating false positives?"
+            f"(currently {cluster.miss_rate*100:.0f}% miss rate)."
         )
 
     def format_for_fire_circle(self, proposal: PromptImprovement) -> Dict:
         """
         Format improvement proposal for Fire Circle deliberation.
 
+        Instance 56 fix: Uses proposal_evaluation() template to assess principle merit
+        rather than content semantics. Previous descriptive framing (Instance 55) failed
+        because Fire Circle evaluated observer text semantics (which discusses manipulation)
+        rather than the soundness of the guidance principle.
+
         Returns:
             Dict with layer_content, context, and evaluation_prompt for Fire Circle
         """
+        from promptguard.evaluation.prompts import NeutrosophicEvaluationPrompt
+
         return {
             "layer_content": proposal.observer_addition,
             "context": (
@@ -302,13 +313,7 @@ Common features in this pattern: {', '.join(cluster.common_features[:3])}
                 f"Rationale: {proposal.rationale}\n\n"
                 f"Test case: {proposal.test_prompt[:200]}..."
             ),
-            "evaluation_prompt": (
-                f"{proposal.fire_circle_question}\n\n"
-                "Evaluate this proposed observer addition:\n"
-                f"{proposal.observer_addition}\n\n"
-                "Criteria:\n" +
-                "\n".join(f"- {c}" for c in proposal.validation_criteria)
-            ),
+            "evaluation_prompt": NeutrosophicEvaluationPrompt.proposal_evaluation(),
             "metadata": {
                 "improvement_id": proposal.improvement_id,
                 "pattern_type": proposal.pattern_addressed,

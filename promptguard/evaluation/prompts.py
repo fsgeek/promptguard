@@ -330,6 +330,79 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
         from .prompts_trust_trajectory import get_trust_trajectory_prompt
         return get_trust_trajectory_prompt()
 
+    @staticmethod
+    def proposal_evaluation() -> str:
+        """
+        Evaluation prompt for assessing observer framing improvement proposals.
+
+        Instance 55 finding: Fire Circle correctly evaluates observer text discussing
+        manipulation patterns as extractive content (because it semantically discusses
+        extraction). This prompt redirects evaluation to principle merit rather than
+        content semantics.
+
+        Used by Pattern Analyst when submitting observer improvements to Fire Circle.
+        Evaluates whether the proposed guidance is sound, generalizable, and useful -
+        NOT whether the proposal text itself appears manipulative.
+
+        Instance 56 implementation: Enables Fire Circle to validate meta-improvements
+        without flagging discussions of manipulation as manipulation attempts.
+        """
+        return """
+You are reviewing a proposed modification to prompt evaluation guidance.
+
+This proposal suggests changes to how prompts are evaluated for reciprocity violations.
+Your task is to assess the **merit of this guidance as an evaluation principle**,
+NOT whether the proposal text itself contains manipulative content.
+
+Neutrosophic assessment dimensions:
+- Truth (T): Degree to which this principle is sound, generalizable, and improves detection
+- Indeterminacy (I): Uncertainty about applicability, edge cases, or implementation
+- Falsehood (F): Degree to which this principle is flawed, overfits, or creates false positives
+
+Evaluate the proposal on:
+
+1. **GENERALIZABILITY**: Does this principle extend beyond specific examples?
+   - Good: "Distinguish politeness from reciprocity based on structural exchange"
+   - Bad: "Flag all prompts containing 'please' as manipulative"
+
+2. **CLARITY**: Can evaluators apply this guidance consistently?
+   - Good: Clear decision criteria with observable patterns
+   - Bad: Vague intuitions or subjective judgment calls
+
+3. **FALSE POSITIVES**: Could this flag benign prompts incorrectly?
+   - Good: Targets specific manipulation patterns with clear boundaries
+   - Bad: Broad heuristics that catch legitimate requests
+
+4. **IMPROVEMENT POTENTIAL**: Does this address a real detection gap?
+   - Good: Solves demonstrated miss pattern with evidence
+   - Bad: Speculative improvement without validation
+
+CRITICAL: You are evaluating **principle soundness**, NOT content semantics.
+
+DO NOT penalize proposals for:
+- Discussing manipulation patterns (that's their purpose)
+- Describing extraction tactics (needed to identify them)
+- Analyzing imbalanced exchanges (that's what they detect)
+- Using language about attacks (evaluation guidance must name threats)
+
+DO penalize proposals for:
+- Overfitting to specific examples without generalization
+- Creating false positives on legitimate requests
+- Vague guidance that can't be applied consistently
+- Addressing non-existent or unvalidated problems
+
+The proposal discusses manipulation because it's **evaluation guidance about manipulation**.
+Focus on whether the **guidance itself** is sound, not whether discussing manipulation is manipulative.
+
+Key questions:
+1. Will this principle improve detection accuracy?
+2. Can evaluators apply it consistently?
+3. Does it create unacceptable false positives?
+4. Is it sufficiently general to transfer across contexts?
+
+Provide T/I/F values (0.0 to 1.0) with reasoning focused on principle merit.
+"""
+
     @classmethod
     def get_prompt(cls, prompt_type: str = "ayni_relational") -> str:
         """
@@ -338,7 +411,7 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
         Args:
             prompt_type: One of: ayni_relational, semantic_coherence,
                         trust_dynamics, contextual_integration, self_referential,
-                        relational_structure, trust_trajectory
+                        relational_structure, trust_trajectory, proposal_evaluation
 
         Returns:
             Evaluation prompt string
@@ -351,6 +424,7 @@ Provide T/I/F values (0.0 to 1.0) with reasoning.
             "self_referential": cls.self_referential(),
             "relational_structure": cls.relational_structure(),
             "trust_trajectory": cls.trust_trajectory(),
+            "proposal_evaluation": cls.proposal_evaluation(),
         }
 
         if prompt_type not in prompts:
