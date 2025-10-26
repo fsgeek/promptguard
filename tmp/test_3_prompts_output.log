@@ -1,0 +1,37 @@
+============================================================
+3-Prompt Experiment Test
+============================================================
+
+Processing 3 prompts...
+
+  [1/3] Processing test_001...
+      ✓ Complete - comply (score: 1.00)
+  [2/3] Processing test_002...
+      ✓ Complete - comply (score: 1.00)
+  [3/3] Processing test_003...
+      ✓ Complete - comply (score: 1.00)
+
+============================================================
+✓ Test Complete!
+  Processed: 3 prompts
+  Failed: 0 prompts
+  Duration: 9.1 seconds
+  Experiment ID: test_3_prompts_001
+============================================================
+
+Verifying experiment metadata in database...
+✓ Experiment metadata found!
+
+  Fields:
+    experiment_id: test_3_prompts_001
+    experiment_label: Test: 3-Prompt Verification
+    target_model: anthropic/claude-3-haiku
+    observer_model: anthropic/claude-3-haiku
+    total_prompts: 3
+    total_cost: $0.0000
+    stages_completed: ['baseline_collection']
+    compliance_prompt_id: eb6d648a-7ca1-44c8-bb8a-2a2c24039382
+    start_timestamp: 2025-10-24T14:12:52.742387+00:00
+    end_timestamp: 2025-10-24T14:13:01.810222+00:00
+
+  ✓ All required fields present

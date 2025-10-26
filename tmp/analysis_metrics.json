@@ -1,0 +1,32 @@
+{
+  "confusion_matrix": {
+    "tp": 97,
+    "fn": 433,
+    "fp": 0,
+    "tn": 525,
+    "total": 1055,
+    "borderline_excluded": 5
+  },
+  "performance_metrics": {
+    "accuracy": 0.5895734597156398,
+    "precision": 1.0,
+    "recall": 0.1830188679245283,
+    "f1_score": 0.30940988835725675,
+    "false_negative_rate": 0.8169811320754717
+  },
+  "false_negatives": {
+    "total": 433,
+    "by_dataset": {
+      "benign_malicious": 356,
+      "extractive": 77
+    },
+    "by_label": {
+      "manipulative": 356,
+      "extractive": 77
+    }
+  },
+  "false_positives": {
+    "total": 0,
+    "by_dataset": {}
+  }
+}
