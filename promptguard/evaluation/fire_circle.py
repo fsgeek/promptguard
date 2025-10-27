@@ -989,7 +989,37 @@ class FireCircleEvaluator:
                 # Fallback to standard LLM call if structured output not attempted or failed
                 if evaluation is None:
                     messages = [{"role": "user", "content": prompt}]
+
+                    # Log full prompt for debugging (research instrumentation)
+                    logger.debug(
+                        f"Sending prompt to {model} in round {round_num}",
+                        extra={
+                            "fire_circle_id": self.fire_circle_id,
+                            "event": "prompt_sent",
+                            "round": round_num,
+                            "model": model,
+                            "prompt_length": len(prompt),
+                            "prompt_preview": prompt[:500],  # First 500 chars
+                            "full_prompt": prompt  # Full prompt for research/debugging
+                        }
+                    )
+
                     response, reasoning_trace = await self.llm_caller(model, messages)
+
+                    # Log full response for debugging (research instrumentation)
+                    logger.debug(
+                        f"Received response from {model} in round {round_num}",
+                        extra={
+                            "fire_circle_id": self.fire_circle_id,
+                            "event": "response_received",
+                            "round": round_num,
+                            "model": model,
+                            "response_length": len(response),
+                            "response_preview": response[:500],  # First 500 chars
+                            "full_response": response  # Full response for research/debugging
+                        }
+                    )
+
                     evaluation = self._parse_response(response, model, round_num)
                     evaluation.reasoning_trace = reasoning_trace
 
@@ -1817,9 +1847,24 @@ Respond as JSON:
                 )
 
             # Could not recover - raise error (will be caught by _execute_round)
+            # Log full response for debugging (research instrumentation)
+            logger.error(
+                f"Parse failure - full response from {model}",
+                extra={
+                    "fire_circle_id": self.fire_circle_id,
+                    "event": "parse_failure_full_response",
+                    "round": round_num,
+                    "model": model,
+                    "error": str(e),
+                    "response_length": len(response),
+                    "full_response": response  # Complete response for analysis
+                }
+            )
+
             raise RuntimeError(
                 f"Failed to parse response from {model} in round {round_num}: {e}. "
-                f"Raw response: {response[:200]}"
+                f"Response length: {len(response)} chars. "
+                f"Check logs for full response (fire_circle_id: {self.fire_circle_id})"
             )
 
     def _extract_tif_from_text(self, response: str) -> Optional[Dict[str, float]]:
