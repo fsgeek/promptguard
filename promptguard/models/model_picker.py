@@ -209,6 +209,195 @@ class ModelPicker:
         """
         self.backend = backend or ArangoDBBackend()
 
+    def sync_from_openrouter(self, api_key: str) -> dict:
+        """
+        Sync model catalog from OpenRouter API.
+
+        Fetches all models from OpenRouter /api/v1/models endpoint,
+        updates database preserving manual curation attributes.
+
+        Args:
+            api_key: OpenRouter API key
+
+        Returns:
+            Sync statistics with counts and errors
+
+        Raises:
+            ValueError: If API key missing
+            IOError: If API call or database update fails
+        """
+        import requests
+        from datetime import datetime, timezone
+        import time
+
+        if not api_key:
+            raise ValueError("OpenRouter API key required")
+
+        start_time = time.time()
+        stats = {
+            "models_added": 0,
+            "models_updated": 0,
+            "models_deprecated": 0,
+            "duration_seconds": 0.0,
+            "errors": []
+        }
+
+        # Fetch from OpenRouter API
+        try:
+            response = requests.get(
+                "https://openrouter.ai/api/v1/models",
+                headers={"Authorization": f"Bearer {api_key}"},
+                timeout=30
+            )
+            response.raise_for_status()
+            api_data = response.json()
+        except Exception as e:
+            raise IOError(f"OpenRouter API call failed: {e}")
+
+        # Get existing models to preserve manual attributes
+        existing_models = {}
+        try:
+            cursor = self.backend.db.aql.execute(
+                "FOR m IN models RETURN {_key: m._key, doc: m}"
+            )
+            existing_models = {doc["_key"]: doc["doc"] for doc in cursor}
+        except Exception as e:
+            stats["errors"].append({
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "error_type": "database_read",
+                "message": str(e)
+            })
+
+        # Track which models are still available
+        current_model_ids = set()
+        models_collection = self.backend.db.collection("models")
+
+        # Process each model from API
+        for api_model in api_data.get("data", []):
+            try:
+                model_id = api_model["id"]
+                current_model_ids.add(model_id.replace("/", "_"))
+
+                # Extract provider from ID
+                provider = model_id.split("/")[0] if "/" in model_id else "unknown"
+
+                # Build ModelMetadata
+                metadata = ModelMetadata(
+                    openrouter_id=model_id,
+                    provider=provider,
+                    name=api_model.get("name", model_id),
+                    created=api_model.get("created", int(datetime.now(timezone.utc).timestamp())),
+                    context_length=api_model.get("context_length", 0),
+                    description=api_model.get("description", ""),
+                    pricing=ModelPricing(
+                        prompt=str(api_model.get("pricing", {}).get("prompt", "0")),
+                        completion=str(api_model.get("pricing", {}).get("completion", "0")),
+                        request=str(api_model.get("pricing", {}).get("request", "0")),
+                        image=str(api_model.get("pricing", {}).get("image", "0")),
+                    ),
+                    architecture=ModelArchitecture(
+                        modality=api_model.get("architecture", {}).get("modality", "text->text"),
+                        input_modalities=api_model.get("architecture", {}).get("input_modalities", ["text"]),
+                        output_modalities=api_model.get("architecture", {}).get("output_modalities", ["text"]),
+                        tokenizer=api_model.get("architecture", {}).get("tokenizer", provider.title()),
+                        instruct_type=api_model.get("architecture", {}).get("instruct_type"),
+                    ),
+                    top_provider=TopProvider(
+                        context_length=api_model.get("top_provider", {}).get("context_length", api_model.get("context_length", 0)),
+                        max_completion_tokens=api_model.get("top_provider", {}).get("max_completion_tokens"),
+                        is_moderated=api_model.get("top_provider", {}).get("is_moderated", False),
+                    ),
+                    supported_parameters=api_model.get("supported_parameters", []),
+                    available=True,
+                )
+
+                # Preserve manual curation if model exists
+                if metadata._key in existing_models:
+                    existing = existing_models[metadata._key]
+                    metadata.frontier = existing.get("frontier", False)
+                    metadata.testing = existing.get("testing", False)
+                    metadata.observer_framing_compatible = existing.get("observer_framing_compatible")
+                    metadata.architecture_family = existing.get("architecture_family")
+                    metadata.instruct = existing.get("instruct")
+                    metadata.rlhf = existing.get("rlhf")
+                    metadata.tags = existing.get("tags", [])
+
+                # Update derived fields
+                metadata.free = metadata.pricing.is_free()
+
+                # Upsert to database
+                doc = metadata.to_arango_doc()
+                try:
+                    if metadata._key in existing_models:
+                        models_collection.update(doc)
+                        stats["models_updated"] += 1
+                    else:
+                        models_collection.insert(doc)
+                        stats["models_added"] += 1
+                except Exception as e:
+                    stats["errors"].append({
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "error_type": "database_write",
+                        "message": str(e),
+                        "model_id": model_id
+                    })
+
+            except Exception as e:
+                stats["errors"].append({
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "error_type": "parse_error",
+                    "message": str(e),
+                    "model_id": api_model.get("id", "unknown")
+                })
+
+        # Mark absent models as unavailable
+        for existing_key in existing_models:
+            if existing_key not in current_model_ids:
+                try:
+                    models_collection.update({"_key": existing_key, "available": False})
+                    stats["models_deprecated"] += 1
+                except Exception as e:
+                    stats["errors"].append({
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "error_type": "deprecation_update",
+                        "message": str(e),
+                        "model_id": existing_key
+                    })
+
+        # Update sync metadata
+        try:
+            sync_meta = self.backend.db.collection("sync_metadata")
+            sync_doc = {
+                "_key": "global",
+                "last_openrouter_sync": datetime.now(timezone.utc).isoformat(),
+                "models_count": stats["models_added"] + stats["models_updated"],
+                "sync_history": [{
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "models_added": stats["models_added"],
+                    "models_updated": stats["models_updated"],
+                    "models_deprecated": stats["models_deprecated"],
+                    "duration_seconds": time.time() - start_time
+                }]
+            }
+            if sync_meta.has("global"):
+                # Append to history, keep last 50
+                existing_sync = sync_meta.get("global")
+                history = existing_sync.get("sync_history", [])
+                history.append(sync_doc["sync_history"][0])
+                sync_doc["sync_history"] = history[-50:]
+                sync_meta.update(sync_doc)
+            else:
+                sync_meta.insert(sync_doc)
+        except Exception as e:
+            stats["errors"].append({
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "error_type": "metadata_update",
+                "message": str(e)
+            })
+
+        stats["duration_seconds"] = time.time() - start_time
+        return stats
+
     def query(
         self,
         *,
