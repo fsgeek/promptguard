@@ -96,11 +96,15 @@ class ArangoDBBackend(DeliberationStorage):
 
     def _ensure_collections(self) -> None:
         """
-        Create Fire Circle collections and indexes if they don't exist.
+        Create Fire Circle and model-picker collections if they don't exist.
 
-        Collections:
+        Fire Circle Collections:
         - deliberations: Session-level metadata
         - turns: Individual model evaluations per round
+
+        Model Picker Collections:
+        - models: LLM metadata (provider, pricing, capabilities, frontier designation)
+        - sync_metadata: Singleton tracking global sync state
 
         Edges:
         - participated_in: models → deliberations
@@ -112,12 +116,19 @@ class ArangoDBBackend(DeliberationStorage):
             IOError: If collection creation fails
         """
         try:
-            # Create document collections
+            # Create Fire Circle document collections
             if not self.db.has_collection("deliberations"):
                 self.db.create_collection("deliberations")
 
             if not self.db.has_collection("turns"):
                 self.db.create_collection("turns")
+
+            # Create model-picker document collections
+            if not self.db.has_collection("models"):
+                self.db.create_collection("models")
+
+            if not self.db.has_collection("sync_metadata"):
+                self.db.create_collection("sync_metadata")
 
             # Create edge collections
             if not self.db.has_collection("participated_in"):
@@ -129,6 +140,8 @@ class ArangoDBBackend(DeliberationStorage):
             # Get collection handles
             deliberations = self.db.collection("deliberations")
             turns = self.db.collection("turns")
+            models = self.db.collection("models")
+            sync_metadata = self.db.collection("sync_metadata")
 
             # Create indexes on deliberations collection
             # fire_circle_id for lookups
@@ -154,6 +167,30 @@ class ArangoDBBackend(DeliberationStorage):
 
             # Timestamp for temporal queries
             self._ensure_index(turns, "skiplist", ["timestamp"])
+
+            # Create indexes on models collection
+            # openrouter_id for lookups
+            self._ensure_index(models, "hash", ["openrouter_id"], unique=True)
+
+            # Attribute filters for queries
+            self._ensure_index(models, "hash", ["provider"])
+            self._ensure_index(models, "hash", ["frontier"])
+            self._ensure_index(models, "hash", ["available"])
+            self._ensure_index(models, "hash", ["free"])
+            self._ensure_index(models, "hash", ["observer_framing_compatible"])
+            self._ensure_index(models, "hash", ["structured_outputs"])
+
+            # Timestamps for staleness checks
+            self._ensure_index(models, "skiplist", ["last_synced"])
+            self._ensure_index(models, "skiplist", ["created"])
+            self._ensure_index(models, "skiplist", ["frontier_updated"])
+
+            # Full-text index on description for search
+            self._ensure_index(models, "fulltext", ["description"])
+
+            # Create indexes on sync_metadata collection
+            # last_openrouter_sync for staleness checks
+            self._ensure_index(sync_metadata, "skiplist", ["last_openrouter_sync"])
 
         except Exception as e:
             raise IOError(f"Failed to initialize Fire Circle collections: {e}")
