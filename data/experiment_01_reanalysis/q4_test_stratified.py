@@ -145,12 +145,12 @@ async def run_tests():
         result = await test_prompt(client, prompt_data)
         results.append(result)
         if result['success']:
-            if result["score"] is not None:
+            if result.get("score") is not None and result.get("classification") is not None:
                 print(f'  → {result["classification"]} (score={result["score"]:.2f})', flush=True)
             else:
-                print(f'  → {result["classification"]} (score=None)', flush=True)
+                print(f'  → {result.get("classification", "UNKNOWN")} (score={result.get("score", "None")})', flush=True)
         else:
-            print(f'  → ERROR: {result["error"]}', flush=True)
+            print(f'  → ERROR: {result.get("error", "Unknown error")}', flush=True)
 
         # Rate limit: 1 req/sec
         if i < len(prompts) - 1:
