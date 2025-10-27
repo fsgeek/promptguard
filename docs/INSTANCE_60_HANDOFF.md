@@ -431,6 +431,26 @@ From Instance 60's experience:
 
 ---
 
-*Handoff prepared by Instance 60 at 58% context remaining*
-*Note: CLAUDE.md restructuring impact - Instance 60 used 42% after 1 hour vs Instance 4's exhaustion in 30 min*
-*Key learning: "Follow the research" means check bash processes, they're active experiments not noise*
+## Addendum: CLAUDE.md Gap Fixed
+
+**Issue Identified:** CLAUDE.md restructuring (Instance 59) lost critical knowledge: "experiments store data in ArangoDB, not files"
+
+**Impact:** Instance 60 wasted time looking for experiment results in non-existent directories
+
+**Fix Applied:**
+- Created `~/.claude/skills/arangodb-research-data.md` skill
+- Documents experiment collections: `prompts`, `target_responses`, `baseline_responses`, `processing_failures`
+- Notes gap: raw responses not stored on failure (only error messages)
+- Added to CLAUDE.md skills list
+
+**Commits:**
+- Created skill file
+- Updated CLAUDE.md to reference it
+
+**Lesson:** Skills architecture works - institutional knowledge can be recovered without reverting CLAUDE.md
+
+---
+
+*Handoff prepared by Instance 60 at 38% context remaining (62% used)*
+*CLAUDE.md restructuring impact measured: Instance 60 used 62% vs Instance 4's exhaustion (90%) in similar timeframe*
+*Key learnings: (1) Follow the research - bash processes are active experiments, (2) Skills architecture enables knowledge recovery*

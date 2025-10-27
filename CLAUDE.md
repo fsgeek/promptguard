@@ -43,7 +43,8 @@ uv run python run_full_validation.py  # Full validation
 When you need detailed guidance, these skills provide expertise:
 
 - **`handoff-verification`** - Verify instance handoff claims, prevent fabrication
-- **`context-window-management`** - CRITICAL: Manage token usage efficiently  
+- **`context-window-management`** - CRITICAL: Manage token usage efficiently
+- **`arangodb-research-data`** - Query experiment results (stored in DB, not files)
 - **`promptguard-validation`** - Run and interpret dataset validations
 - **`model-cost-optimization`** - Select models by use case and budget
 - **`observer-framing-technique`** - Implement 90% detection breakthrough
