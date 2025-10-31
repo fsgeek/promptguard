@@ -8,7 +8,6 @@ Supports multiple evaluation modes:
 """
 
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple, Any
 from enum import Enum
 import asyncio
 import httpx
@@ -52,15 +51,15 @@ class EvaluationMode(Enum):
 class EvaluationConfig:
     """Configuration for LLM evaluation."""
     mode: EvaluationMode = EvaluationMode.SINGLE
-    api_key: Optional[str] = None  # OpenRouter API key (not needed for local providers)
-    models: List[str] = field(default_factory=lambda: ["anthropic/claude-sonnet-4.5"])
+    api_key: str | None  = None  # OpenRouter API key (not needed for local providers)
+    models: list[str] = field(default_factory=lambda: ["anthropic/claude-sonnet-4.5"])
     max_recursion_depth: int = 1
     max_tokens: int = 8192  # Model minimum (Claude/Gemini). Was 1000 - insufficient for complex evaluations.
     timeout_seconds: float = 30.0
     temperature: float = 0.7
-    cache_config: Optional[CacheConfig] = None  # Cache configuration
+    cache_config: CacheConfig | None = None  # Cache configuration
     provider: str = "openrouter"  # "openrouter" or "lmstudio"
-    lmstudio_base_url: Optional[str] = None  # For LM Studio (e.g., "http://192.168.111.125:1234/v1")
+    lmstudio_base_url: str | None = None  # For LM Studio (e.g., "http://192.168.111.125:1234/v1")
 
     def __post_init__(self):
         """Load API key from environment if not provided."""
@@ -93,10 +92,10 @@ class NeutrosophicEvaluation:
     falsehood: float  # 0 to 1
     reasoning: str  # LLM's explanation
     model: str  # Which model provided this evaluation
-    reasoning_trace: Optional[str] = None  # Model's internal reasoning (e.g., DeepSeek <think> blocks)
-    transparency_note: Optional[str] = None  # REASONINGBANK pattern attribution (Instance 45 ayni transparency)
+    reasoning_trace: str | None = None  # Model's internal reasoning (e.g., DeepSeek <think> blocks)
+    transparency_note: str | None = None  # REASONINGBANK pattern attribution (Instance 45 ayni transparency)
 
-    def tuple(self) -> Tuple[float, float, float]:
+    def tuple(self) -> tuple[float, float, float]:
         """Return as neutrosophic tuple."""
         return (self.truth, self.indeterminacy, self.falsehood)
 
@@ -113,7 +112,7 @@ class LLMEvaluator:
     - LM Studio: Local model hosting for reproducible research
     """
 
-    def __init__(self, config: EvaluationConfig, cache: Optional[CacheProvider] = None):
+    def __init__(self, config: EvaluationConfig, cache: CacheProvider | None = None):
         """
         Initialize evaluator with configuration.
 
@@ -169,7 +168,7 @@ class LLMEvaluator:
         context: str,
         evaluation_prompt: str,
         recursion_depth: int = 0
-    ) -> List[NeutrosophicEvaluation]:
+    ) -> list[NeutrosophicEvaluation]:
         """
         Evaluate a prompt layer for neutrosophic values.
 
@@ -180,7 +179,7 @@ class LLMEvaluator:
             recursion_depth: Current recursion level (for limiting)
 
         Returns:
-            List of evaluations (one per model in parallel mode, one in single mode)
+            list of evaluations (one per model in parallel mode, one in single mode)
         """
         # Check recursion depth (only for non-FireCircle configs)
         max_depth = getattr(self.config, 'max_recursion_depth', None)
@@ -293,7 +292,7 @@ class LLMEvaluator:
         layer_content: str,
         context: str,
         evaluation_prompt: str
-    ) -> List[NeutrosophicEvaluation]:
+    ) -> list[NeutrosophicEvaluation]:
         """
         Evaluate using multiple models in parallel.
 
@@ -358,13 +357,13 @@ class LLMEvaluator:
     async def _call_llm(
         self,
         model: str,
-        messages: List[Dict[str, str]]
-    ) -> Tuple[str, Optional[str]]:
+        messages: list[dict[str, str]]
+    ) -> tuple[str, str | None]:
         """
         Make API call to LLM provider.
 
         Returns:
-            Tuple of (content, reasoning_trace)
+            tuple of (content, reasoning_trace)
             - content: The model's response
             - reasoning_trace: Optional internal reasoning (e.g., DeepSeek <think> blocks)
         """
@@ -391,6 +390,23 @@ class LLMEvaluator:
                 response.raise_for_status()
                 data = response.json()
                 content = data["choices"][0]["message"]["content"]
+
+                # Raw logging for research instrumentation (decoupled from processing)
+                import os
+                import json as json_module
+                from datetime import datetime
+                log_file = "/tmp/openrouter_raw.jsonl"
+                timestamp = datetime.now().isoformat()
+                with open(log_file, "a") as f:
+                    json_module.dump({
+                        "timestamp": timestamp,
+                        "model": model,
+                        "content_type": str(type(content)),
+                        "content_length": len(content) if isinstance(content, str) else "N/A",
+                        "content": content,
+                        "full_response": data
+                    }, f)
+                    f.write("\n")
 
                 # Extract reasoning trace if present (DeepSeek R1 models)
                 reasoning_trace = None
@@ -511,7 +527,7 @@ A statement can have high truth AND high indeterminacy (ch'ixi - productive cont
         context: str,
         evaluation_prompt: str,
         model: str
-    ) -> Optional[CachedEvaluation]:
+    ) -> CachedEvaluation | None:
         """
         Retrieve cached evaluation if available.
 

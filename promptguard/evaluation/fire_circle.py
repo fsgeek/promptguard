@@ -967,21 +967,25 @@ class FireCircleEvaluator:
                 evaluation = None
                 reasoning_trace = None
 
-                if self.instructor_client and self._supports_structured_output(model):
+                # Try Instructor for all models (different modes for whitelisted vs non-whitelisted)
+                if self.instructor_client:
                     try:
+                        # Use native structured output for whitelisted models, JSON mode for others
+                        use_json_mode = not self._supports_structured_output(model)
                         evaluation, reasoning_trace = await self._try_structured_output(
-                            model, prompt, round_num
+                            model, prompt, round_num, json_mode=use_json_mode
                         )
                         used_structured = True
                     except Exception as struct_error:
-                        # Log structured output failure, will fall back to standard parsing
+                        # Log Instructor failure, will fall back to homegrown parsing
                         logger.debug(
-                            f"Structured output failed for {model}, falling back to standard parsing",
+                            f"Instructor parsing failed for {model}, falling back to homegrown parser",
                             extra={
                                 "fire_circle_id": self.fire_circle_id,
-                                "event": "structured_output_fallback",
+                                "event": "instructor_fallback",
                                 "round": round_num,
                                 "model": model,
+                                "json_mode": not self._supports_structured_output(model),
                                 "error": str(struct_error)
                             }
                         )
@@ -1006,6 +1010,21 @@ class FireCircleEvaluator:
 
                     response, reasoning_trace = await self.llm_caller(model, messages)
 
+                    # Save raw response to file for research instrumentation
+                    import os
+                    response_dir = "/tmp/fire_circle_responses"
+                    os.makedirs(response_dir, exist_ok=True)
+                    model_safe = model.replace("/", "_")
+                    response_file = f"{response_dir}/{self.fire_circle_id}_{model_safe}_round{round_num}.txt"
+                    with open(response_file, "w") as f:
+                        f.write(f"Model: {model}\n")
+                        f.write(f"Round: {round_num}\n")
+                        f.write(f"Length: {len(response)}\n")
+                        f.write(f"Type: {type(response)}\n")
+                        f.write(f"---RAW RESPONSE---\n")
+                        f.write(response)
+                        f.write(f"\n---END RESPONSE---\n")
+
                     # Log full response for debugging (research instrumentation)
                     logger.debug(
                         f"Received response from {model} in round {round_num}",
@@ -1019,6 +1038,21 @@ class FireCircleEvaluator:
                             "full_response": response  # Full response for research/debugging
                         }
                     )
+
+                    # Log what parser receives (before parsing)
+                    import json as json_module
+                    from datetime import datetime
+                    with open("/tmp/parser_input.jsonl", "a") as f:
+                        json_module.dump({
+                            "timestamp": datetime.now().isoformat(),
+                            "model": model,
+                            "round": round_num,
+                            "fire_circle_id": self.fire_circle_id,
+                            "response_length": len(response),
+                            "response_type": str(type(response)),
+                            "response": response
+                        }, f)
+                        f.write("\n")
 
                     evaluation = self._parse_response(response, model, round_num)
                     evaluation.reasoning_trace = reasoning_trace
@@ -1620,7 +1654,8 @@ Respond as JSON:
         self,
         model: str,
         prompt: str,
-        round_num: int
+        round_num: int,
+        json_mode: bool = False
     ) -> Tuple[Any, Optional[str]]:
         """
         Attempt to get structured output using Instructor.
@@ -1631,6 +1666,7 @@ Respond as JSON:
             model: Model ID
             prompt: Evaluation prompt
             round_num: Round number (for logging)
+            json_mode: Use JSON mode for models without native structured output support
 
         Returns:
             Tuple of (NeutrosophicEvaluation, reasoning_trace)
@@ -1640,18 +1676,26 @@ Respond as JSON:
         """
         from .schemas import FireCircleEvaluation
         from ..evaluation.evaluator import NeutrosophicEvaluation
+        import instructor
 
         # Call model with structured output schema
         # Use Instructor's response_model parameter for type-safe parsing
-        pydantic_result = await self.instructor_client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            response_model=FireCircleEvaluation,
-            max_tokens=self.config.max_tokens,
-            temperature=self.config.temperature,
-            # Require providers to support structured outputs
-            extra_body={"provider": {"require_parameters": True}}
-        )
+        instructor_kwargs = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "response_model": FireCircleEvaluation,
+            "max_tokens": self.config.max_tokens,
+            "temperature": self.config.temperature,
+        }
+
+        if json_mode:
+            # Use JSON mode for models without native structured output
+            instructor_kwargs["mode"] = instructor.Mode.JSON
+        else:
+            # Require providers to support structured outputs for whitelisted models
+            instructor_kwargs["extra_body"] = {"provider": {"require_parameters": True}}
+
+        pydantic_result = await self.instructor_client.chat.completions.create(**instructor_kwargs)
 
         # Convert Pydantic model to NeutrosophicEvaluation
         evaluation = NeutrosophicEvaluation(

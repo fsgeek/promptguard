@@ -5,7 +5,7 @@ Provides type-safe models for Fire Circle evaluations, with support for
 structured output APIs where available.
 """
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import Optional
 
 
@@ -24,6 +24,8 @@ class FireCircleEvaluation(BaseModel):
         patterns_observed: Optional patterns identified in Round 2
         consensus_patterns: Optional consensus patterns from Round 3
     """
+
+    model_config = ConfigDict(extra='allow')
 
     truth: float = Field(ge=0.0, le=1.0, description="Degree of truth in the prompt layer (0.0-1.0)")
     indeterminacy: float = Field(ge=0.0, le=1.0, description="Degree of indeterminacy (0.0-1.0)")
@@ -93,6 +95,14 @@ STRUCTURED_OUTPUT_CAPABLE_MODELS = {
 
     # Qwen models - OpenRouter catalog shows support
     "qwen/qwen-2.5-72b-instruct",
+
+    # Nous Research models - Hermes 4 supports structured outputs per model page
+    # Source: https://openrouter.ai/nousresearch/hermes-4-405b
+    "nousresearch/hermes-4-405b",
+
+    # Meta Llama models - Llama 3.3 70B supports response_format, tools, function calling
+    # Source: https://openrouter.ai/meta-llama/llama-3.3-70b-instruct
+    "meta-llama/llama-3.3-70b-instruct",
 
     # Anthropic models - EXPLICITLY EXCLUDED
     # OpenRouter catalog analysis: 0/12 Anthropic models support structured_outputs parameter

@@ -60,7 +60,7 @@ Skills load on-demand. Use when relevant to preserve context.
 - **Session memory**: Temporal tracking with trust EMA
 - **Circuit breakers**: Non-compensable violation detection
 - **680-prompt dataset**: Validated and labeled
-- **Three modes**: SINGLE, PARALLEL, FIRE_CIRCLE (dialogue untested)
+- **Three modes**: SINGLE (single model), PARALLEL (ensemble), FIRE_CIRCLE (constitutional governance only)
 
 ## Code Map
 
@@ -81,8 +81,8 @@ docs/                      # Instance handoffs, research
 ## Known Gaps
 
 - **Meta-framing attacks**: ~10% miss rate
-- **Polite extraction**: 23/80 attacks score as reciprocal  
-- **Fire Circle**: Complete but untested
+- **Polite extraction**: 23/80 attacks score as reciprocal
+- **Fire Circle**: Constitutional governance use case not yet validated
 - **Per-layer T/I/F**: Not exposed in ReciprocityMetrics
 
 ## Working Notes
